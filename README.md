@@ -1,5 +1,5 @@
 # generator-jhipster-vmware-clarity
-[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+[![NPM version][npm-image]][npm-url] [![Build Status](https://travis-ci.org/ChihoSin/generator-jhipster-vmware-clarity.svg?branch=master)](https://travis-ci.org/ChihoSin/generator-jhipster-vmware-clarity) [![Dependency Status][daviddm-image]][daviddm-url]
 > JHipster module, Clarity Design System for Angular.
 
 # Introduction
