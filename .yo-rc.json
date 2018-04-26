@@ -1,0 +1,10 @@
+{
+  "generator-jhipster-module": {
+    "promptValues": {
+      "githubName": "chihosin",
+      "authorName": "Chiho Sin",
+      "authorEmail": "chihosin@icloud.com",
+      "authorUrl": ""
+    }
+  }
+}
