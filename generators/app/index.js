@@ -14,7 +14,6 @@ const CLARITY_UI_VERSION = '^0.11.15';
 const WEB_COMPONENTS_VERSION = '^1.1.0';
 const WEB_ANIMATIONS_VERSION = '^2.3.1';
 const MAIN_SRC_DIR = constants.CLIENT_MAIN_SRC_DIR;
-const TEST_SRC_DIR = constants.CLIENT_TEST_SRC_DIR;
 const ANGULAR_DIR = constants.ANGULAR_DIR;
 const files = {
     sass: [
@@ -73,14 +72,7 @@ const files = {
             templates: [
                 'layouts/sidebar/sidebar.scss'
             ]
-        },
-        {
-            condition: generator => !generator.useSass,
-            path: ANGULAR_DIR,
-            templates: [
-                'layouts/sidebar/sidebar.css'
-            ]
-        },
+        }
     ],
     angularAccountModule: [
         {
