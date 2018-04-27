@@ -320,6 +320,13 @@ module.exports = class extends BaseGenerator {
         this.removeFile(`${ANGULAR_DIR}layouts/profiles/page-ribbon.component.ts`);
         this.removeFile(`${ANGULAR_DIR}layouts/profiles/page-ribbon.scss`);
         this.removeFolder(`${ANGULAR_DIR}layouts/footer`);
+
+        // setup entity hook
+        try {
+            this.registerModule(packagejs.name, 'entity', 'post', 'entity', packagejs.description);
+        } catch (err) {
+            this.log(`${chalk.red.bold('WARN!')} Could not register as a jhipster entity post creation hook...\n`);
+        }
     }
 
     install() {
