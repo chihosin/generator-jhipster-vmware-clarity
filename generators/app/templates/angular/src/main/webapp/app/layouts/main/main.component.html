@@ -1,0 +1,14 @@
+<router-outlet *ngIf="!isAuthenticated()"></router-outlet>
+<clr-main-container *ngIf="isAuthenticated()">
+    <<%= jhiPrefixDashed %>-alert></<%= jhiPrefixDashed %>-alert>
+    <router-outlet name="navbar"></router-outlet>
+    <div class="content-container">
+        <div class="content-area">
+            <router-outlet></router-outlet>
+            <router-outlet name="popup"></router-outlet>
+        </div>
+        <nav class="sidenav" [clr-nav-level]="2" *ngIf="!this.router.isActive('', true)">
+            <router-outlet name="sidebar"></router-outlet>
+        </nav>
+    </div>
+</clr-main-container>

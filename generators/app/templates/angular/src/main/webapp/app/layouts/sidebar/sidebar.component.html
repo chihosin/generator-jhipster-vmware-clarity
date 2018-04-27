@@ -1,0 +1,64 @@
+<!-- System administrator menu -->
+<section class="sidenav-content" *ngIf="this.router.isActive('/admin', false)">
+    <a routerLink="/" class="nav-link"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact: true}">
+        Overview
+    </a>
+    <a routerLink="/register" class="nav-link"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact: true}">
+        Registered
+    </a>
+    <a routerLink="/help" class="nav-link"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact: true}">
+        Help
+    </a>
+    <section class="nav-group" *<%=jhiPrefix%>HasAnyAuthority="'ROLE_ADMIN'">
+        <input id="setting" type="checkbox">
+        <label for="setting">Setting</label>
+        <ul class="nav-list">
+            <li>
+                <a class="nav-link" routerLink="admin/gateway" routerLinkActive="active"
+                   jhiTranslate="global.menu.admin.gateway">Gateway</a>
+            </li>
+            <li>
+                <a class="nav-link" routerLink="admin/user-management" routerLinkActive="active"
+                   jhiTranslate="global.menu.admin.userManagement">User management</a>
+            </li>
+            <li>
+                <a class="nav-link" routerLink="admin/<%= jhiPrefixDashed %>-metrics" routerLinkActive="active"
+                   jhiTranslate="global.menu.admin.metrics">Metrics</a>
+            </li>
+            <li>
+                <a class="nav-link" routerLink="admin/<%= jhiPrefixDashed %>-health" routerLinkActive="active"
+                   jhiTranslate="global.menu.admin.health">Health</a>
+            </li>
+            <li>
+                <a class="nav-link" routerLink="admin/<%= jhiPrefixDashed %>-configuration" routerLinkActive="active"
+                   jhiTranslate="global.menu.admin.configuration">Configuration</a>
+            </li>
+            <li>
+                <a class="nav-link" routerLink="admin/audits" routerLinkActive="active"
+                   jhiTranslate="global.menu.admin.audits">Audits</a>
+            </li>
+            <li>
+                <a class="nav-link" routerLink="admin/logs" routerLinkActive="active"
+                   jhiTranslate="global.menu.admin.logs">Logs</a>
+            </li>
+            <li *ngIf="swaggerEnabled">
+                <a class="nav-link" routerLink="admin/docs" routerLinkActive="active"
+                   jhiTranslate="global.menu.admin.apidocs">API</a>
+            </li>
+        </ul>
+    </section>
+</section>
+<!--todo add module service menu-->
+<!-- Employee service menu -->
+<!--<section class="sidenav-content" *ngIf="this.router.isActive('/employee', false)">-->
+    <!--<a routerLink="employee/employee-profile" class="nav-link"-->
+       <!--routerLinkActive="active">-->
+        <!--职员资料-->
+    <!--</a>-->
+<!--</section>-->

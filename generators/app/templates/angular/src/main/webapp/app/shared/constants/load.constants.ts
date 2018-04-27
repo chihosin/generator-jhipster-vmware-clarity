@@ -1,0 +1,9 @@
+export const SEARCH_DEBOUNCE_TIME = 250;
+
+export const PROGRESS_STATE = {
+    READY: 'READY',
+    IN_PROGRESS: 'IN_PROGRESS',
+    WAITING: 'WAITING',
+    SUCCESS: 'SUCCESS',
+    ERROR: 'ERROR'
+};

@@ -1,0 +1,35 @@
+<div class="login-wrapper">
+    <form class="login" role="form" (ngSubmit)="login()">
+        <label class="title">
+            <h3 class="welcome">Welcome to</h3>
+            Company Product Name
+            <h5 class="hint">Use your Company ID to sign in or create one now</h5>
+        </label>
+        <div class="login-group">
+            <input class="username" type="text" name="username" id="username"
+                   placeholder="{{'global.form.username.placeholder' | translate}}"
+                   [(ngModel)]="username">
+            <input class="password" type="password" name="password" id="password"
+                   placeholder="{{'login.form.password.placeholder' | translate}}"
+                   [(ngModel)]="password">
+            <div class="checkbox">
+                <input form="rememberme" type="checkbox" name="rememberMe" id="rememberMe" [(ngModel)]="rememberMe"/>
+                <label for="rememberme" jhiTranslate="login.form.rememberme">
+                    Remember me
+                </label>
+            </div>
+            <div class="error active" *ngIf="authenticationError" jhiTranslate="login.messages.error.authentication">
+                Failed to sign in! Please check your credentials and try again.
+            </div>
+            <button type="submit" class="btn btn-primary" jhiTranslate="login.form.button">Sign in</button>
+            <a href="javascript://" class="signup" (click)="requestResetPassword()"
+               jhiTranslate="login.password.forgot">
+                Did you forget your password?
+            </a>
+            <a href="javascript://" class="signup" (click)="register()"
+               jhiTranslate="global.messages.info.register.noaccount">
+                You don't have an account yet?
+            </a>
+        </div>
+    </form>
+</div>

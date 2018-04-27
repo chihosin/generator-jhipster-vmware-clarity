@@ -1,0 +1,108 @@
+import './vendor.ts';
+
+import { NgModule, Injector } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Ng2Webstorage<% if (authenticationType === 'jwt') { %>, LocalStorageService, SessionStorageService <% } %> } from 'ngx-webstorage';
+import { JhiEventManager } from 'ng-jhipster';
+
+<%_ if (authenticationType === 'jwt') { _%>
+import { AuthInterceptor } from './blocks/interceptor/auth.interceptor';
+<%_ } _%>
+import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interceptor';
+import { ErrorHandlerInterceptor } from './blocks/interceptor/errorhandler.interceptor';
+import { NotificationInterceptor } from './blocks/interceptor/notification.interceptor';
+import { <%=angularXAppName%>SharedModule } from 'app/shared';
+import { <%=angularXAppName%>CoreModule } from 'app/core';
+import { <%=angularXAppName%>AppRoutingModule} from './app-routing.module';
+import { <%=angularXAppName%>HomeModule } from './home/home.module';
+<%_ if (authenticationType !== 'oauth2') { _%>
+import { <%=angularXAppName%>AccountModule } from './account/account.module';
+<%_ } _%>
+import { <%=angularXAppName%>EntityModule } from './entities/entity.module';
+import { PaginationConfig } from './blocks/config/uib-pagination.config';
+<%_ if (['session', 'oauth2'].includes(authenticationType)) { _%>
+import { StateStorageService } from 'app/core/auth/state-storage.service';
+<%_ } _%>
+// jhipster-needle-angular-add-module-import JHipster will add new module here
+import {
+    <%=jhiPrefixCapitalized%>MainComponent,
+    NavbarComponent,
+    SidebarComponent,
+    ProfileService,
+    <%_ if (enableTranslation) { _%>
+    ActiveMenuDirective,
+    <%_ } _%>
+    ErrorComponent
+} from './layouts';
+
+@NgModule({
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        <%=angularXAppName%>AppRoutingModule,
+        Ng2Webstorage.forRoot({ prefix: '<%=jhiPrefixDashed %>', separator: '-'}),
+        <%=angularXAppName%>SharedModule,
+        <%=angularXAppName%>CoreModule,
+        <%=angularXAppName%>HomeModule,
+        <%_ if (authenticationType !== 'oauth2') { _%>
+        <%=angularXAppName%>AccountModule,
+        <%_ } _%>
+        <%=angularXAppName%>EntityModule,
+        // jhipster-needle-angular-add-module JHipster will add new module here
+    ],
+    declarations: [
+        <%=jhiPrefixCapitalized%>MainComponent,
+        NavbarComponent,
+        SidebarComponent,
+        <%_ if (enableTranslation) { _%>
+        ActiveMenuDirective,
+        <%_ } _%>
+        ErrorComponent
+],
+    providers: [
+        ProfileService,
+        PaginationConfig,
+        <%_ if (authenticationType === 'jwt') { _%>
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true,
+            deps: [
+                LocalStorageService,
+                SessionStorageService
+            ]
+        },
+        <%_ } _%>
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthExpiredInterceptor,
+            multi: true,
+            deps: [
+                <%_ if (['session', 'oauth2'].includes(authenticationType)) { _%>
+                StateStorageService,
+                <%_ } _%>
+                Injector
+            ]
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ErrorHandlerInterceptor,
+            multi: true,
+            deps: [
+                JhiEventManager
+            ]
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: NotificationInterceptor,
+            multi: true,
+            deps: [
+                Injector
+            ]
+        }
+    ],
+    bootstrap: [ <%=jhiPrefixCapitalized%>MainComponent ]
+})
+export class <%=angularXAppName%>AppModule {}
