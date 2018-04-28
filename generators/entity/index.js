@@ -13,10 +13,16 @@ const angularFiles = {
             path: ANGULAR_DIR,
             templates: [
                 {
-                    file: 'entities/entity-management-delete-dialog.component.html',
+                    file: 'entities/entity-management.component.html.ejs',
                     method: 'processHtml',
                     template: true,
-                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-delete-dialog.component.html`
+                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}.component.html`
+                },
+                {
+                    file: 'entities/entity-management.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}.component.ts`
                 }
             ]
         }
