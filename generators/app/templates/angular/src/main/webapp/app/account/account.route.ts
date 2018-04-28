@@ -7,10 +7,10 @@ import {
     passwordResetInitRoute,
     registerRoute,
     loginRoute,
-<%_ if (authenticationType === 'session') { _%>
-sessionsRoute,
-<%_ } _%>
-settingsRoute
+    <%_ if (authenticationType === 'session') { _%>
+    sessionsRoute,
+    <%_ } _%>
+    settingsRoute
 } from './';
 
 const ACCOUNT_ROUTES = [
@@ -21,9 +21,9 @@ const ACCOUNT_ROUTES = [
     registerRoute,
     loginRoute,
     <%_ if (authenticationType === 'session') { _%>
-sessionsRoute,
-<%_ } _%>
-settingsRoute
+    sessionsRoute,
+    <%_ } _%>
+    settingsRoute
 ];
 
 export const accountState: Routes = [{

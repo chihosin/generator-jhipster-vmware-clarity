@@ -319,7 +319,66 @@ module.exports = class extends BaseGenerator {
         this.removeFile(`${MAIN_SRC_DIR}content/scss/_bootstrap-variables.scss`);
         this.removeFile(`${ANGULAR_DIR}layouts/profiles/page-ribbon.component.ts`);
         this.removeFile(`${ANGULAR_DIR}layouts/profiles/page-ribbon.scss`);
+        this.removeFile(`${ANGULAR_DIR}blocks/config/uib-pagination.config.ts`);
+        this.removeFile(`${ANGULAR_DIR}core/login/login-modal.service.ts`);
         this.removeFolder(`${ANGULAR_DIR}layouts/footer`);
+        this.removeFolder(`${ANGULAR_DIR}shared/login`);
+
+        // cleanup bootstrap elements
+        // activate component
+        this.replaceContent(`${ANGULAR_DIR}account/activate/activate.component.ts`, 'import { NgbModalRef } from \'@ng-bootstrap/ng-bootstrap\';\n', '');
+        this.replaceContent(`${ANGULAR_DIR}account/activate/activate.component.ts`, 'import { LoginModalService } from \'app/core\';\n', '');
+        this.replaceContent(`${ANGULAR_DIR}account/activate/activate.component.ts`, 'modalRef: NgbModalRef;\n', '');
+        this.replaceContent(`${ANGULAR_DIR}account/activate/activate.component.ts`, 'private loginModalService: LoginModalService,', '');
+        this.replaceContent(`${ANGULAR_DIR}account/activate/activate.component.ts`, 'login() {\n' +
+            '    this.modalRef = this.loginModalService.open();\n' +
+            '  }', '');
+        this.replaceContent(`${ANGULAR_DIR}account/activate/activate.component.html`, '(click)="login()"', '[routerLink]="[\'/login\']"');
+        // password-reset-finish component
+        this.replaceContent(`${ANGULAR_DIR}account/password-reset/finish/password-reset-finish.component.ts`, 'import { NgbModalRef } from \'@ng-bootstrap/ng-bootstrap\';\n', '');
+        this.replaceContent(`${ANGULAR_DIR}account/password-reset/finish/password-reset-finish.component.ts`, 'import { LoginModalService } from \'app/core\';\n', '');
+        this.replaceContent(`${ANGULAR_DIR}account/password-reset/finish/password-reset-finish.component.ts`, 'modalRef: NgbModalRef;\n', '');
+        this.replaceContent(`${ANGULAR_DIR}account/password-reset/finish/password-reset-finish.component.ts`, 'private loginModalService: LoginModalService,', '');
+        this.replaceContent(`${ANGULAR_DIR}account/password-reset/finish/password-reset-finish.component.ts`, 'login() {\n' +
+            '    this.modalRef = this.loginModalService.open();\n' +
+            '  }', '');
+        this.replaceContent(`${ANGULAR_DIR}account/password-reset/finish/password-reset-finish.component.html`, '(click)="login()"', '[routerLink]="[\'/login\']"');
+        // register component
+        this.replaceContent(`${ANGULAR_DIR}account/register/register.component.ts`, 'import { NgbModalRef } from \'@ng-bootstrap/ng-bootstrap\';\n', '');
+        this.replaceContent(`${ANGULAR_DIR}account/register/register.component.ts`, 'import { LoginModalService } from \'app/core\';\n', '');
+        this.replaceContent(`${ANGULAR_DIR}account/register/register.component.ts`, 'modalRef: NgbModalRef;\n', '');
+        this.replaceContent(`${ANGULAR_DIR}account/register/register.component.ts`, 'private loginModalService: LoginModalService,', '');
+        this.replaceContent(`${ANGULAR_DIR}account/register/register.component.ts`, 'openLogin() {\n' +
+            '    this.modalRef = this.loginModalService.open();\n' +
+            '  }', '');
+        this.replaceContent(`${ANGULAR_DIR}account/register/register.component.html`, '(click)="openLogin()"', '[routerLink]="[\'/login\']"');
+        // auth-expired interceptor
+        this.replaceContent(`${ANGULAR_DIR}blocks/interceptor/auth-expired.interceptor.ts`, 'import { LoginModalService } from \'app/core/login/login-modal.service\';\n', '');
+        this.replaceContent(`${ANGULAR_DIR}blocks/interceptor/auth-expired.interceptor.ts`, 'const loginModalService: LoginModalService = this.injector.get(LoginModalService);', 'const router = this.injector.get(Router);');
+        this.replaceContent(`${ANGULAR_DIR}blocks/interceptor/auth-expired.interceptor.ts`, 'loginModalService.open();', 'router.navigate([\'/login\']);');
+        // core module
+        this.replaceContent(`${ANGULAR_DIR}core/core.module.ts`, 'LoginModalService,\n', '');
+        this.replaceContent(`${ANGULAR_DIR}core/core.module.ts`, 'LoginModalService,\n', '');
+        this.replaceContent(`${ANGULAR_DIR}core/index.ts`, 'export * from \'./login/login-modal.service\';\n', '');
+        // user-route-access-service module
+        this.replaceContent(`${ANGULAR_DIR}core/auth/user-route-access-service.ts`, 'import { LoginModalService } from \'../login/login-modal.service\';\n', '');
+        this.replaceContent(`${ANGULAR_DIR}core/auth/user-route-access-service.ts`, 'private loginModalService: LoginModalService,', '');
+        this.replaceContent(`${ANGULAR_DIR}core/auth/user-route-access-service.ts`, 'this.loginModalService.open();', 'this.router.navigate([\'accessdenied\']);');
+        // home component
+        this.replaceContent(`${ANGULAR_DIR}home/home.component.ts`, 'import { NgbModalRef } from \'@ng-bootstrap/ng-bootstrap\';\n', '');
+        this.replaceContent(`${ANGULAR_DIR}home/home.component.ts`, 'import { LoginModalService, Principal, Account } from \'app/core\';', 'import { Principal, Account } from \'app/core\';');
+        this.replaceContent(`${ANGULAR_DIR}home/home.component.ts`, 'modalRef: NgbModalRef;\n', '');
+        this.replaceContent(`${ANGULAR_DIR}home/home.component.ts`, 'private loginModalService: LoginModalService,', '');
+        this.replaceContent(`${ANGULAR_DIR}home/home.component.ts`, 'login() {\n' +
+            '    this.modalRef = this.loginModalService.open();\n' +
+            '  }', '');
+        this.replaceContent(`${ANGULAR_DIR}shared/home.component.html`, '(click)="login()"', '[routerLink]="[\'/login\']"');
+        // share module
+        this.replaceContent(`${ANGULAR_DIR}shared/shared.module.ts`, 'JhiLoginModalComponent,', '');
+        this.replaceContent(`${ANGULAR_DIR}shared/shared.module.ts`, 'JhiLoginModalComponent,', '');
+        this.replaceContent(`${ANGULAR_DIR}shared/shared.module.ts`, 'JhiLoginModalComponent,', '');
+        this.replaceContent(`${ANGULAR_DIR}shared/shared.module.ts`, 'JhiLoginModalComponent', '');
+        this.replaceContent(`${ANGULAR_DIR}shared/index.ts`, 'export * from \'./login/login.component\';\n', '');
 
         // setup entity hook
         try {
