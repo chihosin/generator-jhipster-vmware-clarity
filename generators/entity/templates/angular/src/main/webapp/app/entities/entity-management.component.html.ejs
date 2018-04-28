@@ -74,8 +74,6 @@
         <clr-dg-cell>
             {{<%=entityInstance %>.id}}
         </clr-dg-cell>
-
-
         <%_ for (idx in fields) {
         const fieldName = fields[idx].fieldName;
         const fieldNameCapitalized = fields[idx].fieldNameCapitalized;
@@ -105,8 +103,6 @@
         <clr-dg-cell>{{<%=entityInstance %>.<%=fieldName%>}}</clr-dg-cell>
         <%_ } _%>
         <%_ } _%>
-
-
         <%_ for (idx in relationships) {
         const relationshipType = relationships[idx].relationshipType;
         const ownerSide = relationships[idx].ownerSide;

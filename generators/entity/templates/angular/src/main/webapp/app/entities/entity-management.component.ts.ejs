@@ -12,6 +12,9 @@ import { I<%= entityAngularName %> } from 'app/shared/model/<%= entityModelFileN
 import { Principal } from 'app/core';
 <%_ if (pagination !== 'no') { %>
 import { ITEMS_PER_PAGE } from 'app/shared';
+import { Subject } from 'rxjs/Subject';
+import { ClrDatagridSortOrder, ClrDatagridStateInterface } from '@clr/angular';
+import { SEARCH_DEBOUNCE_TIME } from 'app/shared/constants/load.constants';
 <%_ } _%>
 import { <%= entityAngularName %>Service } from './<%= entityFileName %>.service';
 
