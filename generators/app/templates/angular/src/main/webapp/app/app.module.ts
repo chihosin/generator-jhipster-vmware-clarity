@@ -21,7 +21,6 @@ import { <%=angularXAppName%>HomeModule } from './home/home.module';
 import { <%=angularXAppName%>AccountModule } from './account/account.module';
 <%_ } _%>
 import { <%=angularXAppName%>EntityModule } from './entities/entity.module';
-import { PaginationConfig } from './blocks/config/uib-pagination.config';
 <%_ if (['session', 'oauth2'].includes(authenticationType)) { _%>
 import { StateStorageService } from 'app/core/auth/state-storage.service';
 <%_ } _%>
@@ -63,7 +62,6 @@ import {
 ],
     providers: [
         ProfileService,
-        PaginationConfig,
         <%_ if (authenticationType === 'jwt') { _%>
         {
             provide: HTTP_INTERCEPTORS,

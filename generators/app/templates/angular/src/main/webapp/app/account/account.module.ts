@@ -38,20 +38,20 @@ PasswordStrengthBarComponent,
         PasswordResetFinishComponent,
         LoginComponent,
         <%_ if (authenticationType === 'session') { _%>
-SessionsComponent,
-<%_ } _%>
-SettingsComponent
-],
-providers: [
-    <%_ if (authenticationType === 'session') { _%>
-SessionsService,
-<%_ } _%>
-Register,
-    ActivateService,
-    PasswordService,
-    PasswordResetInitService,
-    PasswordResetFinishService
-],
-schemas: [CUSTOM_ELEMENTS_SCHEMA]
+        SessionsComponent,
+        <%_ } _%>
+        SettingsComponent
+    ],
+    providers: [
+        <%_ if (authenticationType === 'session') { _%>
+        SessionsService,
+        <%_ } _%>
+        Register,
+        ActivateService,
+        PasswordService,
+        PasswordResetInitService,
+        PasswordResetFinishService
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class <%=angularXAppName%>AccountModule {}
