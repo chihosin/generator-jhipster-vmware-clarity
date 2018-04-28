@@ -23,7 +23,43 @@ const angularFiles = {
                     method: 'processJs',
                     template: true,
                     renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}.component.ts`
-                }
+                },
+                {
+                    file: 'entities/entity-management.route.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}.route.ts`
+                },
+                {
+                    file: 'entities/entity-management-delete-dialog.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-delete-dialog.component.ts`
+                },
+                {
+                    file: 'entities/entity-management-delete-dialog.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-delete-dialog.component.html`
+                },
+                {
+                    file: 'entities/entity-management-detail.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-detail.component.html`
+                },
+                {
+                    file: 'entities/entity-management-update.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-update.component.ts`
+                },
+                {
+                    file: 'entities/entity-management-update.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-update.component.html`
+                },
             ]
         }
     ]

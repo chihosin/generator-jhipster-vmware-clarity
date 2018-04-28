@@ -1,0 +1,89 @@
+import { Component, OnInit } from '@angular/core';
+import { JhiEventManager } from 'ng-jhipster';
+
+import { I<%= entityAngularName %> } from 'app/shared/model/<%= entityModelFileName %>.model';
+import { <%= entityAngularName %>Service } from './<%= entityInstance %>.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PROGRESS_STATE } from 'app/shared/constants/load.constants';
+
+@Component({
+    selector: '<%= jhiPrefixDashed %>-<%= entityFileName %>-delete-dialog',
+    templateUrl: './<%= entityFileName %>-delete-dialog.component.html'
+})
+export class <%= entityAngularName %>DeleteDialogComponent implements OnInit{
+private item: I<%= entityAngularName %>;
+private list: I<%= entityAngularName %>[];
+private progressValue: number;
+private progressState: string;
+private _opened: any;
+
+    constructor(
+        private <%= entityInstance %>Service: <%= entityAngularName %>Service,
+        private eventManager: JhiEventManager,
+        private route: ActivatedRoute,
+        private router: Router
+    ) {
+        this.progressValue = 0;
+        this.progressState = PROGRESS_STATE.READY;
+    }
+
+    ngOnInit() {
+        this.route.data.subscribe(({ response }) => {
+            if (response.body instanceof Array) {
+                this.list = response.body;
+            } else if (response.body instanceof Object) {
+                this.item = response.body;
+            }
+            this.opened = true;
+        });
+    }
+
+    confirmDelete(id: <% if (pkType === 'String') { %>string<% } else { %>number<% } %>) {
+        this.<%= entityInstance %>Service.delete(id).subscribe(response => {
+            this.eventManager.broadcast({
+                name: '<%= entityInstance %>ListModification',
+                content: 'Deleted an <%= entityInstance %>'
+            });
+            this.opened = false;
+        });
+    }
+
+    get opened() {
+        return this._opened;
+    }
+
+    set opened(value: any) {
+        this._opened = value;
+        if (!value) {
+            this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+        }
+    }
+
+    confirmBatchDelete() {
+        const loop = () => {
+            this.<%= entityInstance %>Service.delete(this.list[this.progressValue].id).subscribe(
+                response => {
+                    if (this.progressValue >= 0 && this.progressValue < this.list.length) {
+                        this.progressValue++;
+                        loop();
+                    } else {
+                        this.progressState = PROGRESS_STATE.SUCCESS;
+                        this.eventManager.broadcast({
+                            name: '<%= entityInstance %>ListModification',
+                            content: 'Deleted an <%= entityInstance %>'
+                        });
+                    }
+                },
+                error => {
+                    this.progressState = PROGRESS_STATE.ERROR;
+                    this.eventManager.broadcast({
+                        name: '<%= entityInstance %>ListModification',
+                        content: 'Deleted an <%= entityInstance %>'
+                    });
+                }
+            );
+        };
+        this.progressState = PROGRESS_STATE.IN_PROGRESS;
+        loop();
+    }
+}

@@ -1,0 +1,34 @@
+<%
+const field = fields[idx];
+let result = '';
+if (field.fieldValidate === true) {
+	const rules = field.fieldValidateRules;
+	const validators = [];
+    if (rules.includes('required') && field.fieldType !== 'Boolean') {
+        validators.push('required');
+    }
+    if (rules.includes('minlength')) {
+        validators.push('minlength="' + field.fieldValidateRulesMinlength + '"');
+    }
+    if (rules.includes('maxlength')) {
+        validators.push('maxlength="' + field.fieldValidateRulesMaxlength + '"');
+    }
+    if (rules.includes('min')) {
+        validators.push('min="' + field.fieldValidateRulesMin + '"');
+    }
+    if (rules.includes('max')) {
+        validators.push('max="' + field.fieldValidateRulesMax + '"');
+    }
+    if (rules.includes('minbytes')) {
+        validators.push('minbytes="' + field.fieldValidateRulesMinbytes +'"');
+    }
+    if (rules.includes('maxbytes')) {
+        validators.push('maxbytes="' + field.fieldValidateRulesMaxbytes +'"');
+    }
+    if (rules.includes('pattern')) {
+        validators.push('pattern="' + field.fieldValidateRulesPattern.replace(/"/g, '&#34;') + '"');
+    }
+    result = validators.join(' ');
+}
+-%>
+<%- result -%>
