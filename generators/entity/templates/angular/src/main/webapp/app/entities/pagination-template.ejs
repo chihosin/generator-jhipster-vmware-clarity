@@ -44,20 +44,8 @@
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
             // added for Clarity
-            this.sorters = {
-              id: ClrDatagridSortOrder.UNSORTED,
-              <%_ for (idx in fields) { _%>
-              <%= fields[idx].fieldName %>: ClrDatagridSortOrder.UNSORTED,
-              <%_ } _%>
-            };
-            this.filters = {
-              id: null,
-              <%_ for (idx in fields) { _%>
-              <%= fields[idx].fieldName %>: null,
-              <%_ } _%>
-            };
             if (this.predicate !== 'id') {
-              this.sorters[this.predicate].sort = this.reverse ? ClrDatagridSortOrder.DESC : ClrDatagridSortOrder.ASC;
+              this.sorters[this.predicate] = this.reverse ? ClrDatagridSortOrder.DESC : ClrDatagridSortOrder.ASC;
             }
         });
         <%_ if (searchEngine === 'elasticsearch') { _%>
@@ -65,6 +53,18 @@
             this.activatedRoute.snapshot.params['search'] : '';
         <%_ } _%>
         // added for Clarity
+        this.sorters = {
+          id: ClrDatagridSortOrder.UNSORTED,
+          <%_ for (idx in fields) { _%>
+          <%= fields[idx].fieldName %>: ClrDatagridSortOrder.UNSORTED,
+          <%_ } _%>
+        };
+        this.filters = {
+          id: null,
+          <%_ for (idx in fields) { _%>
+          <%= fields[idx].fieldName %>: null,
+          <%_ } _%>
+        };
         if (this.currentSearch){
             // rebuild your filters from route data
         }
@@ -98,7 +98,7 @@
         this.currentSearch += '*:*';
       }
 
-      this.router.navigate(['/<%= entityUrl %>'], {
+      this.router.navigate(['/<%= microserviceName %>/<%= entityUrl %>'], {
         queryParams: {
           page: this.page,
           size: this.itemsPerPage,
@@ -148,7 +148,7 @@
         }
     }
     transition() {
-        this.router.navigate(['/<%= entityUrl %>'], {queryParams:
+        this.router.navigate(['/<%= microserviceName %>/<%= entityUrl %>'], {queryParams:
             {
                 page: this.page,
                 size: this.itemsPerPage,
@@ -165,7 +165,7 @@
         <%_ if (searchEngine === 'elasticsearch') { _%>
         this.currentSearch = '';
         <%_ } _%>
-        this.router.navigate(['/<%= entityUrl %>', {
+        this.router.navigate(['/<%= microserviceName %>/<%= entityUrl %>', {
             page: this.page,
             sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
         }]);

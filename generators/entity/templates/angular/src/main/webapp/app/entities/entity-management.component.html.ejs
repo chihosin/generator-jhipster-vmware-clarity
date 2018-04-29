@@ -7,7 +7,7 @@
 >
     <clr-dg-action-bar>
         <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-secondary" [routerLink]="['/<%= entityUrl %>/new']">
+            <button type="button" class="btn btn-sm btn-secondary" [routerLink]="['/<%= microserviceName %>/<%= entityUrl %>/new']">
                 <clr-icon shape="plus"></clr-icon>
                 {{'<%= i18nKeyPrefix %>.home.createLabel' | translate}}
             </button>
@@ -60,14 +60,14 @@
         *ngFor="let <%=entityInstance %> of <%=entityInstancePlural %> ;trackBy: trackId"
         [clrDgItem]="<%=entityInstance %>">
         <clr-dg-action-overflow>
-            <button class="action-item" [routerLink]="['/<%= entityUrl %>', <%= entityInstance %>.id, 'view' ]">
+            <button class="action-item" [routerLink]="['/<%= microserviceName %>/<%= entityUrl %>', <%= entityInstance %>.id, 'view' ]">
                 {{'entity.action.view' | translate}}
             </button>
-            <button class="action-item" [routerLink]="['/<%= entityUrl %>', <%= entityInstance %>.id, 'edit']">
+            <button class="action-item" [routerLink]="['/<%= microserviceName %>/<%= entityUrl %>', <%= entityInstance %>.id, 'edit']">
                 {{'entity.action.edit' | translate}}
             </button>
             <button class="action-item"
-                    [routerLink]="['/', { outlets: { popup: '<%= entityUrl %>/'+ <%= entityInstance %>.id + '/delete'} }]">
+                    [routerLink]="['/', { outlets: { popup: '<%= microserviceName %>/<%= entityUrl %>/'+ <%= entityInstance %>.id + '/delete'} }]">
                 {{'entity.action.delete' | translate}}
             </button>
         </clr-dg-action-overflow>
@@ -149,30 +149,6 @@
         <%_ } _%>
         <%_ } _%>
     </clr-dg-row>
-
-
-    <%_ if (databaseType !== 'cassandra') { _%>
-    <%_ if (pagination === 'pager') { _%>
-    <!-- Pager is not implemented yet, so this is normal pagination instead -->
-    <div *ngIf="<%=entityInstancePlural %> && <%=entityInstancePlural %>.length">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-        </div>
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
-        </div>
-    </div>
-    <%_ } else if (pagination === 'pagination') { _%>
-    <div *ngIf="<%=entityInstancePlural %> && <%=entityInstancePlural %>.length">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-        </div>
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
-        </div>
-    </div>
-    <%_ } _%>
-    <%_ } _%>
 
     <clr-dg-footer>
         <clr-dg-column-toggle>

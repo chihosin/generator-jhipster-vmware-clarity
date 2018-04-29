@@ -4,6 +4,12 @@
     <%_ if (searchEngine === 'elasticsearch') { _%>
     currentSearch: string;
     <%_ } _%>
+    // added for Clarity
+    loading: any;
+    searchDebounce: Subject<ClrDatagridStateInterface>;
+    filters: any;
+    sorters: any;
+    selected: any[];
 
     constructor(
         private <%= entityInstance %>Service: <%= entityAngularName %>Service,
@@ -17,10 +23,76 @@
         <%_ } _%>
         private principal: Principal
     ) {
+        this.routeData = this.activatedRoute.data.subscribe((data) => {
+            this.reverse = data.pagingParams.ascending;
+            this.predicate = data.pagingParams.predicate;
+            // added for Clarity
+            if (this.predicate !== 'id') {
+              this.sorters[this.predicate] = this.reverse ? ClrDatagridSortOrder.DESC : ClrDatagridSortOrder.ASC;
+            }
+        });
         <%_ if (searchEngine === 'elasticsearch') { _%>
         this.currentSearch = this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ?
             this.activatedRoute.snapshot.params['search'] : '';
         <%_ } _%>
+        // added for Clarity
+        this.sorters = {
+          id: ClrDatagridSortOrder.UNSORTED,
+          <%_ for (idx in fields) { _%>
+          <%= fields[idx].fieldName %>: ClrDatagridSortOrder.UNSORTED,
+          <%_ } _%>
+        };
+        this.filters = {
+          id: null,
+          <%_ for (idx in fields) { _%>
+          <%= fields[idx].fieldName %>: null,
+          <%_ } _%>
+        };
+        if (this.currentSearch){
+            // rebuild your filters from route data
+        }
+        this.loading = true;
+        this.selected = [];
+        this.searchDebounce = new Subject<ClrDatagridStateInterface>();
+        this.searchDebounce.debounceTime(SEARCH_DEBOUNCE_TIME).subscribe(() => this.loadAll());
+    }
+
+    // added for Clarity
+    refresh(state: ClrDatagridStateInterface) {
+      // added grid sort
+      this.predicate = state.sort ? state.sort.by : 'id';
+      this.reverse = state.sort ? state.sort.reverse : true;
+      // added grid filter
+      this.currentSearch = null;
+      if (state.filters) {
+        this.currentSearch = '';
+        state.filters.forEach(filter => {
+          if (filter['value'] !== '') {
+            switch (filter['property']) {
+              <%_ for (idx in fields) { _%>
+              case '<%= fields[idx].fieldName %>':
+                this.currentSearch += '<%= fields[idx].fieldName %>:*' + filter['value'] + '* AND ';
+                break;
+              <%_ } _%>
+            }
+          }
+        });
+        this.currentSearch += '*:*';
+      }
+
+      this.router.navigate(['/<%= microserviceName %>/<%= entityUrl %>'], {
+        queryParams: {
+          query: this.currentSearch,
+          sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+        }
+      });
+
+      // fixed filter refresh debounce
+      if (state.filters) {
+        this.searchDebounce.next();
+        return;
+      }
+      this.loadAll();
     }
 
     loadAll() {
@@ -41,20 +113,10 @@
                 <%_ if (searchEngine === 'elasticsearch') { _%>
                 this.currentSearch = '';
                 <%_ } _%>
+                // added for Clarity
+                this.loading = false;
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
     }
-    <%_ if (searchEngine === 'elasticsearch') { _%>
-    search(query) {
-        if (!query) {
-            return this.clear();
-        }
-        this.currentSearch = query;
-        this.loadAll();
-    }
-    clear() {
-        this.currentSearch = '';
-        this.loadAll();
-    }
-    <%_ } _%>
+}

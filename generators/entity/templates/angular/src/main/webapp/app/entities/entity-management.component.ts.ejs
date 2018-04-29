@@ -100,7 +100,7 @@ export class <%= entityAngularName %>Component implements OnInit, OnDestroy {
     // added for Clarity
     batchDelete() {
       if (this.selected.length > 0) {
-        this.router.navigate([{ outlets: { popup: '<%= entityUrl %>/' + this.selected.map(value => value.id) + '/delete' } }]);
+        this.router.navigate([{ outlets: { popup: '<%= microserviceName %>/<%= entityUrl %>/' + this.selected.map(value => value.id) + '/delete' } }]);
       }
     }
 

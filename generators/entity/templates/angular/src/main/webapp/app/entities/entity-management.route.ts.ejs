@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
-<%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
 import { JhiPaginationUtil } from 'ng-jhipster';
-<%_ } _%>
 
 import { UserRouteAccessService } from 'app/core';
 import { <%= entityAngularName %> } from 'app/shared/model/<%= entityModelFileName %>.model';
@@ -28,6 +26,18 @@ export class <%= entityAngularName %>ResolvePagingParams implements Resolve<any>
          const sort = route.queryParams['sort'] ? route.queryParams['sort'] : 'id,asc';
          return {
              page: this.paginationUtil.parsePage(page),
+             predicate: this.paginationUtil.parsePredicate(sort),
+             ascending: this.paginationUtil.parseAscending(sort)
+         };
+     }
+}
+<%_ } else if (pagination === 'no') { _%>
+@Injectable()
+export class <%= entityAngularName %>ResolveNoPagingParams implements Resolve<any> {
+     constructor(private paginationUtil: JhiPaginationUtil) {}
+     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+         const sort = route.queryParams['sort'] ? route.queryParams['sort'] : 'id,asc';
+         return {
              predicate: this.paginationUtil.parsePredicate(sort),
              ascending: this.paginationUtil.parseAscending(sort)
          };
@@ -65,6 +75,10 @@ export const <%= entityInstance %>Route: Routes = [
         <%_ if (pagination === 'pagination' || pagination === 'pager'){ _%>
         resolve: {
             'pagingParams': <%= entityAngularName %>ResolvePagingParams
+        },
+        <%_ } else if (pagination === 'no') { _%>
+        resolve: {
+            'pagingParams': <%= entityAngularName %>ResolveNoPagingParams
         },
         <%_ } _%>
         data: {
@@ -115,7 +129,7 @@ export const <%= entityInstance %>PopupRoute: Routes = [
         path: '<%= microserviceName %>/<%= entityUrl %>/:id/delete',
         component: <%= entityAngularName %>DeleteDialogComponent,
         resolve: {
-            <%= entityInstance %>: <%= entityAngularName %>Resolve
+            response: <%= entityAngularName %>Resolve
         },
         data: {
             authorities: ['ROLE_USER'],
