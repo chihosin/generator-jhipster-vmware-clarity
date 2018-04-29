@@ -246,6 +246,7 @@ module.exports = class extends BaseGenerator {
 
         // add dependencies
         try {
+            const fromPath = 'package.json';
             if (this.libAngularAnimationsVersion) {
                 this.replaceContent(
                     'package.json',
@@ -300,6 +301,16 @@ module.exports = class extends BaseGenerator {
             } else {
                 this.addNpmDependency('web-animations-js', `${WEB_ANIMATIONS_VERSION}`);
             }
+            // remove bootstrap ui
+            utils.rewriteJSONFile(fromPath, (jsonObj) => {
+                if (jsonObj.dependencies === undefined) {
+                    jsonObj.dependencies = {};
+                }
+                delete jsonObj.dependencies['@ng-bootstrap/ng-bootstrap'];
+                delete jsonObj.dependencies.bootstrap;
+                delete jsonObj.dependencies.jquery;
+                delete jsonObj.dependencies.moment;
+            }, this);
         } catch (e) {
             this.log(`${chalk.red.bold('ERROR!')}`);
             this.log('  Problem when adding the new librairies in your package.json');
