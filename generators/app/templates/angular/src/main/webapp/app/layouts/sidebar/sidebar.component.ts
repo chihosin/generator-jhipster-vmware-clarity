@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-<%_ if (authenticationType !== 'oauth2') { _%>
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-<%_ } _%>
 import { JhiLanguageService } from 'ng-jhipster';
 
 import { VERSION } from 'app/app.constants';
-import { <% if (enableTranslation) { %>JhiLanguageHelper, <% } %>Principal, <% if (authenticationType !== 'oauth2') { %>LoginModalService, <% } %>LoginService } from 'app/core';
+import { <% if (enableTranslation) { %>JhiLanguageHelper, <% } %>Principal, LoginService } from 'app/core';
 import { ProfileService } from '../profiles/profile.service';
 
 @Component({
@@ -25,72 +22,59 @@ export class SidebarComponent implements OnInit {
     isNavbarCollapsed: boolean;
     languages: any[];
     swaggerEnabled: boolean;
-<%_ if (authenticationType !== 'oauth2') { _%>
-    modalRef: NgbModalRef;
-<%_ } _%>
-version: string;
+    version: string;
 
-constructor(
+    constructor(
     private loginService: LoginService,
-<%_ if (enableTranslation) { _%>
-private languageService: JhiLanguageService,
+    <%_ if (enableTranslation) { _%>
+    private languageService: JhiLanguageService,
     private languageHelper: JhiLanguageHelper,
-<%_ } _%>
-private principal: Principal,
-<%_ if (authenticationType !== 'oauth2') { _%>
-private loginModalService: LoginModalService,
-<%_ } _%>
-private profileService: ProfileService,
+    <%_ } _%>
+    private principal: Principal,
+
+    private profileService: ProfileService,
     private router: Router
-) {
+    ) {
     this.version = VERSION ? 'v' + VERSION : '';
     this.isNavbarCollapsed = true;
-}
+    }
 
-ngOnInit() {
+    ngOnInit() {
+        <%_ if (enableTranslation) { _%>
+        this.languageHelper.getAll().then((languages) => {
+            this.languages = languages;
+        });
+            <%_ } _%>
+        this.profileService.getProfileInfo().then((profileInfo) => {
+            this.inProduction = profileInfo.inProduction;
+            this.swaggerEnabled = profileInfo.swaggerEnabled;
+        });
+    }
+
     <%_ if (enableTranslation) { _%>
-    this.languageHelper.getAll().then((languages) => {
-        this.languages = languages;
-    });
+    changeLanguage(languageKey: string) {
+        this.languageService.changeLanguage(languageKey);
+    }
         <%_ } _%>
-    this.profileService.getProfileInfo().then((profileInfo) => {
-        this.inProduction = profileInfo.inProduction;
-        this.swaggerEnabled = profileInfo.swaggerEnabled;
-    });
-}
+    collapseNavbar() {
+        this.isNavbarCollapsed = true;
+    }
 
-<%_ if (enableTranslation) { _%>
-changeLanguage(languageKey: string) {
-    this.languageService.changeLanguage(languageKey);
-}
-    <%_ } _%>
-collapseNavbar() {
-    this.isNavbarCollapsed = true;
-}
+    isAuthenticated() {
+        return this.principal.isAuthenticated();
+    }
 
-isAuthenticated() {
-    return this.principal.isAuthenticated();
-}
+    logout() {
+        this.collapseNavbar();
+        this.loginService.logout();
+        this.router.navigate(['']);
+    }
 
-login() {
-    <%_ if (authenticationType !== 'oauth2') { _%>
-    this.modalRef = this.loginModalService.open();
-        <%_ } else { _%>
-    this.loginService.login();
-        <%_ } _%>
-}
+    toggleNavbar() {
+        this.isNavbarCollapsed = !this.isNavbarCollapsed;
+    }
 
-logout() {
-    this.collapseNavbar();
-    this.loginService.logout();
-    this.router.navigate(['']);
-}
-
-toggleNavbar() {
-    this.isNavbarCollapsed = !this.isNavbarCollapsed;
-}
-
-getImageUrl() {
-    return this.isAuthenticated() ? this.principal.getImageUrl() : null;
-}
+    getImageUrl() {
+        return this.isAuthenticated() ? this.principal.getImageUrl() : null;
+    }
 }

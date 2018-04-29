@@ -60,6 +60,12 @@ const angularFiles = {
                     template: true,
                     renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-update.component.html`
                 },
+                {
+                    file: 'entities/entity-management.module.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}.module.ts`
+                },
             ]
         }
     ]
@@ -108,6 +114,7 @@ module.exports = class extends BaseGenerator {
                 utils.copyObjectProps(this, this.entityConfig.options);
                 utils.copyObjectProps(this, this.entityConfig);
                 this.writeFilesToDisk(angularFiles, this, false, CLIENT_NG2_TEMPLATES_DIR);
+                this.replaceContent(`${ANGULAR_DIR}entities/activate/activate.component.ts`, 'import { NgbModalRef } from \'@ng-bootstrap/ng-bootstrap\';\n', '');
             }
         };
     }
