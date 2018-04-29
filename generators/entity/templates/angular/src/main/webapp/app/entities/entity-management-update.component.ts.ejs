@@ -42,7 +42,6 @@ import { <%= uniqueRel.otherEntityAngularName%>Service } from 'app/entities/<%= 
         }
     }
 }); _%>
-
 @Component({
     selector: '<%= jhiPrefixDashed %>-<%= entityFileName %>-update',
     templateUrl: './<%= entityFileName %>-update.component.html'
@@ -74,7 +73,6 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
   <%= fieldName %>: string;
     <%_ } _%>
   <%_ } _%>
-
   constructor(
     <%_ if (fieldsContainBlob) { _%>
       private dataUtils: JhiDataUtils,
@@ -114,7 +112,6 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
         if (relationshipType === 'many-to-one'
           || (relationshipType === 'one-to-one' && ownerSide === true)
           || (relationshipType === 'many-to-many' && ownerSide === true)) { _%>
-          <%= console.log(relationships[idx]) %>
       this.<%= relationshipFieldName %>Service.query().subscribe(
         (res: HttpResponse<I<%= relationshipNameCapitalized %>[]>) => {
           this.<%= relationshipNamePlural%> = res.body;
@@ -124,7 +121,6 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
       <%_ } _%>
       <%_ } _%>
   }
-
   <%_ if (fieldsContainBlob) { _%>
   byteSize(field) {
       return this.dataUtils.byteSize(field);
@@ -169,7 +165,6 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
           this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
   }
 
-
   private onSaveSuccess(result: I<%= entityAngularName %>) {
       this.isSaving = false;
       this.previousState();
@@ -183,20 +178,21 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
   private onError(errorMessage: string) {
       this.jhiAlertService.error(errorMessage, null, null);
   }
-  <%_ } _%>
 
+  <%_ } _%>
   <%_
   const entitiesSeen = [];
   for (idx in relationships) {
       const otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized;
       if (relationships[idx].relationshipType !== 'one-to-many' && !entitiesSeen.includes(otherEntityNameCapitalized)) {
   _%>
+
   track<%= otherEntityNameCapitalized %>ById(index: number, item: I<%= relationships[idx].otherEntityAngularName %>) {
       return item.id;
   }
+
   <%_ entitiesSeen.push(otherEntityNameCapitalized); } } _%>
   <%_ if (hasManyToMany) { _%>
-
   getSelected(selectedVals: Array<any>, option: any) {
       if (selectedVals) {
           for (let i = 0; i < selectedVals.length; i++) {
@@ -208,7 +204,6 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
       return option;
   }
   <%_ } _%>
-
   get <%= entityInstance %>() {
       return this._<%= entityInstance %>;
   }

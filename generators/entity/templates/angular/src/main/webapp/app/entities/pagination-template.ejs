@@ -38,7 +38,7 @@
     ) {
         <%_ if (databaseType !== 'cassandra') { _%>
         this.itemsPerPage = ITEMS_PER_PAGE;
-        this.routeData = this.activatedRoute.data.subscribe((data) => {
+        this.routeData = this.activatedRoute.data.subscribe(data => {
             this.page = data.pagingParams.page;
             this.previousPage = data.pagingParams.page;
             this.reverse = data.pagingParams.ascending;
@@ -65,7 +65,7 @@
           <%= fields[idx].fieldName %>: null,
           <%_ } _%>
         };
-        if (this.currentSearch){
+        if (this.currentSearch) {
             // rebuild your filters from route data
         }
         this.loading = true;
