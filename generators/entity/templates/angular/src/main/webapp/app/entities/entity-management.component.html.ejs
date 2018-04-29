@@ -47,8 +47,8 @@
     || (relationships[idx].relationshipType === 'many-to-many' && relationships[idx].ownerSide === true && pagination === 'no')) {
     const fieldName = dto === 'no' ? "." + relationships[idx].otherEntityField : relationships[idx].otherEntityFieldCapitalized;_%>
     <clr-dg-column [clrDgField]="'<%=relationships[idx].relationshipName + (fieldName)%>'"
-    <% if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[clrDgSortOrder]="sorters.<%=relationships[idx].relationshipName + (fieldName)%>"<% } %>
-    <% if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[(clrFilterValue)]="filters.<%=relationships[idx].relationshipName + (fieldName)%>"<% } %>>
+    <% if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[clrDgSortOrder]="sorters.<%=relationships[idx].relationshipName%>"<% } %>
+    <% if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[(clrFilterValue)]="filters.<%=relationships[idx].relationshipName%>"<% } %>>
     <ng-container *clrDgHideableColumn="{hidden: false}">
         {{'<%=`${i18nKeyPrefix}.${relationships[idx].relationshipName}` %>' | translate}}
     </ng-container>

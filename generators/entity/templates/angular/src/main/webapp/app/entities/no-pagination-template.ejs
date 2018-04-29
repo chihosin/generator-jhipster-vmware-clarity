@@ -1,6 +1,9 @@
     <%= entityInstancePlural %>: I<%= entityAngularName %>[];
     currentAccount: any;
     eventSubscriber: Subscription;
+    routeData: any;
+    predicate: any;
+    reverse: any;
     <%_ if (searchEngine === 'elasticsearch') { _%>
     currentSearch: string;
     <%_ } _%>
@@ -21,9 +24,10 @@
         <%_ if (searchEngine === 'elasticsearch') { _%>
         private activatedRoute: ActivatedRoute,
         <%_ } _%>
-        private principal: Principal
+        private principal: Principal,
+        private router: Router
     ) {
-        this.routeData = this.activatedRoute.data.subscribe((data) => {
+        this.routeData = this.activatedRoute.data.subscribe(data => {
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
             // added for Clarity
@@ -48,7 +52,7 @@
           <%= fields[idx].fieldName %>: null,
           <%_ } _%>
         };
-        if (this.currentSearch){
+        if (this.currentSearch) {
             // rebuild your filters from route data
         }
         this.loading = true;
@@ -119,4 +123,3 @@
             (res: HttpErrorResponse) => this.onError(res.message)
         );
     }
-}

@@ -3,7 +3,7 @@
     <div class="modal-body">
         <p jhiTranslate="<%= microserviceName %>.<%= entityInstance %>.delete.question"
            translateValues="{name: '{{item.name}}'}">
-            Are you sure you want to delete this Employee Profile?
+            Are you sure you want to delete this <%= entityClassHumanized %>?
         </p>
     </div>
     <div class="modal-footer">
@@ -21,7 +21,7 @@
         <p *ngIf="progressState == 'READY'"
            jhiTranslate="<%= microserviceName %>.<%= entityInstance %>.batchDelete.question"
            translateValues="{count: '{{list.length}}'}">
-            Are you sure you want to delete this Employee Profiles?
+            Are you sure you want to delete this <%= entityClassHumanized %>?
         </p>
         <h4 *ngIf="progressState == 'SUCCESS'"
             jhiTranslate="<%= microserviceName %>.<%= entityInstance %>.batchDelete.success"

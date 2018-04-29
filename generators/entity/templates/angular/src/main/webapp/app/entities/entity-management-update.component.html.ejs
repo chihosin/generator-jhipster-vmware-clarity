@@ -169,10 +169,11 @@
                     const relationshipRequired = relationships[idx].relationshipRequired;
                     const translationKey = `${i18nKeyPrefix}.${relationshipName}`; _%>
                     <%_ if (relationshipType === 'many-to-one' || (relationshipType === 'one-to-one' && ownerSide === true && otherEntityName === 'user')) { _%>
-                    <clr-stack-block class="form-group">
+                    <clr-stack-block>
                         <clr-stack-label for="field_<%= relationshipName %>"><%= relationshipNameHumanized %></clr-stack-label>
                         <clr-stack-content>
                         <%_ if (dto === 'no') { _%>
+                        <div class="select form-control">
                         <select class="form-control" id="field_<%= relationshipName %>" name="<%= relationshipName %>" [(ngModel)]="<%= entityInstance %>.<%=relationshipFieldName %>" <% if (relationshipRequired) { %> required<% } %>>
                         <%_ if (!relationshipRequired) { _%>
                         <option [ngValue]="null"></option>
@@ -181,7 +182,9 @@
                         <%_ } _%>
                         <option [ngValue]="<%=otherEntityName %>Option.id === <%= entityInstance %>.<%=relationshipFieldName %>?.id ? <%= entityInstance %>.<%=relationshipFieldName %> : <%=otherEntityName %>Option" *ngFor="let <%=otherEntityName %>Option of <%=otherEntityNamePlural.toLowerCase() %>; trackBy: track<%=otherEntityNameCapitalized %>ById">{{<%=otherEntityName %>Option.<%=otherEntityField %>}}</option>
                         </select>
+                        </div>
                         <%_ } else { _%>
+                        <div class="select form-control">
                         <select class="form-control" id="field_<%= relationshipName %>" name="<%= relationshipName %>" [(ngModel)]="<%= entityInstance %>.<%=relationshipFieldName %>Id" <% if (relationshipRequired) { %> required<% } %>>
                         <%_ if (!relationshipRequired) { _%>
                         <option [ngValue]="null"></option>
@@ -190,6 +193,7 @@
                         <%_ } _%>
                         <option [ngValue]="<%=otherEntityName %>Option.id" *ngFor="let <%=otherEntityName %>Option of <%=otherEntityNamePlural.toLowerCase() %>; trackBy: track<%=otherEntityNameCapitalized %>ById">{{<%=otherEntityName %>Option.<%=otherEntityField %>}}</option>
                         </select>
+                        </div>
                         <%_ } _%>
                         </clr-stack-content>
                     </clr-stack-block>
@@ -198,6 +202,7 @@
                         <clr-stack-label for="field_<%= relationshipName %>"><%= relationshipNameHumanized %></clr-stack-label>
                         <clr-stack-content>
                         <%_ if (dto === 'no') { _%>
+                        <div class="select form-control">
                         <select class="form-control" id="field_<%= relationshipName %>" name="<%= relationshipName %>" [(ngModel)]="<%= entityInstance %>.<%=relationshipFieldName %>"<% if (relationshipRequired) { %> required<% } %>>
                         <%_ if (!relationshipRequired) { _%>
                         <option [ngValue]="null"></option>
@@ -206,7 +211,9 @@
                         <%_ } _%>
                         <option [ngValue]="<%=otherEntityName %>Option.id === <%= entityInstance %>.<%=relationshipFieldName %>?.id ? <%= entityInstance %>.<%=relationshipFieldName %> : <%=otherEntityName %>Option" *ngFor="let <%=otherEntityName %>Option of <%=relationshipFieldNamePlural.toLowerCase() %>; trackBy: track<%=otherEntityNameCapitalized %>ById">{{<%=otherEntityName %>Option.<%=otherEntityField %>}}</option>
                         </select>
+                        </div>
                         <%_ } else { _%>
+                        <div class="select form-control">
                         <select class="form-control" id="field_<%= relationshipName %>" name="<%= relationshipName %>" [(ngModel)]="<%= entityInstance %>.<%=relationshipFieldName %>Id"<% if (relationshipRequired) { %> required<% } %>>
                         <%_ if (!relationshipRequired) { _%>
                         <option [ngValue]="null"></option>
@@ -215,6 +222,7 @@
                         <%_ } _%>
                         <option [ngValue]="<%=otherEntityName %>Option.id" *ngFor="let <%=otherEntityName %>Option of <%=relationshipFieldNamePlural.toLowerCase() %>; trackBy: track<%=otherEntityNameCapitalized %>ById">{{<%=otherEntityName %>Option.<%=otherEntityField %>}}</option>
                         </select>
+                        </div>
                         <%_ } _%>
                         </clr-stack-content>
                     </clr-stack-block>
@@ -222,9 +230,11 @@
                     <clr-stack-block >
                         <clr-stack-label for="field_<%= relationshipName %>"><%= relationshipNameHumanized %></clr-stack-label>
                         <clr-stack-content>
+                        <div class="select form-control">
                         <select class="form-control" id="field_<%= relationshipName %>" multiple name="<%= relationshipName %>" [(ngModel)]="<%=entityInstance %>.<%=relationshipFieldNamePlural %>"<% if (relationshipRequired) { %> required<% } %>>
                         <option [ngValue]="getSelected(<%=entityInstance %>.<%=relationshipFieldNamePlural %>, <%=otherEntityName %>Option)" *ngFor="let <%=otherEntityName %>Option of <%=otherEntityNamePlural.toLowerCase() %>; trackBy: track<%=otherEntityNameCapitalized %>ById">{{<%=otherEntityName %>Option.<%=otherEntityField %>}}</option>
                         </select>
+                        </div>
                         </clr-stack-content>
                     </clr-stack-block>
                     <%_ } _%>

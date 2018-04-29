@@ -10,12 +10,12 @@ import { PROGRESS_STATE } from 'app/shared/constants/load.constants';
     selector: '<%= jhiPrefixDashed %>-<%= entityFileName %>-delete-dialog',
     templateUrl: './<%= entityFileName %>-delete-dialog.component.html'
 })
-export class <%= entityAngularName %>DeleteDialogComponent implements OnInit{
-private item: I<%= entityAngularName %>;
-private list: I<%= entityAngularName %>[];
-private progressValue: number;
-private progressState: string;
-private _opened: any;
+export class <%= entityAngularName %>DeleteDialogComponent implements OnInit {
+    private item: I<%= entityAngularName %>;
+    private list: I<%= entityAngularName %>[];
+    private progressValue: number;
+    private progressState: string;
+    private _opened: any;
 
     constructor(
         private <%= entityInstance %>Service: <%= entityAngularName %>Service,
