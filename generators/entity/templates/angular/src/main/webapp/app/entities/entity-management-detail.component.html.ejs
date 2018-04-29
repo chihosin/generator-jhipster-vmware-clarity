@@ -1,11 +1,12 @@
 <h1 jhiTranslate="<%= i18nKeyPrefix %>.home.title"><%= entityClassPluralHumanized %></h1>
 <clr-stack-view>
-    <clr-stack-header><%=javadoc%></clr-stack-header>
+    <clr-stack-header><span jhiTranslate="<%= i18nKeyPrefix %>.detail.title"><%= entityClassHumanized %></span> {{<%= entityInstance %>.id}}</clr-stack-header>
 
     <%_ for (idx in fields) {
     const fieldName = fields[idx].fieldName;
     const fieldType = fields[idx].fieldType;
     const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent; _%>
+    <clr-stack-block>
     <clr-stack-label><span jhiTranslate="<%= i18nKeyPrefix %>.<%= fieldName %>"<% if (fields[idx].javadoc) { if (enableTranslation) { %> [ngbTooltip]="'<%= i18nKeyPrefix %>.help.<%= fieldName %>' | translate"<% } else { %> ngbTooltip="<%= fields[idx].javadoc %>"<% } } %>><%= fields[idx].fieldNameHumanized %></span></clr-stack-label>
     <clr-stack-content>
         <%_ if (fields[idx].fieldIsEnum) { _%>
@@ -26,6 +27,7 @@
         <span>{{<%= entityInstance %>.<%= fieldName %>}}</span>
         <%_ } _%>
     </clr-stack-content>
+    </clr-stack-block>
     <%_ } _%>
     <%_ for (idx in relationships) {
     const relationshipType = relationships[idx].relationshipType;
@@ -41,6 +43,7 @@
     if (relationshipType === 'many-to-one'
     || (relationshipType === 'one-to-one' && ownerSide === true)
     || (relationshipType === 'many-to-many' && ownerSide === true)) { _%>
+    <clr-stack-block>
     <clr-stack-label><span jhiTranslate="<%= i18nKeyPrefix %>.<%= relationshipName %>"><%= relationshipNameHumanized %></span></clr-stack-label>
     <clr-stack-content>
         <%_ if (otherEntityName === 'user') { _%>
@@ -73,6 +76,7 @@
         <%_ } _%>
         <%_ } _%>
     </clr-stack-content>
+    </clr-stack-block>
     <%_ } _%>
     <%_ } _%>
 </clr-stack-view>

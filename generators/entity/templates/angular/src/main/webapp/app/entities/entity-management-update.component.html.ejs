@@ -2,15 +2,9 @@
 <jhi-alert-error></jhi-alert-error>
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
     <clr-stack-view>
-        <clr-stack-header><%=javadoc%></clr-stack-header>
+        <clr-stack-header><span jhiTranslate="<%= i18nKeyPrefix %>.detail.title"><%= entityClassHumanized %></span> {{<%= entityInstance %>.id}}</clr-stack-header>
 
         <<%= jhiPrefixDashed %>-alert-error></<%= jhiPrefixDashed %>-alert-error>
-        <div class="form-group" [hidden]="!<%=entityInstance %>.id">
-            <label for="id" jhiTranslate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                   [(ngModel)]="<%=entityInstance %>.id" readonly />
-        </div>
-
         <%_ for (idx in fields) {
         const fieldName = fields[idx].fieldName;
         const fieldNameCapitalized = fields[idx].fieldNameCapitalized;
