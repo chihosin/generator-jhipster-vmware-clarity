@@ -31,7 +31,7 @@
                     }
                     _%>
                     <clr-stack-block>
-                        <clr-stack-label for="field_<%= fieldName %>"<% if (fields[idx].javadoc) { if (enableTranslation) { %> [ngbTooltip]="'<%= i18nKeyPrefix %>.help.<%= fieldName %>' | translate"<% } else { %> ngbTooltip="<%= fields[idx].javadoc %>"<% } } %>><%= fieldNameHumanized %></clr-stack-label>
+                        <clr-stack-label for="field_<%= fieldName %>"><%= fieldNameHumanized %></clr-stack-label>
                         <clr-stack-content>
                         <%_ if (fields[idx].fieldIsEnum) { _%>
                         <select class="form-control" name="<%= fieldName %>" [(ngModel)]="<%= entityInstance %>.<%= fieldName %>" id="field_<%= fieldName %>" <% if (fields[idx].fieldValidate === true && fields[idx].fieldValidateRules.includes('required')) { %> required<% } %>>

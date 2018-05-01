@@ -1,0 +1,27 @@
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+import {
+    <%=angularXAppName%>SharedLibsModule,
+    <%=angularXAppName%>SharedCommonModule,
+    HasAnyAuthorityDirective
+} from './';
+
+@NgModule({
+    imports: [
+        <%=angularXAppName%>SharedLibsModule,
+        <%=angularXAppName%>SharedCommonModule
+    ],
+    declarations: [
+        HasAnyAuthorityDirective
+    ],
+    providers: [
+    ],
+    entryComponents: [],
+    exports: [
+        <%=angularXAppName%>SharedCommonModule,
+        HasAnyAuthorityDirective
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
+})
+export class <%=angularXAppName%>SharedModule {}

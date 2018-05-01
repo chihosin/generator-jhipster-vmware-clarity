@@ -11,7 +11,7 @@
             const fieldType = fields[idx].fieldType;
             const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent; _%>
             <clr-stack-block>
-            <clr-stack-label><span jhiTranslate="<%= i18nKeyPrefix %>.<%= fieldName %>"<% if (fields[idx].javadoc) { if (enableTranslation) { %> [ngbTooltip]="'<%= i18nKeyPrefix %>.help.<%= fieldName %>' | translate"<% } else { %> ngbTooltip="<%= fields[idx].javadoc %>"<% } } %>><%= fields[idx].fieldNameHumanized %></span></clr-stack-label>
+            <clr-stack-label><span jhiTranslate="<%= i18nKeyPrefix %>.<%= fieldName %>"><%= fields[idx].fieldNameHumanized %></span></clr-stack-label>
             <clr-stack-content>
                 <%_ if (fields[idx].fieldIsEnum) { _%>
                 <span jhiTranslate="{{'<%= angularAppName %>.<%= fieldType %>.' + <%= entityInstance %>.<%= fieldName %>}}">{{<%= entityInstance %>.<%= fieldName %>}}</span>
