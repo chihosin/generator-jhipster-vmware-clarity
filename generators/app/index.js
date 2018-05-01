@@ -16,7 +16,7 @@ const WEB_ANIMATIONS_VERSION = '^2.3.1';
 const MAIN_SRC_DIR = constants.CLIENT_MAIN_SRC_DIR;
 const ANGULAR_DIR = constants.ANGULAR_DIR;
 const files = {
-    sass: [
+    content: [
         {
             condition: generator => generator.config.useSass,
             path: MAIN_SRC_DIR,
@@ -26,90 +26,41 @@ const files = {
             ]
         }
     ],
-    angularApp: [
+    app: [
         {
             path: ANGULAR_DIR,
             templates: [
-                'app.module.ts',
-                'app-routing.module.ts',
-                'vendor.ts',
-            ]
-        }
-    ],
-    angularMain: [
-        {
-            path: ANGULAR_DIR,
-            templates: [
-                // entities
-                'entities/entity.module.ts',
-                'entities/entity.route.ts',
-                // layouts
-                'layouts/index.ts',
-                'layouts/main/main.component.ts',
-                'layouts/main/main.component.html',
                 {
-                    file: 'layouts/navbar/navbar.component.ts',
-                    method: 'processJs'
+                    file: 'app.module.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'app.module.ts'
                 },
                 {
-                    file: 'layouts/navbar/navbar.component.html',
-                    method: 'processHtml'
+                    file: 'app-routing.module.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'app-routing.module.ts'
                 },
                 {
-                    file: 'layouts/sidebar/sidebar.component.ts',
-                    method: 'processJs'
+                    file: 'vendor.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'vendor.ts'
+                },
+                // account
+                {
+                    file: 'account/activate/activate.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'account/activate/activate.component.ts'
                 },
                 {
-                    file: 'layouts/sidebar/sidebar.component.html',
-                    method: 'processHtml'
+                    file: 'account/activate/activate.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'account/activate/activate.component.html'
                 },
-                'layouts/sidebar/sidebar.route.ts'
-            ]
-        },
-        {
-            condition: generator => generator.useSass,
-            path: ANGULAR_DIR,
-            templates: [
-                'layouts/sidebar/sidebar.scss'
-            ]
-        }
-    ],
-    angularAccountModule: [
-        {
-            path: ANGULAR_DIR,
-            condition: generator => generator.authenticationType !== 'oauth2',
-            templates: [
-                'account/index.ts',
-                {
-                    file: 'account/account.route.ts',
-                    method: 'processJs'
-                },
-                'account/account.module.ts',
-                {
-                    file: 'account/login/login.route.ts',
-                    method: 'processJs'
-                },
-                {
-                    file: 'account/login/login.component.ts',
-                    method: 'processJs'
-                },
-                {
-                    file: 'account/login/login.component.html',
-                    method: 'processHtml'
-                }
-            ]
-        }
-    ],
-    angularShared: [
-        {
-            path: ANGULAR_DIR,
-            templates: [
-                'shared/index.ts',
-                'shared/shared-libs.module.ts',
-                'shared/constants/load.constants.ts',
-                // alert service code
-                'shared/alert/alert.component.ts',
-                'shared/alert/alert-error.component.ts'
             ]
         }
     ]
