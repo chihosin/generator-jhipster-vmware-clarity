@@ -43,7 +43,7 @@ export class NavbarComponent implements OnInit {
         this.languageHelper.getAll().then((languages) => {
             this.languages = languages;
         });
-            <%_ } _%>
+        <%_ } _%>
         this.profileService.getProfileInfo().then((profileInfo) => {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
@@ -52,23 +52,15 @@ export class NavbarComponent implements OnInit {
 
     <%_ if (enableTranslation) { _%>
     changeLanguage(languageKey: string) {
-        this.languageService.changeLanguage(languageKey);
+      this.languageService.changeLanguage(languageKey);
     }
-        <%_ } _%>
+    <%_ } _%>
     collapseNavbar() {
         this.isNavbarCollapsed = true;
     }
 
     isAuthenticated() {
         return this.principal.isAuthenticated();
-    }
-
-    login() {
-        <%_ if (authenticationType !== 'oauth2') { _%>
-        this.modalRef = this.loginModalService.open();
-            <%_ } else { _%>
-        this.loginService.login();
-            <%_ } _%>
     }
 
     logout() {

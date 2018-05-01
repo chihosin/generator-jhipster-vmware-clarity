@@ -5,6 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgJhipsterModule } from 'ng-jhipster';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CookieModule } from 'ngx-cookie';
+// added for clarity
 import { ClarityModule } from '@clr/angular';
 
 @NgModule({
@@ -19,16 +20,18 @@ import { ClarityModule } from '@clr/angular';
             <%_ } _%>
         }),
         InfiniteScrollModule,
+        CookieModule.forRoot(),
+        // added for clarity
         ClarityModule,
-        CookieModule.forRoot()
-    ],
+],
     exports: [
         FormsModule,
         CommonModule,
         NgbModule,
         NgJhipsterModule,
-        ClarityModule,
-        InfiniteScrollModule
-    ]
+        InfiniteScrollModule,
+        // added for clarity
+        ClarityModule
+]
 })
 export class <%=angularXAppName%>SharedLibsModule {}

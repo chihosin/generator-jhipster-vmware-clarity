@@ -31,12 +31,11 @@ export class SidebarComponent implements OnInit {
     private languageHelper: JhiLanguageHelper,
     <%_ } _%>
     private principal: Principal,
-
     private profileService: ProfileService,
     private router: Router
     ) {
-    this.version = VERSION ? 'v' + VERSION : '';
-    this.isNavbarCollapsed = true;
+        this.version = VERSION ? 'v' + VERSION : '';
+        this.isNavbarCollapsed = true;
     }
 
     ngOnInit() {
@@ -44,7 +43,7 @@ export class SidebarComponent implements OnInit {
         this.languageHelper.getAll().then((languages) => {
             this.languages = languages;
         });
-            <%_ } _%>
+        <%_ } _%>
         this.profileService.getProfileInfo().then((profileInfo) => {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
@@ -53,9 +52,9 @@ export class SidebarComponent implements OnInit {
 
     <%_ if (enableTranslation) { _%>
     changeLanguage(languageKey: string) {
-        this.languageService.changeLanguage(languageKey);
+      this.languageService.changeLanguage(languageKey);
     }
-        <%_ } _%>
+    <%_ } _%>
     collapseNavbar() {
         this.isNavbarCollapsed = true;
     }

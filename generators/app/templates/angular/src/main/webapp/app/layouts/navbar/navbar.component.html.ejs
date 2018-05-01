@@ -61,7 +61,7 @@
                 <button *ngSwitchCase="true" type="button" clrDropdownItem (click)="logout()"
                         jhiTranslate="global.menu.account.logout">Log out
                 </button>
-                <button *ngSwitchCase="false" type="button" clrDropdownItem (click)="login()"
+                <button *ngSwitchCase="false" type="button" clrDropdownItem [routerLink]="['/login']"
                         jhiTranslate="global.menu.account.login">Sign in
                 </button>
                 <button *ngSwitchCase="false" type="button" clrDropdownItem routerLink="register"
