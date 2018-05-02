@@ -21,8 +21,18 @@ const files = {
             condition: generator => generator.config.useSass,
             path: MAIN_SRC_DIR,
             templates: [
-                'content/scss/global.scss',
-                'content/scss/vendor.scss'
+                {
+                    file: 'content/scss/global.scss.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'content/scss/global.scss'
+                },
+                {
+                    file: 'content/scss/vendor.scss.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'content/scss/vendor.scss'
+                }
             ]
         }
     ],
@@ -61,6 +71,192 @@ const files = {
                     template: true,
                     renameTo: () => 'account/activate/activate.component.html'
                 },
+                {
+                    file: 'account/login/login.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'account/login/login.component.ts.ejs'
+                },
+                {
+                    file: 'account/login/login.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'account/login/login.component.html'
+                },
+                {
+                    file: 'account/login/login.route.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'account/login/login.route.ts'
+                },
+                {
+                    file: 'account/password-reset/finish/password-reset-finish.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'account/password-reset/finish/password-reset-finish.component.ts'
+                },
+                {
+                    file: 'account/password-reset/finish/password-reset-finish.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'account/password-reset/finish/password-reset-finish.component.html'
+                },
+                {
+                    file: 'account/register/register.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'account/register/register.component.ts'
+                },
+                {
+                    file: 'account/register/register.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'account/register/register.component.html'
+                },
+                {
+                    file: 'account/account.module.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'account/account.module.ts'
+                },
+                {
+                    file: 'account/account.route.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'account/account.route.ts'
+                },
+                {
+                    file: 'account/index.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'account/index.ts'
+                },
+                {
+                    file: 'blocks/interceptor/auth-expired.interceptor.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'blocks/interceptor/auth-expired.interceptor.ts'
+                },
+                {
+                    file: 'core/auth/user-route-access-service.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'core/auth/user-route-access-service.ts'
+                },
+                {
+                    file: 'core/core.module.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'core/core.module.ts'
+                },
+                {
+                    file: 'home/home.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'home/home.component.ts'
+                },
+                {
+                    file: 'home/home.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'home/home.component.html'
+                },
+                {
+                    file: 'layouts/index.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'layouts/index.ts'
+                },
+                {
+                    file: 'layouts/main/main.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'layouts/main/main.component.ts'
+                },
+                {
+                    file: 'layouts/main/main.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'layouts/main/main.component.html'
+                },
+                {
+                    file: 'layouts/navbar/navbar.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'layouts/navbar/navbar.component.ts'
+                },
+                {
+                    file: 'layouts/navbar/navbar.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'layouts/navbar/navbar.component.html'
+                },
+                {
+                    file: 'layouts/navbar/navbar.scss.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'layouts/navbar/navbar.scss'
+                },
+                {
+                    file: 'layouts/sidebar/sidebar.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'layouts/sidebar/sidebar.component.ts'
+                },
+                {
+                    file: 'layouts/sidebar/sidebar.route.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'layouts/sidebar/sidebar.route.ts'
+                },
+                {
+                    file: 'layouts/sidebar/sidebar.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'layouts/sidebar/sidebar.component.html'
+                },
+                {
+                    file: 'layouts/sidebar/sidebar.scss.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'layouts/sidebar/sidebar.scss'
+                },
+                {
+                    file: 'shared/alert/alert.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'shared/alert/alert.component.ts'
+                },
+                {
+                    file: 'shared/alert/alert-error.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'shared/alert/alert-error.component.ts'
+                },
+                {
+                    file: 'shared/constants/load.constants.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'shared/constants/load.constants.ts'
+                },
+                {
+                    file: 'shared/index.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'shared/index.ts'
+                },
+                {
+                    file: 'shared/shared.module.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'shared/shared.module.ts'
+                },
+                {
+                    file: 'shared/shared-libs.module.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'shared/shared-libs.module.ts'
+                }
             ]
         }
     ]
