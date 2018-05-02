@@ -4,7 +4,7 @@
     routeData: any;
     predicate: any;
     reverse: any;
-    <% if (searchEngine === 'elasticsearch') { %>
+    <%_ if (searchEngine === 'elasticsearch') { _%>
     currentSearch: string;
     <%_ } _%>
     // added for Clarity
@@ -27,18 +27,6 @@
         private principal: Principal,
         private router: Router
     ) {
-        this.routeData = this.activatedRoute.data.subscribe(data => {
-            this.reverse = data.pagingParams.ascending;
-            this.predicate = data.pagingParams.predicate;
-            // added for Clarity
-            if (this.predicate !== 'id') {
-              this.sorters[this.predicate] = this.reverse ? ClrDatagridSortOrder.DESC : ClrDatagridSortOrder.ASC;
-            }
-        });
-        <%_ if (searchEngine === 'elasticsearch') { _%>
-        this.currentSearch = this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ?
-            this.activatedRoute.snapshot.params['search'] : '';
-        <%_ } _%>
         // added for Clarity
         this.sorters = {
           id: ClrDatagridSortOrder.UNSORTED,
@@ -52,6 +40,19 @@
           <%= fields[idx].fieldName %>: null,
           <%_ } _%>
         };
+        this.routeData = this.activatedRoute.data.subscribe(data => {
+            this.reverse = data.pagingParams.ascending;
+            this.predicate = data.pagingParams.predicate;
+            // added for Clarity
+            if (this.predicate !== 'id') {
+              this.sorters[this.predicate] = this.reverse ? ClrDatagridSortOrder.DESC : ClrDatagridSortOrder.ASC;
+            }
+        });
+        <%_ if (searchEngine === 'elasticsearch') { _%>
+        this.currentSearch = this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ?
+            this.activatedRoute.snapshot.params['search'] : '';
+        <%_ } _%>
+
         if (this.currentSearch) {
             // rebuild your filters from route data
         }

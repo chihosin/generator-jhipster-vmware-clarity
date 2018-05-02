@@ -230,7 +230,7 @@
                     <clr-stack-block >
                         <clr-stack-label for="field_<%= relationshipName %>"><%= relationshipNameHumanized %></clr-stack-label>
                         <clr-stack-content>
-                        <div class="select form-control">
+                        <div class="select form-control multiple">
                         <select class="form-control" id="field_<%= relationshipName %>" multiple name="<%= relationshipName %>" [(ngModel)]="<%=entityInstance %>.<%=relationshipFieldNamePlural %>"<% if (relationshipRequired) { %> required<% } %>>
                         <option [ngValue]="getSelected(<%=entityInstance %>.<%=relationshipFieldNamePlural %>, <%=otherEntityName %>Option)" *ngFor="let <%=otherEntityName %>Option of <%=otherEntityNamePlural.toLowerCase() %>; trackBy: track<%=otherEntityNameCapitalized %>ById">{{<%=otherEntityName %>Option.<%=otherEntityField %>}}</option>
                         </select>

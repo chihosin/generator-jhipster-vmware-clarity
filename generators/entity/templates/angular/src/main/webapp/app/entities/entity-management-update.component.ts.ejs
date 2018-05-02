@@ -186,7 +186,6 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
       const otherEntityNameCapitalized = relationships[idx].otherEntityNameCapitalized;
       if (relationships[idx].relationshipType !== 'one-to-many' && !entitiesSeen.includes(otherEntityNameCapitalized)) {
   _%>
-
   track<%= otherEntityNameCapitalized %>ById(index: number, item: I<%= relationships[idx].otherEntityAngularName %>) {
       return item.id;
   }

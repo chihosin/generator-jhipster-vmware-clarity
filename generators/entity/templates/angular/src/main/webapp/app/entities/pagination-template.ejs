@@ -36,6 +36,20 @@
         private router: Router,
         private eventManager: JhiEventManager
     ) {
+        // added for Clarity
+        this.sorters = {
+          id: ClrDatagridSortOrder.UNSORTED,
+          <%_ for (idx in fields) { _%>
+          <%= fields[idx].fieldName %>: ClrDatagridSortOrder.UNSORTED,
+          <%_ } _%>
+        };
+        this.filters = {
+          id: null,
+          <%_ for (idx in fields) { _%>
+          <%= fields[idx].fieldName %>: null,
+          <%_ } _%>
+        };
+
         <%_ if (databaseType !== 'cassandra') { _%>
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe(data => {
@@ -52,19 +66,7 @@
         this.currentSearch = this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ?
             this.activatedRoute.snapshot.params['search'] : '';
         <%_ } _%>
-        // added for Clarity
-        this.sorters = {
-          id: ClrDatagridSortOrder.UNSORTED,
-          <%_ for (idx in fields) { _%>
-          <%= fields[idx].fieldName %>: ClrDatagridSortOrder.UNSORTED,
-          <%_ } _%>
-        };
-        this.filters = {
-          id: null,
-          <%_ for (idx in fields) { _%>
-          <%= fields[idx].fieldName %>: null,
-          <%_ } _%>
-        };
+
         if (this.currentSearch) {
             // rebuild your filters from route data
         }
