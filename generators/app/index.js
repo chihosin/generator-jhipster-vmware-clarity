@@ -47,7 +47,7 @@ const files = {
                     renameTo: () => 'app.module.ts'
                 },
                 {
-                    file: 'app-routing.module.ejs',
+                    file: 'app-routing.module.ts.ejs',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'app-routing.module.ts'
@@ -58,7 +58,6 @@ const files = {
                     template: true,
                     renameTo: () => 'vendor.ts'
                 },
-                // account
                 {
                     file: 'account/activate/activate.component.ts.ejs',
                     method: 'processJs',
@@ -75,7 +74,7 @@ const files = {
                     file: 'account/login/login.component.ts.ejs',
                     method: 'processJs',
                     template: true,
-                    renameTo: () => 'account/login/login.component.ts.ejs'
+                    renameTo: () => 'account/login/login.component.ts'
                 },
                 {
                     file: 'account/login/login.component.html.ejs',
@@ -148,6 +147,12 @@ const files = {
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'core/core.module.ts'
+                },
+                {
+                    file: 'core/index.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'core/index.ts'
                 },
                 {
                     file: 'home/home.component.ts.ejs',
@@ -276,6 +281,8 @@ module.exports = class extends BaseGenerator {
 
                 // setup config
                 utils.copyObjectProps(this, this.config);
+                this.skipUserManagement = this.config.skipUserManagement || this.options['skip-user-management'];
+                this.enableI18nRTL = this.isI18nRTLSupportNecessary(this.languages);
                 this.useConfigurationFile = false;
                 this.env.options.appPath = this.appPath || constants.CLIENT_MAIN_SRC_DIR;
                 this.capitalizedBaseName = _.upperFirst(this.baseName);

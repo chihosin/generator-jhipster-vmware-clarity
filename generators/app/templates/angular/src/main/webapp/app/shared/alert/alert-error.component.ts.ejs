@@ -34,7 +34,7 @@ export class <%=jhiPrefixCapitalized%>AlertErrorComponent implements OnDestroy {
         this.alerts = [];
 
         this.cleanHttpErrorListener = eventManager.subscribe('<%=angularAppName%>.httpError',
-            (response) => {
+            response => {
                 let i;
                 const httpErrorResponse = response.content;
                 switch (httpErrorResponse.status) {
@@ -47,7 +47,7 @@ export class <%=jhiPrefixCapitalized%>AlertErrorComponent implements OnDestroy {
                         const arr = httpErrorResponse.headers.keys();
                         let errorHeader = null;
                         let entityKey = null;
-                        arr.forEach((entry) => {
+                        arr.forEach(entry => {
                             if (entry.endsWith('app-error')) {
                                 errorHeader = httpErrorResponse.headers.get(entry);
                             } else if (entry.endsWith('app-params')) {

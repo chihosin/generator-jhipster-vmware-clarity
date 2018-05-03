@@ -40,11 +40,11 @@ export class SidebarComponent implements OnInit {
 
     ngOnInit() {
         <%_ if (enableTranslation) { _%>
-        this.languageHelper.getAll().then((languages) => {
+        this.languageHelper.getAll().then(languages => {
             this.languages = languages;
         });
         <%_ } _%>
-        this.profileService.getProfileInfo().then((profileInfo) => {
+        this.profileService.getProfileInfo().then(profileInfo => {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
         });

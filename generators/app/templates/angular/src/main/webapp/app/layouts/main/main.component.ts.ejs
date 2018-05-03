@@ -33,7 +33,7 @@ export class <%=jhiPrefixCapitalized%>MainComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.router.events.subscribe((event) => {
+        this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
                 <%_ if (enableTranslation) { _%>
                 this.jhiLanguageHelper.updateTitle(this.getPageTitle(this.router.routerState.snapshot.root));

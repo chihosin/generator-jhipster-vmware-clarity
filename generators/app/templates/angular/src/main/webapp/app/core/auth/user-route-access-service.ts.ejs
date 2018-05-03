@@ -29,14 +29,14 @@ export class UserRouteAccessService implements CanActivate {
 
     checkLogin(authorities: string[], url: string): Promise<boolean> {
         const principal = this.principal;
-        return Promise.resolve(principal.identity().then((account) => {
+        return Promise.resolve(principal.identity().then(account => {
 
             if (!authorities || authorities.length === 0) {
                 return true;
             }
 
             if (account) {
-                return principal.hasAnyAuthority(authorities).then((response) => {
+                return principal.hasAnyAuthority(authorities).then(response => {
                     if (response) {
                         return true;
                     }
