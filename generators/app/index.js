@@ -261,6 +261,54 @@ const files = {
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'shared/shared-libs.module.ts'
+                },
+                {
+                    file: 'shared/util/datepicker-adapter.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'shared/util/datepicker-adapter.ts'
+                },
+                {
+                    file: 'admin/health/health.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'admin/health/health.component.ts'
+                },
+                {
+                    file: 'admin/health/health-modal.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'admin/health/health-modal.component.ts'
+                },
+                {
+                    file: 'admin/metrics/metrics.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'admin/metrics/metrics.component.ts'
+                },
+                {
+                    file: 'admin/metrics/metrics-modal.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'admin/metrics/metrics-modal.component.ts'
+                },
+                {
+                    file: 'admin/user-management/user-management-delete-dialog.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'admin/user-management/user-management-delete-dialog.component.html'
+                },
+                {
+                    file: 'admin/user-management/user-management-delete-dialog.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'admin/user-management/user-management-delete-dialog.component.ts'
+                },
+                {
+                    file: 'admin/admin.module.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'admin/admin.module.ts'
                 }
             ]
         }

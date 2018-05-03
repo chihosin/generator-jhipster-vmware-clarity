@@ -1,0 +1,63 @@
+<clr-modal [(clrModalOpen)]="opened" [clrModalSize]="'sm'" *ngIf="item">
+    <h3 class="modal-title" jhiTranslate="entity.delete.title">Confirm delete operation</h3>
+    <div class="modal-body">
+        <p jhiTranslate="userManagement.delete.question"
+           translateValues="{name: '{{item.name}}'}">
+            Are you sure you want to delete this User?
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="opened=false;">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="confirmDelete(item.login)">Ok</button>
+    </div>
+</clr-modal>
+<clr-modal *ngIf="list"
+           [(clrModalOpen)]="opened"
+           [clrModalSize]="'lg'"
+           [clrModalStaticBackdrop]="progressState != 'READY'"
+           [clrModalClosable]="progressState != 'IN_PROGRESS'">
+    <h3 class="modal-title" jhiTranslate="entity.delete.title">Confirm delete operation</h3>
+    <div class="modal-body">
+        <p *ngIf="progressState == 'READY'"
+           jhiTranslate="userManagement.batchDelete.question"
+           translateValues="{count: '{{list.length}}'}">
+            Are you sure you want to delete this User?
+        </p>
+        <h4 *ngIf="progressState == 'SUCCESS'"
+            jhiTranslate="userManagement.batchDelete.success"
+            translateValues="{count: '{{list.length}}'}">
+            Success
+        </h4>
+        <h4 *ngIf="progressState == 'ERROR'"
+            jhiTranslate="userManagement.batchDelete.error"
+            translateValues="{index: '{{progressValue+1}}', count: '{{list.length-(progressValue-1)}}',name: '{{list[progressValue].name}}'}">
+            Error
+        </h4>
+        <h4 *ngIf="progressState == 'IN_PROGRESS'"
+            jhiTranslate="userManagement.batchDelete.progress"
+            translateValues="{index: '{{progressValue+1}}', count: '{{list.length-(progressValue+1)}}',name: '{{list[progressValue].name}}'}">
+            Removing...
+        </h4>
+        <div *ngIf="progressState != 'READY'"
+             class="progress labeled"
+             [class.danger]="progressState == 'ERROR'"
+             [class.success]="progressState == 'SUCCESS'">
+            <progress max="{{list.length}}"
+                      value="{{progressState == 'SUCCESS'? list.length :progressValue}}"></progress>
+            <span>{{(progressState == 'SUCCESS'? list.length : progressValue) / list.length | percent}}</span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button *ngIf="progressState == 'READY'" type="button" class="btn btn-outline" (click)="opened=false;">
+            {{'entity.action.cancel' | translate}}
+        </button>
+        <button *ngIf="progressState == 'READY'" type="button" class="btn btn-primary" (click)="confirmBatchDelete()">
+            {{'entity.action.confirm' | translate}}
+        </button>
+        <button *ngIf="progressState == 'SUCCESS' || progressState == 'ERROR' " type="button"
+                class="btn btn-primary"
+                (click)="opened=false;">
+            {{'entity.action.confirm' | translate}}
+        </button>
+    </div>
+</clr-modal>

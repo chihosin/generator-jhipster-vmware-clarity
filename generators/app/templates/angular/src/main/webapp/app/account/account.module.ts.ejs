@@ -22,7 +22,7 @@ import {
     SettingsComponent,
     accountState,
     // added for clarity
-    LoginComponent
+    LoginComponent,
 } from './';
 
 @NgModule({
@@ -40,7 +40,9 @@ import {
         <%_ if (authenticationType === 'session') { _%>
         SessionsComponent,
         <%_ } _%>
-        SettingsComponent
+        SettingsComponent,
+        // added for clarity
+        LoginComponent,
     ],
     providers: [
         <%_ if (authenticationType === 'session') { _%>
