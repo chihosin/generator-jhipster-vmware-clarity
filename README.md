@@ -46,12 +46,14 @@ npm update -g generator-jhipster-vmware-clarity
 
 # License
 
-MIT © [Chiho Sin]()
+MIT © [Chiho Sin](https://github.com/chihosin)
 
 
 [npm-image]: https://img.shields.io/npm/v/generator-jhipster-vmware-clarity.svg
 [npm-url]: https://npmjs.org/package/generator-jhipster-vmware-clarity
-[travis-image]: https://travis-ci.org/chihosin/generator-jhipster-vmware-clarity.svg?branch=master
-[travis-url]: https://travis-ci.org/chihosin/generator-jhipster-vmware-clarity
+[travis-image]: https://travis-ci.org/ChihoSin/generator-jhipster-vmware-clarity.svg?branch=master
+[travis-url]: https://travis-ci.org/ChihoSin/generator-jhipster-vmware-clarity
 [daviddm-image]: https://david-dm.org/chihosin/generator-jhipster-vmware-clarity.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/chihosin/generator-jhipster-vmware-clarity
+
+[![Build Status](https://travis-ci.org/ChihoSin/generator-jhipster-vmware-clarity.svg?branch=master)](https://travis-ci.org/ChihoSin/generator-jhipster-vmware-clarity)
