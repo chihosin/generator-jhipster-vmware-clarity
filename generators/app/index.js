@@ -309,6 +309,36 @@ const files = {
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'admin/admin.module.ts'
+                },
+                {
+                    file: 'shared/datagrid/filter/string-filter/string-filter.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'shared/datagrid/filter/string-filter/string-filter.component.ts'
+                },
+                {
+                    file: 'shared/datagrid/filter/string-filter/string-filter.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'shared/datagrid/filter/string-filter/string-filter.component.html'
+                },
+                {
+                    file: 'shared/datagrid/filter/string-filter/string-filter.component.scss.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'shared/datagrid/filter/string-filter/string-filter.component.scss'
+                },
+                {
+                    file: 'shared/shared-common.module.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'shared/shared-common.module.ts'
+                },
+                {
+                    file: 'shared/util/filter-util.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'shared/util/filter-util.ts'
                 }
             ]
         }

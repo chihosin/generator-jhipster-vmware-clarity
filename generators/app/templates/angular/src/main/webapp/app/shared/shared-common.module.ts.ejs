@@ -1,0 +1,36 @@
+import { NgModule } from '@angular/core';
+
+import {
+    <%=angularXAppName%>SharedLibsModule,
+    <%_ if (enableTranslation) { _%>
+    FindLanguageFromKeyPipe,
+    <%_ } _%>
+    <%=jhiPrefixCapitalized%>AlertComponent,
+    <%=jhiPrefixCapitalized%>AlertErrorComponent,
+    <%=jhiPrefixCapitalized%>StringFilterComponent
+} from './';
+
+@NgModule({
+    imports: [
+        <%=angularXAppName%>SharedLibsModule
+    ],
+    declarations: [
+        <%_ if (enableTranslation) { _%>
+        FindLanguageFromKeyPipe,
+        <%_ } _%>
+        <%=jhiPrefixCapitalized%>AlertComponent,
+        <%=jhiPrefixCapitalized%>AlertErrorComponent,
+        <%=jhiPrefixCapitalized%>StringFilterComponent
+    ],
+    providers: [],
+    exports: [
+        <%=angularXAppName%>SharedLibsModule,
+        <%_ if (enableTranslation) { _%>
+        FindLanguageFromKeyPipe,
+        <%_ } _%>
+        <%=jhiPrefixCapitalized%>AlertComponent,
+        <%=jhiPrefixCapitalized%>AlertErrorComponent,
+        <%=jhiPrefixCapitalized%>StringFilterComponent
+    ]
+})
+export class <%=angularXAppName%>SharedCommonModule {}

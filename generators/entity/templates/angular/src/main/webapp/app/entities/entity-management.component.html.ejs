@@ -33,10 +33,18 @@
 
     <%_ for (idx in fields) { _%>
     <clr-dg-column [clrDgField]="'<%= fields[idx].fieldName%>'"
-                   <% if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[clrDgSortOrder]="sorters.<%= fields[idx].fieldName%>"<% } %>
-                   <% if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[(clrFilterValue)]="filters.<%= fields[idx].fieldName%>"<% } %>>
+                   [clrDgSortOrder]="sorters.<%= fields[idx].fieldName%>">
         <ng-container *clrDgHideableColumn="{hidden: false}">
             {{'<%=`${i18nKeyPrefix}.${fields[idx].fieldName}` %>' | translate}}
+            <% if (fields[idx].fieldType === 'String') { %>
+            <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
+                <<%= jhiPrefixDashed %>-string-filter #<%= fields[idx].fieldName%>Filter
+                                   [clrDgField]="'<%= fields[idx].fieldName%>'"
+                                   [(clrFilterValue)]="filters.<%= fields[idx].fieldName%>"
+                >
+                </<%= jhiPrefixDashed %>-string-filter>
+            </clr-dg-filter>
+            <% } %>
         </ng-container>
     </clr-dg-column>
     <%_ } _%>
