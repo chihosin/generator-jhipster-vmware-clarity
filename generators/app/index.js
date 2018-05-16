@@ -329,6 +329,78 @@ const files = {
                     renameTo: () => 'shared/datagrid/filter/string-filter/string-filter.component.scss'
                 },
                 {
+                    file: 'shared/datagrid/filter/number-filter/number-filter.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'shared/datagrid/filter/number-filter/number-filter.component.ts'
+                },
+                {
+                    file: 'shared/datagrid/filter/number-filter/number-filter.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'shared/datagrid/filter/number-filter/number-filter.component.html'
+                },
+                {
+                    file: 'shared/datagrid/filter/number-filter/number-filter.component.scss.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'shared/datagrid/filter/number-filter/number-filter.component.scss'
+                },
+                {
+                    file: 'shared/datagrid/filter/date-filter/date-filter.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'shared/datagrid/filter/date-filter/date-filter.component.ts'
+                },
+                {
+                    file: 'shared/datagrid/filter/date-filter/date-filter.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'shared/datagrid/filter/date-filter/date-filter.component.html'
+                },
+                {
+                    file: 'shared/datagrid/filter/date-filter/date-filter.component.scss.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'shared/datagrid/filter/date-filter/date-filter.component.scss'
+                },
+                {
+                    file: 'shared/datagrid/filter/time-filter/time-filter.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'shared/datagrid/filter/time-filter/time-filter.component.ts'
+                },
+                {
+                    file: 'shared/datagrid/filter/time-filter/time-filter.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'shared/datagrid/filter/time-filter/time-filter.component.html'
+                },
+                {
+                    file: 'shared/datagrid/filter/time-filter/time-filter.component.scss.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'shared/datagrid/filter/time-filter/time-filter.component.scss'
+                },
+                {
+                    file: 'shared/datagrid/filter/date-time-filter/date-time-filter.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'shared/datagrid/filter/date-time-filter/date-time-filter.component.ts'
+                },
+                {
+                    file: 'shared/datagrid/filter/date-time-filter/date-time-filter.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'shared/datagrid/filter/date-time-filter/date-time-filter.component.html'
+                },
+                {
+                    file: 'shared/datagrid/filter/date-time-filter/date-time-filter.component.scss.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () => 'shared/datagrid/filter/date-time-filter/date-time-filter.component.scss'
+                },
+                {
                     file: 'shared/shared-common.module.ts.ejs',
                     method: 'processJs',
                     template: true,

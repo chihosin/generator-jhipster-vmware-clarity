@@ -2,361 +2,326 @@ import {forEach} from '@angular/router/src/utils/collection';
 import {NUMBER_TYPE} from '@angular/compiler/src/output/output_ast';
 
 const dateFormat = require('dateformat');
+
 export enum FilterType {
-  NUMBER = 'NUMBER',
-  NUMBER_RANGE = 'NUMBER_RANGE',
-  NUMBER_ADVANCED = 'NUMBER_ADVANCED',
-  STRING = 'STRING',
-  STRING_CONTAIN = 'STRING_CONTAIN',
-  STRING_ADVANCED = 'STRING_ADVANCED',
-  DATE = 'DATE',
-  DATE_RANGE = 'DATE_RANGE',
-  DATE_ADVANCED = 'DATE_ADVANCED',
-  TIME = 'TIME',
-  TIME_RANGE = 'TIME_RANGE',
-  TIME_ADVANCED = 'TIME_ADVANCED',
-  DATE_TIME = 'DATE_TIME',
-  DATE_TIME_RANGE = 'DATE_TIME_RANGE',
-  DATE_TIME_ADVANCED = 'DATE_TIME_ADVANCED',
+    NUMBER_RANGE = 'NUMBER_RANGE',
+    NUMBER_ADVANCED = 'NUMBER_ADVANCED',
+    STRING_CONTAIN = 'STRING_CONTAIN',
+    STRING_ADVANCED = 'STRING_ADVANCED',
+    DATE_RANGE = 'DATE_RANGE',
+    DATE_ADVANCED = 'DATE_ADVANCED',
+    TIME_RANGE = 'TIME_RANGE',
+    TIME_ADVANCED = 'TIME_ADVANCED',
+    DATE_TIME = 'DATE_TIME',
+    DATE_TIME_RANGE = 'DATE_TIME_RANGE',
+    DATE_TIME_ADVANCED = 'DATE_TIME_ADVANCED',
 }
 
 export enum FilterSymbol {
-  EQUAL = 'EQUAL', // 等于
-  NOT_EQUAL = 'NOT_EQUAL', // 不等于
-  GREATER_THAN_EQUAL = 'GREATER_THAN_EQUAL', // 大于等于
-  LESS_THAN_EQUAL = 'LESS_THAN_EQUAL', // 小于等于
-  CONTAIN = 'CONTAIN', // 包含
-  NOT_CONTAIN = 'NOT_CONTAIN', // 不包含
-  END_CONTAIN = 'END_CONTAIN', // 结尾包含
-  BEGIN_CONTAIN = 'BEGIN_CONTAIN' // 头部包含
+    EQUAL = 'EQUAL',
+    NOT_EQUAL = 'NOT_EQUAL',
+    GREATER_THAN_EQUAL = 'GREATER_THAN_EQUAL',
+    LESS_THAN_EQUAL = 'LESS_THAN_EQUAL',
+    CONTAIN = 'CONTAIN',
+    NOT_CONTAIN = 'NOT_CONTAIN',
+    END_CONTAIN = 'END_CONTAIN',
+    BEGIN_CONTAIN = 'BEGIN_CONTAIN'
 }
 
 export enum FilterRelationship {
-  AND = 'AND',
-  OR = 'OR'
+    AND = 'AND',
+    OR = 'OR'
 }
 
 export function resolveFilter(filter: any) {
-  let queryString = '';
-  switch (filter.value.type) {
-    case FilterType.NUMBER_RANGE:
-      if (filter.value.min) {
-        queryString += FilterQueryString.conditionToQueryString(filter.property, FilterSymbol.GREATER_THAN_EQUAL, filter.value.min);
-      }
-      if (filter.value.max) {
-        if (queryString !== '') {
-          queryString += ' AND ';
-        }
-        queryString += FilterQueryString.conditionToQueryString(filter.property, FilterSymbol.LESS_THAN_EQUAL, filter.value.max);
-      }
-      break;
-    case FilterType.NUMBER_ADVANCED:
-      if (filter.value.primaryValue) {
-        queryString += FilterQueryString.conditionToQueryString(filter.property, filter.value.primarySymbol, filter.value.primaryValue);
-      }
-      if (filter.value.secondaryValue) {
-        queryString += ` ${filter.value.relationship} ` + FilterQueryString.conditionToQueryString(filter.property, filter.value.secondarySymbol, filter.value.secondaryValue);
-      }
-      break;
-    case FilterType.STRING_CONTAIN:
-      if (filter.value.keyWord && filter.value.keyWord !== '') {
-        queryString += FilterQueryString.conditionToQueryString(filter.property, FilterSymbol.CONTAIN, filter.value.keyWord);
-      }
-      break;
-    case FilterType.STRING_ADVANCED:
-      if (filter.value.primaryValue && filter.value.primaryValue !== '') {
-        queryString += FilterQueryString.conditionToQueryString(filter.property, filter.value.primarySymbol, filter.value.primaryValue);
-      }
-      if (filter.value.secondaryValue && filter.value.secondaryValue !== '') {
-        queryString += ` ${filter.value.relationship} ` + FilterQueryString.conditionToQueryString(filter.property, filter.value.secondarySymbol, filter.value.secondaryValue);
-      }
-      break;
-    case FilterType.DATE_RANGE:
-      if (filter.value.min) {
-        queryString += FilterQueryString.conditionToQueryString(filter.property, FilterSymbol.GREATER_THAN_EQUAL, dateFormat(filter.value.min, 'yyyy-mm-dd'));
-      }
-      if (filter.value.max) {
-        if (queryString !== '') {
-          queryString += ' AND ';
-        }
-        queryString += FilterQueryString.conditionToQueryString(filter.property, FilterSymbol.LESS_THAN_EQUAL, dateFormat(filter.value.max, 'yyyy-mm-dd'));
-      }
-      break;
-    case FilterType.DATE_ADVANCED:
-      if (filter.value.primaryValue) {
-        queryString += FilterQueryString.conditionToQueryString(filter.property, filter.value.primarySymbol, dateFormat(filter.value.primaryValue, 'yyyy-mm-dd'));
-      }
-      if (filter.value.secondaryValue) {
-        queryString += ` ${filter.value.relationship} `
-          + FilterQueryString.conditionToQueryString(filter.property, filter.value.secondarySymbol, dateFormat(filter.value.secondaryValue, 'yyyy-mm-dd'));
-      }
-      break;
-    case FilterType.TIME_RANGE:
-      if (filter.value.min) {
-        queryString += FilterQueryString.conditionToQueryString(filter.property, FilterSymbol.GREATER_THAN_EQUAL, filter.value.min);
-      }
-      if (filter.value.max) {
-        if (queryString !== '') {
-          queryString += ' AND ';
-        }
-        queryString += FilterQueryString.conditionToQueryString(filter.property, FilterSymbol.LESS_THAN_EQUAL, filter.value.max);
-      }
-      break;
-    case FilterType.TIME_ADVANCED:
-      if (filter.value.primaryValue) {
-        queryString += FilterQueryString.conditionToQueryString(filter.property, filter.value.primarySymbol, filter.value.primaryValue);
-      }
-      if (filter.value.secondaryValue) {
-        queryString += ` ${filter.value.relationship} `
-          + FilterQueryString.conditionToQueryString(filter.property, filter.value.secondarySymbol, filter.value.secondaryValue);
-      }
-      break;
-    case FilterType.DATE_TIME_RANGE:
-      if (filter.value.min) {
-        queryString += FilterQueryString.conditionToQueryString(filter.property, FilterSymbol.GREATER_THAN_EQUAL, dateFormat(filter.value.min, 'yyyy-mm-dd\'T\'HH:MM:ss'));
-      }
-      if (filter.value.max) {
-        if (queryString !== '') {
-          queryString += ' AND ';
-        }
-        queryString += FilterQueryString.conditionToQueryString(filter.property, FilterSymbol.LESS_THAN_EQUAL, dateFormat(filter.value.max, 'yyyy-mm-dd\'T\'HH:MM:ss'));
-      }
-      break;
-    case FilterType.DATE_TIME_ADVANCED:
-      if (filter.value.primaryValue) {
-        queryString += FilterQueryString.conditionToQueryString(filter.property, filter.value.primarySymbol, dateFormat(filter.value.primaryValue, 'yyyy-mm-dd\'T\'HH:MM:ss'));
-      }
-      if (filter.value.secondaryValue) {
-        queryString += ` ${filter.value.relationship} `
-          + FilterQueryString.conditionToQueryString(filter.property, filter.value.secondarySymbol, dateFormat(filter.value.secondaryValue, 'yyyy-mm-dd\'T\'HH:MM:ss'));
-      }
-      break;
-    default:
-      queryString = `${filter.property}: *`;
-      return ;
-  }
-  return queryString === '' ? '*:*' : queryString;
-}
-
-export function assembleFilters(filter: any[], search: string, type: any) {
-  const property = Object.keys(filter);
-  const filters = FilterQueryString.queryStringSplit(search.substr(1), property);
-  property.forEach(name => {
-    const queryString = filters[name];
-    if (queryString) {
-      let data;
-      const condition = FilterQueryString.queryStringToData(name, queryString);
-      switch (type[name]) {
-        case FilterType.NUMBER:
-          data = {
-            type: FilterType.NUMBER_RANGE,
-            enableAdvancedFilter: false,
-            max: null,
-            min: null,
-            primarySymbol: null,
-            primaryValue: null,
-            secondarySymbol: null,
-            secondaryValue: null,
-            relationship: condition.relationship,
-          };
-          if (condition.relationship === FilterRelationship.AND &&
-            condition.list[0].symbol === FilterSymbol.GREATER_THAN_EQUAL &&
-            (condition.list.length < 2 || condition.list[1].symbol === FilterSymbol.LESS_THAN_EQUAL)) {
-            data.min = condition.list[0].value;
-            data.max = condition.list[1] ? condition.list[1].value : null;
-          } else if (condition.relationship === FilterRelationship.AND &&
-            condition.list.length < 2 &&
-            condition.list[0].symbol === FilterSymbol.LESS_THAN_EQUAL) {
-            data.max = condition.list[0].value;
-          } else {
-            data.type = FilterType.NUMBER_ADVANCED;
-            data.enableAdvancedFilter = true;
-            data.primarySymbol = data.min = condition.list[0].symbol;
-            data.primaryValue = data.min = condition.list[0].value;
-            if (condition.list.length > 1) {
-              data.secondarySymbol = data.min = condition.list[1].symbol;
-              data.secondaryValue = data.min = condition.list[1].value;
+    let queryString = '';
+    switch (filter.value.type) {
+        case FilterType.NUMBER_RANGE:
+            if (filter.value.min) {
+                queryString += _conditionToQueryString(filter.property, FilterSymbol.GREATER_THAN_EQUAL, filter.value.min);
             }
-          }
-          break;
-        case FilterType.STRING:
-          data = {
-            type: FilterType.STRING_CONTAIN,
-            enableAdvancedFilter: false,
-            keyWord: null,
-            primarySymbol: null,
-            primaryValue: null,
-            secondarySymbol: null,
-            secondaryValue: null,
-            relationship: condition.relationship,
-          };
-          if (condition.list.length === 1 && condition.list[0].symbol === FilterSymbol.CONTAIN) {
-            data.keyWord = condition.list[0].value;
-          } else {
-            data.enableAdvancedFilter = true;
-            data.type = FilterType.STRING_ADVANCED;
-            data.primarySymbol = condition.list[0].symbol;
-            data.primaryValue = condition.list[0].value;
-            if (condition.list.length > 1) {
-              data.secondarySymbol = condition.list[1].symbol;
-              data.secondaryValue = condition.list[1].value;
+            if (filter.value.max) {
+                if (queryString !== '') {
+                    queryString += ' AND ';
+                }
+                queryString += _conditionToQueryString(filter.property, FilterSymbol.LESS_THAN_EQUAL, filter.value.max);
             }
-          }
-          break;
-        case FilterType.DATE:
-          data = {
-            type: FilterType.DATE_RANGE,
-            enableAdvancedFilter: false,
-            max: null,
-            min: null,
-            primarySymbol: null,
-            primaryValue: null,
-            secondarySymbol: null,
-            secondaryValue: null,
-            relationship: condition.relationship,
-          };
-          if (condition.relationship === FilterRelationship.AND &&
-            condition.list[0].symbol === FilterSymbol.GREATER_THAN_EQUAL &&
-            (condition.list.length < 2 || condition.list[1].symbol === FilterSymbol.LESS_THAN_EQUAL)) {
-            data.min = condition.list[0].value;
-            data.max = condition.list[1] ? condition.list[1].value : null;
-          } else if (condition.relationship === FilterRelationship.AND &&
-            condition.list.length < 2 &&
-            condition.list[0].symbol === FilterSymbol.LESS_THAN_EQUAL) {
-            data.max = condition.list[0].value;
-          } else {
-            data.type = FilterType.DATE_ADVANCED;
-            data.enableAdvancedFilter = true;
-            data.primarySymbol = data.min = condition.list[0].symbol;
-            data.primaryValue = data.min = condition.list[0].value;
-            if (condition.list.length > 1) {
-              data.secondarySymbol = data.min = condition.list[1].symbol;
-              data.secondaryValue = data.min = condition.list[1].value;
+            break;
+        case FilterType.NUMBER_ADVANCED:
+            if (filter.value.primaryValue) {
+                queryString += _conditionToQueryString(filter.property, filter.value.primarySymbol, filter.value.primaryValue);
             }
-          }
-          break;
-        case FilterType.TIME:
-          data = {
-            type: FilterType.TIME_RANGE,
-            enableAdvancedFilter: false,
-            max: null,
-            min: null,
-            primarySymbol: null,
-            primaryValue: null,
-            secondarySymbol: null,
-            secondaryValue: null,
-            relationship: condition.relationship,
-          };
-          if (condition.relationship === FilterRelationship.AND &&
-            condition.list[0].symbol === FilterSymbol.GREATER_THAN_EQUAL &&
-            (condition.list.length < 2 || condition.list[1].symbol === FilterSymbol.LESS_THAN_EQUAL)) {
-            data.min = condition.list[0].value;
-            data.max = condition.list[1] ? condition.list[1].value : null;
-          } else if (condition.relationship === FilterRelationship.AND &&
-            condition.list.length < 2 &&
-            condition.list[0].symbol === FilterSymbol.LESS_THAN_EQUAL) {
-            data.max = condition.list[0].value;
-          } else {
-            data.type = FilterType.TIME_ADVANCED;
-            data.enableAdvancedFilter = true;
-            data.primarySymbol = data.min = condition.list[0].symbol;
-            data.primaryValue = data.min = condition.list[0].value;
-            if (condition.list.length > 1) {
-              data.secondarySymbol = data.min = condition.list[1].symbol;
-              data.secondaryValue = data.min = condition.list[1].value;
+            if (filter.value.secondaryValue) {
+                queryString += ` ${filter.value.relationship} ` + _conditionToQueryString(filter.property, filter.value.secondarySymbol, filter.value.secondaryValue);
             }
-          }
-          break;
+            break;
+        case FilterType.STRING_CONTAIN:
+            if (filter.value.keyWord && filter.value.keyWord !== '') {
+                queryString += _conditionToQueryString(filter.property, FilterSymbol.CONTAIN, filter.value.keyWord);
+            }
+            break;
+        case FilterType.STRING_ADVANCED:
+            if (filter.value.primaryValue && filter.value.primaryValue !== '') {
+                queryString += _conditionToQueryString(filter.property, filter.value.primarySymbol, filter.value.primaryValue);
+            }
+            if (filter.value.secondaryValue && filter.value.secondaryValue !== '') {
+                queryString += ` ${filter.value.relationship} ` + _conditionToQueryString(filter.property, filter.value.secondarySymbol, filter.value.secondaryValue);
+            }
+            break;
+        case FilterType.DATE_RANGE:
+            if (filter.value.min) {
+                queryString += _conditionToQueryString(filter.property, FilterSymbol.GREATER_THAN_EQUAL, dateFormat(filter.value.min, 'yyyy-mm-dd'));
+            }
+            if (filter.value.max) {
+                if (queryString !== '') {
+                    queryString += ' AND ';
+                }
+                queryString += _conditionToQueryString(filter.property, FilterSymbol.LESS_THAN_EQUAL, dateFormat(filter.value.max, 'yyyy-mm-dd'));
+            }
+            break;
+        case FilterType.DATE_ADVANCED:
+            if (filter.value.primaryValue) {
+                queryString += _conditionToQueryString(filter.property, filter.value.primarySymbol, dateFormat(filter.value.primaryValue, 'yyyy-mm-dd'));
+            }
+            if (filter.value.secondaryValue) {
+                queryString += ` ${filter.value.relationship} `
+                    + _conditionToQueryString(filter.property, filter.value.secondarySymbol, dateFormat(filter.value.secondaryValue, 'yyyy-mm-dd'));
+            }
+            break;
+        case FilterType.TIME_RANGE:
+            if (filter.value.min) {
+                queryString += _conditionToQueryString(filter.property, FilterSymbol.GREATER_THAN_EQUAL, filter.value.min);
+            }
+            if (filter.value.max) {
+                if (queryString !== '') {
+                    queryString += ' AND ';
+                }
+                queryString += _conditionToQueryString(filter.property, FilterSymbol.LESS_THAN_EQUAL, filter.value.max);
+            }
+            break;
+        case FilterType.TIME_ADVANCED:
+            if (filter.value.primaryValue) {
+                queryString += _conditionToQueryString(filter.property, filter.value.primarySymbol, filter.value.primaryValue);
+            }
+            if (filter.value.secondaryValue) {
+                queryString += ` ${filter.value.relationship} `
+                    + _conditionToQueryString(filter.property, filter.value.secondarySymbol, filter.value.secondaryValue);
+            }
+            break;
+        case FilterType.DATE_TIME_RANGE:
+            if (filter.value.min) {
+                queryString += _conditionToQueryString(filter.property, FilterSymbol.GREATER_THAN_EQUAL, dateFormat(filter.value.min, 'yyyy-mm-dd\'T\'HH:MM:ss'));
+            }
+            if (filter.value.max) {
+                if (queryString !== '') {
+                    queryString += ' AND ';
+                }
+                queryString += _conditionToQueryString(filter.property, FilterSymbol.LESS_THAN_EQUAL, dateFormat(filter.value.max, 'yyyy-mm-dd\'T\'HH:MM:ss'));
+            }
+            break;
+        case FilterType.DATE_TIME_ADVANCED:
+            if (filter.value.primaryValue) {
+                queryString += _conditionToQueryString(filter.property, filter.value.primarySymbol, dateFormat(filter.value.primaryValue, 'yyyy-mm-dd\'T\'HH:MM:ss'));
+            }
+            if (filter.value.secondaryValue) {
+                queryString += ` ${filter.value.relationship} `
+                    + _conditionToQueryString(filter.property, filter.value.secondarySymbol, dateFormat(filter.value.secondaryValue, 'yyyy-mm-dd\'T\'HH:MM:ss'));
+            }
+            break;
         default:
-          data = queryString;
-          break;
-      }
-      filter[name] = {
-        property: name,
-        value: data,
-      };
+            queryString = `${filter.property}: *`;
+            return;
     }
-  });
-  return filter;
+    return queryString === '' ? '*:*' : queryString;
 }
 
-export const FilterQueryString = {
-  conditionToQueryString(property: string, symbol: string, value: any) {
+export function encodeFiltersQueryParam(filters: any): string {
+    if (!filters) {
+        return null;
+    }
+
+    let queryString = '';
+
+    filters.forEach(filter => {
+        queryString += `;${filter.property}:`;
+        if (typeof filter.value === 'object') {
+            let str = '';
+            const keys = Object.keys(filter.value);
+            keys.forEach(name => {
+                str += ',';
+                const value = filter.value[name];
+                if (!value) {
+                } else if (typeof value === 'object') {
+                    str += escape(JSON.parse(filter.value[name]));
+                } else {
+                    str += escape(filter.value[name]);
+                }
+            });
+            queryString += str.substr(1);
+        } else {
+            queryString += escape(filter.value);
+        }
+    });
+
+    return queryString.substr(1);
+}
+
+export function decodeFiltersQueryParam(filters: any, queryString: string): any {
+    if (!queryString || queryString === '') {
+        return filters;
+    }
+    const valuesString = queryString.split(';');
+    const obj = {};
+    valuesString.forEach(valueStr => {
+        const nameAndValue = valueStr.split(':');
+        obj[nameAndValue[0]] = nameAndValue[1];
+    });
+    const property = Object.keys(obj);
+    property.forEach(name => {
+        const str = obj[name];
+        if (str.indexOf(',') > -1) {
+            const values = str.split(',');
+            const value = {};
+            const keys = Object.keys(filters[name]);
+            for (let i = 0; i < keys.length; i++) {
+                value[keys[i]] = values[i];
+            }
+            filters[name] = {
+                property: name,
+                value
+            };
+        } else {
+            filters[name] = unescape(str);
+        }
+    });
+    return filters;
+}
+
+function _conditionToQueryString(property: string, symbol: string, value: any) {
     switch (symbol) {
-      case FilterSymbol.EQUAL:
-        return `${property}:${value}`;
-      case FilterSymbol.NOT_EQUAL:
-        return isNaN(value) ? `-${property}:*${value}*` : `-${property}:${value}`;
-      case FilterSymbol.GREATER_THAN_EQUAL:
-        return `${property}:[${value} TO *]`;
-      case FilterSymbol.LESS_THAN_EQUAL:
-        return `${property}:[* TO ${value}]`;
-      case FilterSymbol.CONTAIN:
-        return `${property}:*${value}*`;
-      case FilterSymbol.NOT_CONTAIN:
-        return `${property}:!*${value}*`;
-      case FilterSymbol.END_CONTAIN:
-        return `${property}:${value}*`;
-      case FilterSymbol.BEGIN_CONTAIN:
-        return `${property}:*${value}`;
+        case FilterSymbol.EQUAL:
+            return `${property}:${value}`;
+        case FilterSymbol.NOT_EQUAL:
+            return isNaN(value) ? `-${property}:*${value}*` : `-${property}:${value}`;
+        case FilterSymbol.GREATER_THAN_EQUAL:
+            return `${property}:[${value} TO *]`;
+        case FilterSymbol.LESS_THAN_EQUAL:
+            return `${property}:[* TO ${value}]`;
+        case FilterSymbol.CONTAIN:
+            return `${property}:*${value}*`;
+        case FilterSymbol.NOT_CONTAIN:
+            return `${property}:!*${value}*`;
+        case FilterSymbol.END_CONTAIN:
+            return `${property}:${value}*`;
+        case FilterSymbol.BEGIN_CONTAIN:
+            return `${property}:*${value}`;
     }
-  },
-  queryStringToData(property: string, queryString: string) {
-    const data = {
-      relationship: '',
-      list: []
-    };
-    if (queryString.indexOf(' OR ') > -1) {
-      data.relationship = FilterRelationship.OR;
-    } else {
-      data.relationship = FilterRelationship.AND;
+}
+
+export class NumberFilterValue {
+    type: FilterType;
+    enableAdvancedFilter: boolean;
+    max: number;
+    min: number;
+    primarySymbol: FilterSymbol;
+    primaryValue: number;
+    secondarySymbol: FilterSymbol;
+    secondaryValue: number;
+    relationship: FilterRelationship;
+
+    constructor() {
+        this.type = FilterType.NUMBER_RANGE;
+        this.enableAdvancedFilter = false;
+        this.max = null;
+        this.min = null;
+        this.primarySymbol = null;
+        this.secondaryValue = null;
+        this.relationship = FilterRelationship.AND;
     }
-    const conditions = queryString.split(` ${data.relationship} `);
-    // /^aa.*bb$/
-    // 'aa122bb'.replace(/[^aa]*aa(.*)bb[^bb]*/,'$1')
-    const regularExpression = {};
-    regularExpression[FilterSymbol.EQUAL] = new RegExp(`[^${property}\\:]*${property}\\:(.*)`);
-    regularExpression[FilterSymbol.NOT_EQUAL] = new RegExp(`[^-${property}\\:]*-${property}\\:(.*)`);
-    regularExpression[FilterSymbol.GREATER_THAN_EQUAL] = new RegExp(`[^${property}:\\[]*${property}:\\[(.*) TO \\*\\][^ TO \\*\\]]*`);
-    regularExpression[FilterSymbol.LESS_THAN_EQUAL] = new RegExp(`[^${property}:\\[\\* TO ]*${property}:\\[\\* TO (.*)\\][^\\]]*`);
-    regularExpression[FilterSymbol.CONTAIN] = new RegExp(`[^${property}:\\*]*${property}:\\*(.*)\\*[^\\*]*`);
-    const sort = [
-      FilterSymbol.NOT_EQUAL,
-      FilterSymbol.GREATER_THAN_EQUAL,
-      FilterSymbol.LESS_THAN_EQUAL,
-      FilterSymbol.CONTAIN,
-      FilterSymbol.EQUAL
-    ];
-    conditions.forEach(condition => {
-      for (let i = 0; i < sort.length; i++) {
-        const symbol = sort[i];
-        const value = condition.replace(regularExpression[symbol], '$1');
-        if (value !== condition) {
-          data.list.push({
-            symbol,
-            value
-          });
-          break;
-        }
-      }
-    });
-    return data;
-  },
-  queryStringSplit(queryString: string, filtersProperty: Array<string>) {
-    const params = {};
-    const conditions = queryString.split(') AND ');
-    filtersProperty.forEach(property => {
-      params[property] = null;
-    });
-    conditions.forEach(condition => {
-      for (let i = 0; i < filtersProperty.length; i++) {
-        const property = filtersProperty[i];
-        if (condition.indexOf(`${property}:`) > -1) {
-          params[property] = condition.slice(0, condition.length);
-          break;
-        }
-      }
-    });
-    return params;
-  }
-};
+}
+
+export class StringFilterValue {
+    type: FilterType;
+    enableAdvancedFilter: boolean;
+    keyWord: string;
+    primarySymbol: FilterSymbol;
+    primaryValue: number;
+    secondarySymbol: FilterSymbol;
+    secondaryValue: number;
+    relationship: FilterRelationship;
+
+    constructor() {
+        this.type = FilterType.STRING_CONTAIN;
+        this.enableAdvancedFilter = false;
+        this.keyWord = '';
+        this.primarySymbol = null;
+        this.secondaryValue = null;
+        this.relationship = FilterRelationship.AND;
+    }
+}
+
+export class DateFilterValue {
+    type: FilterType;
+    enableAdvancedFilter: boolean;
+    max: string;
+    min: string;
+    primarySymbol: FilterSymbol;
+    primaryValue: number;
+    secondarySymbol: FilterSymbol;
+    secondaryValue: number;
+    relationship: FilterRelationship;
+
+    constructor() {
+        this.type = FilterType.DATE_RANGE;
+        this.enableAdvancedFilter = false;
+        this.max = null;
+        this.min = null;
+        this.primarySymbol = null;
+        this.secondaryValue = null;
+        this.relationship = FilterRelationship.AND;
+    }
+}
+
+export class TimeFilterValue {
+    type: FilterType;
+    enableAdvancedFilter: boolean;
+    max: string;
+    min: string;
+    primarySymbol: FilterSymbol;
+    primaryValue: number;
+    secondarySymbol: FilterSymbol;
+    secondaryValue: number;
+    relationship: FilterRelationship;
+
+    constructor() {
+        this.type = FilterType.TIME_RANGE;
+        this.enableAdvancedFilter = false;
+        this.max = null;
+        this.min = null;
+        this.primarySymbol = null;
+        this.secondaryValue = null;
+        this.relationship = FilterRelationship.AND;
+    }
+}
+
+export class DateTimeFilterValue {
+    type: FilterType;
+    enableAdvancedFilter: boolean;
+    max: string;
+    min: string;
+    primarySymbol: FilterSymbol;
+    primaryValue: number;
+    secondarySymbol: FilterSymbol;
+    secondaryValue: number;
+    relationship: FilterRelationship;
+
+    constructor() {
+        this.type = FilterType.DATE_TIME_RANGE;
+        this.enableAdvancedFilter = false;
+        this.max = null;
+        this.min = null;
+        this.primarySymbol = null;
+        this.secondaryValue = null;
+        this.relationship = FilterRelationship.AND;
+    }
+}

@@ -1,5 +1,5 @@
 <div style="width: 360px">
-  <p class="p6">{{value.enableAdvancedFilter ? '筛选器' : '字符串查找'}}</p>
+  <p class="p6">{{value.enableAdvancedFilter ? '筛选器' : '查找关键字'}}</p>
   <br/>
   <div class="spring-search row" *ngIf="value.type === stringContainType" (keyup.enter)="filterFn.open = false">
     <div class="col-sm-12">

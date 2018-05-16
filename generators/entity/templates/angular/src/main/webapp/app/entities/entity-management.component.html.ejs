@@ -45,6 +45,15 @@
                 </<%= jhiPrefixDashed %>-string-filter>
             </clr-dg-filter>
             <% } %>
+            <% if (fields[idx].fieldType === 'Integer' || fields[idx].fieldType === 'BigDecimal' || fields[idx].fieldType === 'Float' || fields[idx].fieldType === 'Double' || fields[idx].fieldType === 'Long') { %>
+                <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
+                    <<%= jhiPrefixDashed %>-number-filter #<%= fields[idx].fieldName%>Filter
+                                       [clrDgField]="'<%= fields[idx].fieldName%>'"
+                                       [(clrFilterValue)]="filters.<%= fields[idx].fieldName%>"
+                    >
+                    </<%= jhiPrefixDashed %>-number-filter>
+                </clr-dg-filter>
+                <% } %>
         </ng-container>
     </clr-dg-column>
     <%_ } _%>
