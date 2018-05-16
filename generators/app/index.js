@@ -293,6 +293,12 @@ const files = {
                     renameTo: () => 'admin/metrics/metrics-modal.component.ts'
                 },
                 {
+                    file: 'admin/user-management/user-management.route.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () => 'admin/user-management/user-management.route.ts'
+                },
+                {
                     file: 'admin/user-management/user-management-delete-dialog.component.html.ejs',
                     method: 'processHtml',
                     template: true,
