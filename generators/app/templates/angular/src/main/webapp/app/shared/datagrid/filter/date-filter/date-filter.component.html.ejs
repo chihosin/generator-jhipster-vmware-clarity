@@ -1,0 +1,69 @@
+<div style="width: 360px">
+  <p class="p6">{{value.enableAdvancedFilter ? '筛选器' : '日期范围'}}</p>
+  <br/>
+  <div class="date-range row" *ngIf="value.type === dateRangeType" (keyup.enter)="filterFn.open = false">
+    <div class="col-sm-12">
+      <input type="date" placeholder="开始日期" [(ngModel)]="value.min" (ngModelChange)="submit()" clrDate/>
+      <b>~</b>
+      <input type="date" placeholder="结束日期" [(ngModel)]="value.max" (ngModelChange)="submit()" clrDate/>
+    </div>
+  </div>
+
+  <div class="advanced-filter" *ngIf="value.type === dateAdvancedType" (keyup.enter)="filterFn.open = false">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="select condition">
+          <select [(ngModel)]="value.primarySymbol" (ngModelChange)="submit()">
+            <option [value]="null">请选择</option>
+            <option value="EQUAL">等于</option>
+            <option value="NOT_EQUAL">不等于</option>
+            <option value="GREATER_THAN_EQUAL">大于等于</option>
+            <option value="LESS_THAN_EQUAL">小于等于</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <input type="date" [(ngModel)]="value.primaryValue" (ngModelChange)="submit()" clrDate/>
+      </div>
+    </div>
+    <div *ngIf="value.primaryValue">
+      <div class="row">
+        <div class="col-sm-12">
+          <div  class="check-box">
+            <div class="radio-inline">
+              <input type="radio" name="relationship" id="and-radio-box" value="AND" [(ngModel)]="value.relationship" (ngModelChange)="submit()">
+              <label for="and-radio-box">并且</label>
+            </div>
+            <div class="radio-inline" style="margin-left: 10px">
+              <input type="radio" name="relationship" id="or-radio-box" value="OR" [(ngModel)]="value.relationship" (ngModelChange)="submit()">
+              <label for="or-radio-box">或者</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="select condition">
+            <select [(ngModel)]="value.secondarySymbol" (ngModelChange)="submit()">
+              <option [value]="null">请选择</option>
+              <option value="EQUAL">等于</option>
+              <option value="NOT_EQUAL">不等于</option>
+              <option value="GREATER_THAN_EQUAL">大于等于</option>
+              <option value="LESS_THAN_EQUAL">小于等于</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-8">
+          <input type="date" [(ngModel)]="value.secondaryValue" (ngModelChange)="submit()" clrDate/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="toggle-switch">
+      <input type="checkbox" id="filter-switch" [(ngModel)]="value.enableAdvancedFilter" (ngModelChange)="submit()">
+      <label for="filter-switch" style="line-height: 24px">筛选器</label>
+    </div>
+  </div>
+</div>

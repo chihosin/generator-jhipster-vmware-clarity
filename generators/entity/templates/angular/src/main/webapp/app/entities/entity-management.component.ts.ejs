@@ -18,6 +18,8 @@ import { ClrDatagridSortOrder, ClrDatagridStateInterface } from '@clr/angular';
 import { SEARCH_DEBOUNCE_TIME } from 'app/shared/constants/load.constants';
 import { <%= entityAngularName %>Service } from './<%= entityFileName %>.service';
 
+import { decodeFiltersQueryParam, encodeFiltersQueryParam, resolveFilter} from 'app/shared/util/filter-util';
+
 @Component({
     selector: '<%= jhiPrefixDashed %>-<%= entityFileName %>',
     templateUrl: './<%= entityFileName %>.component.html'

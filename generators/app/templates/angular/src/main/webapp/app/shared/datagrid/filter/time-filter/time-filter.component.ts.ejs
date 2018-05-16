@@ -1,0 +1,53 @@
+import {Component, OnInit, OnDestroy, Input, Output, EventEmitter} from '@angular/core';
+import {Subject} from 'rxjs/Subject';
+import {ClrDatagridFilter, ClrDatagridFilterInterface} from '@clr/angular';
+import {FilterRelationship, FilterType, TimeFilterValue} from 'app/shared/util/filter-util';
+
+@Component({
+    selector: '<%= jhiPrefixDashed %>-time-filter',
+    templateUrl: './time-filter.component.html',
+    styleUrls: [
+        './time-filter.component.scss'
+    ]
+})
+export class <%=jhiPrefixCapitalized%>TimeFilterComponent implements ClrDatagridFilterInterface<any> {
+    @Output('clrFilterValueChange') clrFilterValueChange = new EventEmitter();
+    changes = new Subject<any>();
+    property: string;
+    value: any;
+    timeRangeType = FilterType.TIME_RANGE;
+    timeAdvancedType = FilterType.TIME_ADVANCED;
+
+    constructor(public filterFn: ClrDatagridFilter) {
+        this.filterFn.setFilter(this);
+        this.value = new TimeFilterValue();
+    }
+
+    @Input('clrDgField')
+    public set field(field: string) {
+        if (typeof field === 'string') {
+            this.property = field;
+        }
+    }
+
+    @Input('clrFilterValue')
+    public set clrFilterValue(filter: any) {
+        if (filter && filter.value) {
+            this.value = filter.value;
+        }
+    }
+
+    isActive(): boolean {
+        return this.value && (this.value.max || this.value.min || this.value.primaryValue);
+    }
+
+    accepts(item: any): boolean {
+        return false;
+    }
+
+    submit() {
+        this.value.type = this.value.enableAdvancedFilter ? this.timeAdvancedType : this.timeRangeType;
+        this.changes.next(true);
+    }
+
+}

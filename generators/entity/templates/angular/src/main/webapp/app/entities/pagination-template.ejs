@@ -67,9 +67,8 @@
             this.activatedRoute.snapshot.params['search'] : '';
         <%_ } _%>
 
-        if (this.currentSearch) {
-            // rebuild your filters from route data
-        }
+        this.filters = decodeFiltersQueryParam(this.filters, activatedRoute.queryParams['value'].query);
+
         this.loading = true;
         this.selected = [];
         this.searchDebounce = new Subject<ClrDatagridStateInterface>();
@@ -91,7 +90,7 @@
             switch (filter['property']) {
               <%_ for (idx in fields) { _%>
               case '<%= fields[idx].fieldName %>':
-                this.currentSearch += '<%= fields[idx].fieldName %>:*' + filter['value'] + '* AND ';
+                this.currentSearch += `(${resolveFilter(filter)}) AND `;
                 break;
               <%_ } _%>
             }
@@ -104,7 +103,7 @@
         queryParams: {
           page: this.page,
           size: this.itemsPerPage,
-          query: this.currentSearch,
+          query: encodeFiltersQueryParam(state.filters),
           sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
         }
       });

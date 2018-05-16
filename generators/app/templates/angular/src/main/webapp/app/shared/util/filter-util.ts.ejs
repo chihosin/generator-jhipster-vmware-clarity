@@ -1,6 +1,3 @@
-import {forEach} from '@angular/router/src/utils/collection';
-import {NUMBER_TYPE} from '@angular/compiler/src/output/output_ast';
-
 const dateFormat = require('dateformat');
 
 export enum FilterType {
@@ -143,7 +140,7 @@ export function encodeFiltersQueryParam(filters: any): string {
     let queryString = '';
 
     filters.forEach(filter => {
-        queryString += `;${filter.property}:`;
+        queryString += `;${filter.property},`;
         if (typeof filter.value === 'object') {
             let str = '';
             const keys = Object.keys(filter.value);
@@ -170,29 +167,43 @@ export function decodeFiltersQueryParam(filters: any, queryString: string): any 
     if (!queryString || queryString === '') {
         return filters;
     }
-    const valuesString = queryString.split(';');
-    const obj = {};
-    valuesString.forEach(valueStr => {
-        const nameAndValue = valueStr.split(':');
-        obj[nameAndValue[0]] = nameAndValue[1];
-    });
-    const property = Object.keys(obj);
-    property.forEach(name => {
-        const str = obj[name];
-        if (str.indexOf(',') > -1) {
-            const values = str.split(',');
-            const value = {};
-            const keys = Object.keys(filters[name]);
-            for (let i = 0; i < keys.length; i++) {
-                value[keys[i]] = values[i];
-            }
-            filters[name] = {
-                property: name,
-                value
-            };
-        } else {
-            filters[name] = unescape(str);
+    const stringArray = queryString.split(';');
+    stringArray.forEach(valueStr => {
+        const valuesString = valueStr.split(',');
+        let property;
+        let value = {};
+        let keys = [];
+        if (valuesString.length === 2) {
+            filters[valuesString[0]] = unescape(valuesString[1]);
+            return;
         }
+        for (let i = 0; i < valuesString.length; i++) {
+            if (i === 0) {
+                property = valuesString[i];
+            } else if (i === 1) {
+                if (valuesString[i] === FilterType.STRING_CONTAIN || valuesString[i] === FilterType.STRING_ADVANCED) {
+                    value = new StringFilterValue();
+                } else if (valuesString[i] === FilterType.NUMBER_RANGE || valuesString[i] === FilterType.NUMBER_ADVANCED) {
+                    value = new NumberFilterValue();
+                } else if (valuesString[i] === FilterType.DATE_RANGE || valuesString[i] === FilterType.DATE_ADVANCED) {
+                    value = new DateFilterValue();
+                } else if (valuesString[i] === FilterType.TIME_RANGE || valuesString[i] === FilterType.TIME_ADVANCED) {
+                    value = new TimeFilterValue();
+                } else if (valuesString[i] === FilterType.DATE_TIME_RANGE || valuesString[i] === FilterType.DATE_TIME_ADVANCED) {
+                    value = new DateTimeFilterValue();
+                } else {
+                    continue;
+                }
+                keys = Object.keys(value);
+                value[keys[i - 1]] = unescape(valuesString[i]);
+            } else {
+                value[keys[i - 1]] = unescape(valuesString[i]);
+            }
+        }
+        filters[property] = {
+            property,
+            value
+        };
     });
     return filters;
 }

@@ -30,31 +30,38 @@
             {{'global.field.id' | translate }}
         </ng-container>
     </clr-dg-column>
-
     <%_ for (idx in fields) { _%>
     <clr-dg-column [clrDgField]="'<%= fields[idx].fieldName%>'"
                    [clrDgSortOrder]="sorters.<%= fields[idx].fieldName%>">
-        <ng-container *clrDgHideableColumn="{hidden: false}">
-            {{'<%=`${i18nKeyPrefix}.${fields[idx].fieldName}` %>' | translate}}
-            <% if (fields[idx].fieldType === 'String') { %>
-            <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
-                <<%= jhiPrefixDashed %>-string-filter #<%= fields[idx].fieldName%>Filter
-                                   [clrDgField]="'<%= fields[idx].fieldName%>'"
-                                   [(clrFilterValue)]="filters.<%= fields[idx].fieldName%>"
-                >
-                </<%= jhiPrefixDashed %>-string-filter>
-            </clr-dg-filter>
-            <% } %>
-            <% if (fields[idx].fieldType === 'Integer' || fields[idx].fieldType === 'BigDecimal' || fields[idx].fieldType === 'Float' || fields[idx].fieldType === 'Double' || fields[idx].fieldType === 'Long') { %>
-                <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
-                    <<%= jhiPrefixDashed %>-number-filter #<%= fields[idx].fieldName%>Filter
-                                       [clrDgField]="'<%= fields[idx].fieldName%>'"
-                                       [(clrFilterValue)]="filters.<%= fields[idx].fieldName%>"
-                    >
-                    </<%= jhiPrefixDashed %>-number-filter>
-                </clr-dg-filter>
-                <% } %>
-        </ng-container>
+                   {{'<%=`${i18nKeyPrefix}.${fields[idx].fieldName}` %>' | translate}}
+                   <%_ if (fields[idx].fieldName === 'id') { _%>
+                       <ng-container *clrDgHideableColumn="{hidden: false}">
+                           </ng-container>
+                   <%_ } else if (fields[idx].fieldType === 'String') { _%>
+                   <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
+                       <<%= jhiPrefixDashed %>-string-filter #<%= fields[idx].fieldName%>Filter
+                                          [clrDgField]="'<%= fields[idx].fieldName%>'"
+                                          [(clrFilterValue)]="filters.<%= fields[idx].fieldName%>"
+                       >
+                       </<%= jhiPrefixDashed %>-string-filter>
+                   </clr-dg-filter>
+                   <%_ } else if (fields[idx].fieldType === 'Integer' || fields[idx].fieldType === 'BigDecimal' || fields[idx].fieldType === 'Float' || fields[idx].fieldType === 'Double' || fields[idx].fieldType === 'Long') { _%>
+                       <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
+                           <<%= jhiPrefixDashed %>-number-filter #<%= fields[idx].fieldName%>Filter
+                                              [clrDgField]="'<%= fields[idx].fieldName%>'"
+                                              [(clrFilterValue)]="filters.<%= fields[idx].fieldName%>"
+                           >
+                           </<%= jhiPrefixDashed %>-number-filter>
+                       </clr-dg-filter>
+                   <%_ } else if (fields[idx].fieldType === 'Instant') { _%>
+                       <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
+                           <<%= jhiPrefixDashed %>-date-filter #<%= fields[idx].fieldName%>Filter
+                                              [clrDgField]="'<%= fields[idx].fieldName%>'"
+                                              [(clrFilterValue)]="filters.<%= fields[idx].fieldName%>"
+                           >
+                           </<%= jhiPrefixDashed %>-date-filter>
+                       </clr-dg-filter>
+                   <%_ } _%>
     </clr-dg-column>
     <%_ } _%>
 
