@@ -62,4 +62,11 @@ export class <%=jhiPrefixCapitalized%>NumberFilterComponent implements ClrDatagr
         this.changes.next(true);
     }
 
+    close(event) {
+        const  inputs = event.currentTarget.getElementsByTagName('input');
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].blur();
+        }
+        this.filterFn.open = false;
+    }
 }
