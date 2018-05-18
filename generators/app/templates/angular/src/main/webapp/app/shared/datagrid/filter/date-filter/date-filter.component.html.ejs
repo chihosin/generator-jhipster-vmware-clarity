@@ -1,7 +1,7 @@
-<div style="width: 360px">
+<div style="width: 360px" (keyup.enter)="close($event)">
   <p class="p6">{{value.enableAdvancedFilter ? '筛选器' : '日期范围'}}</p>
   <br/>
-  <div class="date-range row" *ngIf="value.type === dateRangeType" (keyup.enter)="filterFn.open = false">
+  <div class="date-range row" *ngIf="value.type === dateRangeType">
     <div class="col-sm-12">
       <input type="date" placeholder="开始日期" [(ngModel)]="value.min" (ngModelChange)="submit()" clrDate/>
       <b>~</b>
@@ -9,7 +9,7 @@
     </div>
   </div>
 
-  <div class="advanced-filter" *ngIf="value.type === dateAdvancedType" (keyup.enter)="filterFn.open = false">
+  <div class="advanced-filter" *ngIf="value.type === dateAdvancedType">
     <div class="row">
       <div class="col-sm-4">
         <div class="select condition">
