@@ -2,7 +2,6 @@
 
 const path = require('path');
 const fse = require('fs-extra');
-const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 
 describe('JHipster generator vmware-clarity', () => {
@@ -17,16 +16,9 @@ describe('JHipster generator vmware-clarity', () => {
                     testmode: true
                 })
                 .withPrompts({
-                    message: 'simple message to say hello'
+                    message: 'Test mode'
                 })
                 .on('end', done);
-        });
-
-        it('generate dummy.txt file', () => {
-            assert.file([
-                // 'dummy-maven.txt',
-                // 'dummy-angularX.txt',
-            ]);
         });
     });
 });

@@ -1,7 +1,7 @@
 {
   "name": "generator-jhipster-vmware-clarity",
-  "version": "1.0.0",
-  "description": "Clarity Design System for Angular.",
+  "version": "1.0.1",
+  "description": "A JHipster module that create VMWare Clarity Design UI framework for Angular client.",
   "keywords": [
     "yeoman-generator",
     "jhipster-module",
@@ -13,7 +13,7 @@
   "author": {
     "name": "Chiho Sin",
     "email": "chihosin@icloud.com",
-    "url": ""
+    "url": "https://github.com/chihosin"
   },
   "files": [
     "generators"
