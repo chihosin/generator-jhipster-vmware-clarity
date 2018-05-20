@@ -22,6 +22,11 @@ import {
     <%_ } _%>
 } from './';
 
+import { <%= entityAngularName %>SelectModalComponent } from './<%= entityFileName %>-select-modal.component';
+<%_ for (idx in relationships) { _%>
+import { <%=relationships[idx].otherEntityAngularName%>FilterComponent } from 'app/entities/<%=relationships[idx].otherEntityClientRootFolder%>/<%=relationships[idx].otherEntityFileName%>/<%=relationships[idx].otherEntityFileName%>-filter.component';
+<%_ } _%>
+
 const ENTITY_STATES = [
     ...<%= entityInstance %>Route,
     ...<%= entityInstance %>PopupRoute,
@@ -41,6 +46,10 @@ const ENTITY_STATES = [
         <%= entityAngularName %>DetailComponent,
         <%= entityAngularName %>UpdateComponent,
         <%= entityAngularName %>DeleteDialogComponent,
+        <%= entityAngularName %>SelectModalComponent,
+        <%_ for (idx in relationships) { _%>
+        <%=relationships[idx].otherEntityAngularName%>FilterComponent
+        <%_ } _%>
     ],
     entryComponents: [
         <%= entityAngularName %>Component,
@@ -54,6 +63,12 @@ const ENTITY_STATES = [
         <%= entityAngularName %>ResolvePagingParams,
         <%_ } else if (pagination === 'no') {_%>
         <%= entityAngularName %>ResolveNoPagingParams,
+        <%_ } _%>
+    ],
+    exports: [
+        <%= entityAngularName %>SelectModalComponent,
+        <%_ for (idx in relationships) { _%>
+        <%=relationships[idx].otherEntityAngularName%>FilterComponent
         <%_ } _%>
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

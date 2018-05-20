@@ -1,0 +1,121 @@
+import {Component, OnInit, OnDestroy, Input, Output, EventEmitter} from '@angular/core';
+import {Subject} from 'rxjs/Subject';
+import {ClrDatagridFilter, ClrDatagridFilterInterface} from '@clr/angular';
+import {FilterRelationship, FilterType, SelectFilterValue, StringFilterValue} from 'app/shared/util/filter-util';
+import {Router} from '@angular/router';
+import {<%= entityAngularName %>SelectModalService} from 'app/entities/employee/<%= entityFileName %>/<%= entityFileName %>-select-modal.service';
+import {<%= entityAngularName %>Service} from 'app/entities/employee/<%= entityFileName %>/<%= entityFileName %>.service';
+import {HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http';
+import {I<%= entityAngularName %>} from 'app/shared/model/employee/<%= entityFileName %>.model';
+import {JhiAlertService} from 'ng-jhipster';
+
+@Component({
+    selector: 'jhi-<%= entityFileName %>-filter',
+    templateUrl: './<%= entityFileName %>-filter.component.html',
+    styleUrls: [
+        './<%= entityFileName %>-filter.component.scss'
+    ]
+})
+export class <%= entityAngularName %>FilterComponent implements ClrDatagridFilterInterface<any> {
+    @Output('clrFilterValueChange') clrFilterValueChange = new EventEmitter();
+    changes = new Subject<any>();
+    property: string;
+    value: SelectFilterValue;
+    selected: Array<I<%= entityAngularName %>>;
+
+    constructor(public filterFn: ClrDatagridFilter,
+                private router: Router,
+                private jhiAlertService: JhiAlertService,
+                private <%= entityInstance %>SelectModalService: <%= entityAngularName %>SelectModalService,
+                private <%= entityInstance %>Service: <%= entityAngularName %>Service
+                ) {
+        this.filterFn.setFilter(this);
+        this.value = new SelectFilterValue();
+        this.selected = [];
+    }
+
+    @Input('clrDgField')
+    public set field(field: string) {
+        if (typeof field === 'string') {
+            this.property = field;
+        }
+    }
+
+    @Input('clrFilterValue')
+    public set clrFilterValue(filter: any) {
+        if (filter && filter.value) {
+            this.value = filter.value;
+            if (filter.value.selected.length > 0) {
+                let queryString = '';
+                filter.value.selected.forEach(id => {
+                    if (queryString === '') {
+                        queryString += `id:${id}`;
+                    } else {
+                        queryString += ` OR id:${id}`;
+                    }
+                });
+                this.<%= entityInstance %>Service.search({
+                    page: 0,
+                    query: queryString,
+                    size: 100
+                }).subscribe(
+                    (res: HttpResponse<I<%= entityAngularName %>[]>) => this.selected = res.body,
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                );
+            }
+        }
+    }
+
+    isActive(): boolean {
+        return this.value && this.value.selected.length > 0;
+    }
+
+    accepts(item: any): boolean {
+        return false;
+    }
+
+    openSelectModal() {
+        this.<%= entityInstance %>SelectModalService.selected = this.selected;
+        this.<%= entityInstance %>SelectModalService.submitEvent.subscribe((selected: Array<any>) => {
+            const values = [];
+            selected.forEach(item => {
+               values.push(item.id);
+            });
+            this.value.selected = values;
+            this.selected = selected;
+            this.changes.next(true);
+            this.filterFn.open = false;
+        });
+        this.<%= entityInstance %>SelectModalService.closeEvent.subscribe(() => this.filterFn.open = false);
+        this.router.navigate([
+                {
+                    outlets:
+                        {
+                            popup: `employee/${this.property.split('.')[0].replace(/([A-Z])/g, '-$1').toLowerCase()}/select`
+                        }
+                }
+            ]
+        );
+    }
+
+    removeAll() {
+        this.selected = [];
+        this.value.selected = [];
+        this.changes.next(true);
+    }
+
+    remove(item: I<%= entityAngularName %>) {
+        for (let i = 0; i < this.selected.length; i++) {
+            if (item.id === this.selected[i].id) {
+                this.selected.splice(i, 1);
+                this.value.selected.splice(i, 1);
+                break;
+            }
+        }
+        this.changes.next(true);
+    }
+
+    private onError(errorMessage: string) {
+        this.jhiAlertService.error(errorMessage, null, null);
+    }
+}

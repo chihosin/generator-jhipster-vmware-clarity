@@ -66,6 +66,48 @@ const angularFiles = {
                     template: true,
                     renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}.module.ts`
                 },
+                {
+                    file: 'entities/entity-filter.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-filter.component.html`
+                },
+                {
+                    file: 'entities/entity-filter.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-filter.component.ts`
+                },
+                {
+                    file: 'entities/entity-filter.component.scss.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-filter.component.scss`
+                },
+                {
+                    file: 'entities/entity-select-modal.component.html.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-select-modal.component.html`
+                },
+                {
+                    file: 'entities/entity-select-modal.component.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-select-modal.component.ts`
+                },
+                {
+                    file: 'entities/entity-select-modal.component.scss.ejs',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-select-modal.component.scss`
+                },
+                {
+                    file: 'entities/entity-select-modal.service.ts.ejs',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-select-modal.service.ts`
+                },
             ]
         }
     ]

@@ -12,6 +12,7 @@ export enum FilterType {
     DATE_TIME = 'DATE_TIME',
     DATE_TIME_RANGE = 'DATE_TIME_RANGE',
     DATE_TIME_ADVANCED = 'DATE_TIME_ADVANCED',
+    SELECT = 'SELECT',
 }
 
 export enum FilterSymbol {
@@ -125,6 +126,15 @@ export function resolveFilter(filter: any) {
                     + _conditionToQueryString(filter.property, filter.value.secondarySymbol, dateFormat(filter.value.secondaryValue, 'yyyy-mm-dd\'T\'HH:MM:ss'));
             }
             break;
+        case FilterType.SELECT:
+            filter.value.selected.forEach(id => {
+                if (queryString === '') {
+                    queryString += `${filter.property}:${id}`;
+                } else {
+                    queryString += ` OR ${filter.property}:${id}`;
+                }
+            });
+            break;
         default:
             queryString = `${filter.property}: *`;
             return;
@@ -149,7 +159,7 @@ export function encodeFiltersQueryParam(filters: any): string {
                 const value = filter.value[name];
                 if (!value) {
                 } else if (typeof value === 'object') {
-                    str += escape(JSON.parse(filter.value[name]));
+                    str += escape(JSON.stringify(filter.value[name]));
                 } else {
                     str += escape(filter.value[name]);
                 }
@@ -159,8 +169,7 @@ export function encodeFiltersQueryParam(filters: any): string {
             queryString += escape(filter.value);
         }
     });
-
-    return queryString.substr(1);
+    return queryString !== '' ? queryString.substr(1) : '';
 }
 
 export function decodeFiltersQueryParam(filters: any, queryString: string): any {
@@ -191,13 +200,20 @@ export function decodeFiltersQueryParam(filters: any, queryString: string): any 
                     value = new TimeFilterValue();
                 } else if (valuesString[i] === FilterType.DATE_TIME_RANGE || valuesString[i] === FilterType.DATE_TIME_ADVANCED) {
                     value = new DateTimeFilterValue();
+                } else if (valuesString[i] === FilterType.SELECT) {
+                    value = new SelectFilterValue();
                 } else {
                     continue;
                 }
                 keys = Object.keys(value);
                 value[keys[i - 1]] = unescape(valuesString[i]);
             } else {
-                value[keys[i - 1]] = unescape(valuesString[i]);
+                const str = unescape(valuesString[i]);
+                try {
+                    value[keys[i - 1]] = JSON.parse(str);
+                } catch (e) {
+                    value[keys[i - 1]] = str;
+                }
             }
         }
         filters[property] = {
@@ -334,5 +350,15 @@ export class DateTimeFilterValue {
         this.primarySymbol = null;
         this.secondaryValue = null;
         this.relationship = FilterRelationship.AND;
+    }
+}
+
+export class SelectFilterValue {
+    type: FilterType;
+    selected: Array<any>;
+
+    constructor() {
+        this.type = FilterType.SELECT;
+        this.selected = [];
     }
 }

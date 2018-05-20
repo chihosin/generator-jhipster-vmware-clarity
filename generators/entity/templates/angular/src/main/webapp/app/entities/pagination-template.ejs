@@ -93,6 +93,11 @@
                 this.currentSearch += `(${resolveFilter(filter)}) AND `;
                 break;
               <%_ } _%>
+              <%_ for (idx in relationships) { _%>
+              case '<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>':
+                this.currentSearch += `(${resolveFilter(filter)}) AND `;
+                break;
+              <%_ } _%>
             }
           }
         });
