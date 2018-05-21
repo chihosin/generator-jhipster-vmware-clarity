@@ -1,6 +1,6 @@
 <div class="box">
     <p class="p6">{{<% if (enableTranslation){ %>'<%= angularAppName %>.<%= entityTranslationKey %>.home.title'<% }else{ %>'<%= entityClassPlural %>'<% } %> | translate}}</p>
-    <div class="row label-group" *ngIf="this.selected.length > 0">
+    <div class="row label-group" *ngIf="selected.length > 0">
         <div class="col-sm-12">
                 <span class="label" *ngFor="let item of this.selected" (click)="remove(item)">
                     {{item.name}}
@@ -11,10 +11,14 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="foot-btn-group">
-                <button class="btn btn-sm btn-link btn-warning remove-all" (click)="removeAll()"
-                        *ngIf="this.selected.length > 0">清空
+                <button 
+                    class="btn btn-sm btn-link btn-danger-outline remove-all"
+                    (click)="removeAll()"
+                    *ngIf="selected.length > 0"
+                >
+                    清空
                 </button>
-                <button class="btn btn-outline btn-sm" (click)="openSelectDialog()">选择</button>
+                <button class="btn btn-outline btn-sm btn-link" (click)="openSelectDialog()">选择</button>
             </div>
         </div>
     </div>

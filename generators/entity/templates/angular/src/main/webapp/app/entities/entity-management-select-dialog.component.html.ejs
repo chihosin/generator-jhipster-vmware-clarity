@@ -166,8 +166,8 @@
         </clr-datagrid>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-sm btn-link btn-warning remove-all" (click)="this.selected = []">清空</button>
-        <button type="button" class="btn btn-primary" (click)="this.exampleTagSelectDialogService.submit(this.selected)">确定</button>
+        <button class="btn btn-sm btn-link btn-warning remove-all" (click)="selected = []">清空</button>
+        <button type="button" class="btn btn-primary" (click)="exampleTagSelectDialogService.submit(selected)">确定</button>
     </div>
 
 </clr-modal>
