@@ -12,7 +12,7 @@
     searchDebounce: Subject<ClrDatagridStateInterface>;
     filters: any;
     sorters: any;
-    selected: Array< I<%= entityAngularName %>>;
+    selected: Array<I<%= entityAngularName %>>;
 
     constructor(
         private <%= entityInstance %>Service: <%= entityAngularName %>Service,
@@ -21,12 +21,10 @@
         private dataUtils: JhiDataUtils,
         <%_ } _%>
         private eventManager: JhiEventManager,
-        <%_ if (searchEngine === 'elasticsearch') { _%>
-        private activatedRoute: ActivatedRoute,
-        <%_ } _%>
         private principal: Principal,
         private router: Router,
         private eventManager: JhiEventManager,
+        public <%= entityInstance %>SelectDialogService: <%= entityAngularName %>SelectDialogService
     ) {
         // added for Clarity
         this.sorters = {
@@ -41,25 +39,21 @@
           <%= fields[idx].fieldName %>:  null,
           <%_ } _%>
         };
-        this.routeData = this.activatedRoute.data.subscribe(data => {
-            this.reverse = data.pagingParams.ascending;
-            this.predicate = data.pagingParams.predicate;
-            // added for Clarity
-            if (this.predicate !== 'id') {
-              this.sorters[this.predicate] = this.reverse ? ClrDatagridSortOrder.DESC : ClrDatagridSortOrder.ASC;
-            }
-        });
-        <%_ if (searchEngine === 'elasticsearch') { _%>
-        this.currentSearch = this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ?
-            this.activatedRoute.snapshot.params['search'] : '';
-        <%_ } _%>
-
-        this.filters = decodeFiltersQueryParam(this.filters, activatedRoute.queryParams['value'].query);
         
         this.loading = true;
-        this.selected = [];
         this.searchDebounce = new Subject<ClrDatagridStateInterface>();
         this.searchDebounce.debounceTime(SEARCH_DEBOUNCE_TIME).subscribe(() => this.loadAll());
+        this.selected = this.<%= entityInstance %>SelectDialogService.selected;
+    }
+
+    get open() {
+        return true;
+    }
+
+    set open(val) {
+        if (!val) {
+            this.<%= entityInstance %>SelectDialogService.close();
+        }
     }
 
     // added for Clarity
@@ -89,13 +83,6 @@
         });
         this.currentSearch += '*:*';
       }
-
-      this.router.navigate(['/<%= microserviceName %>/<%= entityUrl %>'], {
-        queryParams: {
-          query: encodeFiltersQueryParam(state.filters),
-          sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-        }
-      });
 
       // fixed filter refresh debounce
       if (state.filters) {

@@ -1,0 +1,35 @@
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { I<%= entityAngularName %> } from 'app/shared/model/employee/<%= entityFileName %>.model';
+
+@Injectable()
+export class <%= entityAngularName %>SelectDialogService {
+    public selected: Array<I<%= entityAngularName %>>;
+    private _callBack: Function;
+    constructor(private router: Router) {
+        this.selected = [];
+    }
+    subscribe(selected: Array<I<%= entityAngularName %>>, callBack: Function) {
+        this.selected = [...(selected || [])];
+        this._callBack = callBack;
+        this.router.navigate([
+                {
+                    outlets:
+                        {
+                            popup: `employee/example-tag/select`
+                        }
+                }
+            ]
+        );
+    }
+    submit(selected: Array<I<%= entityAngularName %>>) {
+        this.router.navigate([{ outlets: { popup: null } }]).then(() => {
+            if (this._callBack) {
+                this._callBack(selected);
+            }
+        });
+    }
+    close() {
+        this.router.navigate([{ outlets: { popup: null } }]);
+    }
+}

@@ -1,0 +1,175 @@
+<clr-modal [(clrModalOpen)]="open" [clrModalStaticBackdrop]="true" [clrModalSize]="'xl'">
+    <h3 class="modal-title">选择</h3>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        
+        <div class="card card-block" *ngIf="selected.length > 0">
+            <span class="label-group-title">已选择:</span>
+            <span class="label" *ngFor="let item of selected" (click)="remove(item)">
+                {{item.name}}
+                <clr-icon shape="window-close"></clr-icon>
+            </span>
+        </div>
+        
+        <clr-datagrid
+            (clrDgRefresh)="refresh($event)"
+            [clrDgLoading]="loading"
+            [(clrDgSelected)]="selected"
+        >
+            <clr-dg-column [clrDgField]="'id'"
+                 [clrDgSortOrder]="sorters.id"
+                 [(clrFilterValue)]="filters.id">
+                <ng-container *clrDgHideableColumn="{hidden: true}">
+                    {{'global.field.id' | translate }}
+                </ng-container>
+            </clr-dg-column>
+             <%_ for (idx in fields) { _%>
+            <clr-dg-column [clrDgField]="'<%= fields[idx].fieldName%>'"
+                [clrDgSortOrder]="sorters.<%= fields[idx].fieldName%>">
+                {{'<%=`${i18nKeyPrefix}.${fields[idx].fieldName}` %>' | translate}}
+                <%_ if (fields[idx].fieldName === 'id') { _%>
+                <ng-container *clrDgHideableColumn="{hidden: false}">
+                </ng-container>
+                <%_ } else if (fields[idx].fieldType === 'String') { _%>
+                <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
+                    <<%= jhiPrefixDashed %>-string-filter #<%= fields[idx].fieldName%>Filter
+                                      [clrDgField]="'<%= fields[idx].fieldName%>'"
+                                      [(clrFilterValue)]="filters.<%= fields[idx].fieldName%>"
+                         >
+                    </<%= jhiPrefixDashed %>-string-filter>
+                </clr-dg-filter>
+                <%_ } else if (fields[idx].fieldType === 'Integer' || fields[idx].fieldType === 'BigDecimal' || fields[idx].fieldType === 'Float' || fields[idx].fieldType === 'Double' || fields[idx].fieldType === 'Long') { _%>
+                <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
+                    <<%= jhiPrefixDashed %>-number-filter #<%= fields[idx].fieldName%>Filter
+                                          [clrDgField]="'<%= fields[idx].fieldName%>'"
+                                          [(clrFilterValue)]="filters.<%= fields[idx].fieldName%>"
+                    >
+                    </<%= jhiPrefixDashed %>-number-filter>
+                </clr-dg-filter>
+                <%_ } else if (fields[idx].fieldType === 'Instant') { _%>
+                <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
+                    <<%= jhiPrefixDashed %>-date-filter #<%= fields[idx].fieldName%>Filter
+                                          [clrDgField]="'<%= fields[idx].fieldName%>'"
+                                          [(clrFilterValue)]="filters.<%= fields[idx].fieldName%>"
+                    >
+                    </<%= jhiPrefixDashed %>-date-filter>
+                </clr-dg-filter>
+                    <%_ } _%>
+            </clr-dg-column>
+            <%_ } _%>
+            <%_ for (idx in relationships) { _%>
+            <%_ if (relationships[idx].relationshipType === 'many-to-one'
+                || (relationships[idx].relationshipType === 'one-to-one' && relationships[idx].ownerSide === true)
+                || (relationships[idx].relationshipType === 'many-to-many' && relationships[idx].ownerSide === true && pagination === 'no')) {
+                const fieldName = dto === 'no' ? "." + relationships[idx].otherEntityField : relationships[idx].otherEntityFieldCapitalized;_%>
+            <clr-dg-column [clrDgField]="'<%=relationships[idx].relationshipName + (fieldName)%>'"
+                <% if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[clrDgSortOrder]="sorters.<%=relationships[idx].relationshipName%>"<% } %>
+            >
+                {{'<%=`${i18nKeyPrefix}.${relationships[idx].relationshipName}` %>' | translate}}
+            </clr-dg-column>
+            <%_ } _%>
+            <%_ } _%>
+            <clr-dg-row
+                 *ngFor="let <%=entityInstance %> of <%=entityInstancePlural %> ;trackBy: trackId"
+                [clrDgItem]="<%=entityInstance %>">
+                <clr-dg-cell>
+                    {{<%=entityInstance %>.id}}
+                </clr-dg-cell>
+                <%_ for (idx in fields) {
+                    const fieldName = fields[idx].fieldName;
+                    const fieldNameCapitalized = fields[idx].fieldNameCapitalized;
+                    const fieldType = fields[idx].fieldType;
+                    const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent; _%>
+                <%_ if (['byte[]', 'ByteBuffer'].includes(fieldType) && fieldTypeBlobContent === 'image') { _%>
+                <clr-dg-cell>
+                    <a *ngIf="<%= entityInstance %>.<%= fieldName %>" (click)="openFile(<%= entityInstance %>.<%= fieldName %>ContentType, <%= entityInstance %>.<%= fieldName %>)">
+                        <img [src]="'data:' + <%=entityInstance %>.<%=fieldName%>ContentType + ';base64,' + <%=entityInstance %>.<%=fieldName%>" style="max-height: 30px;" alt="<%=entityInstance %> image"/>
+                    </a>
+                    <span *ngIf="<%= entityInstance %>.<%= fieldName %>">{{<%= entityInstance %>.<%= fieldName %>ContentType}}, {{byteSize(<%= entityInstance %>.<%= fieldName %>)}}</span>
+                </clr-dg-cell>
+                <%_ } else if (['byte[]', 'ByteBuffer'].includes(fieldType) && fieldTypeBlobContent === 'any') { _%>
+                <clr-dg-cell>
+                    <button class="btn btn-sm btn-link" *ngIf="<%= entityInstance %>.<%= fieldName %>" (click)="openFile(<%= entityInstance %>.<%= fieldName %>ContentType, <%= entityInstance %>.<%= fieldName %>)">
+                        {{'entity.action.open' | translate}}
+                    </button>
+                    <span *ngIf="<%= entityInstance %>.<%= fieldName %>">{{<%= entityInstance %>.<%= fieldName %>ContentType}}, {{byteSize(<%= entityInstance %>.<%= fieldName %>)}}</span>
+                </clr-dg-cell>
+                <%_ } else if (fields[idx].fieldIsEnum) { _%>
+                <clr-dg-cell>{{'<%= angularAppName %>.<%= fieldType %>.' + <%= entityInstance %>.<%= fieldName %> | translate}}</clr-dg-cell>
+                <%_ } else if (['Instant', 'ZonedDateTime'].includes(fieldType)) { _%>
+                <clr-dg-cell>{{<%=entityInstance %>.<%=fieldName%> | date:'medium'}}</clr-dg-cell>
+                <%_ } else if (fieldType === 'LocalDate') { _%>
+                <clr-dg-cell>{{<%=entityInstance %>.<%=fieldName%> | date:'mediumDate'}}</clr-dg-cell>
+                <%_ } else { _%>
+                <clr-dg-cell>{{<%=entityInstance %>.<%=fieldName%>}}</clr-dg-cell>
+                <%_ } _%>
+                <%_ } _%>
+                <%_ for (idx in relationships) {
+                    const relationshipType = relationships[idx].relationshipType;
+                    const ownerSide = relationships[idx].ownerSide;
+                    const relationshipFieldName = relationships[idx].relationshipFieldName;
+                    const relationshipFieldNamePlural = relationships[idx].relationshipFieldNamePlural;
+                    const otherEntityName = relationships[idx].otherEntityName;
+                    const otherEntityStateName = relationships[idx].otherEntityStateName;
+                    const otherEntityField = relationships[idx].otherEntityField;
+                    const otherEntityFieldCapitalized = relationships[idx].otherEntityFieldCapitalized; _%>
+                <%_ if (relationshipType === 'many-to-one'
+                    || (relationshipType === 'one-to-one' && ownerSide === true)
+                    || (relationshipType === 'many-to-many' && ownerSide === true && pagination === 'no')) { _%>
+                <clr-dg-cell>
+                    <%_ if (otherEntityName === 'user') { _%>
+                    <%_ if (relationshipType === 'many-to-many') { _%>
+                    <span *ngFor="let <%= relationshipFieldName %> of <%= entityInstance %>.<%= relationshipFieldNamePlural %>; let last = last">
+                        {{<%= relationshipFieldName %>.<%= otherEntityField %>}}{{last ? '' : ', '}}
+                    </span>
+                    <%_ } else { _%>
+                    <%_ if (dto === 'no') { _%>
+                    {{<%= entityInstance + "." + relationshipFieldName + "?." + otherEntityField %>}}
+                    <%_ } else { _%>
+                    {{<%= entityInstance + "." + relationshipFieldName + otherEntityFieldCapitalized %>}}
+                    <%_ } _%>
+                    <%_ } _%>
+                    <%_ } else { _%>
+                    <%_ if (relationshipType === 'many-to-many') { _%>
+                    <span *ngFor="let <%= relationshipFieldName %> of <%= entityInstance %>.<%= relationshipFieldNamePlural %>; let last = last">
+                        <a class="form-control-static" [routerLink]="['../<%= otherEntityStateName %>', <%= relationshipFieldName %>?.id, 'view' ]">{{<%= relationshipFieldName %>.<%= otherEntityField %>}}</a>{{last ? '' : ', '}}
+                    </span>
+                    <%_ } else { _%>
+                    <%_ if (dto === 'no') { _%>
+                        {{<%= entityInstance + "." + relationshipFieldName + "?." + otherEntityField %>}}
+                    <%_ } else { _%>
+                        {{<%= entityInstance + "." + relationshipFieldName + otherEntityFieldCapitalized %>}}
+                    <%_ } _%>
+                    <%_ } _%>
+                    <%_ } _%>
+                </clr-dg-cell>
+                <%_ } _%>
+                <%_ } _%>
+            </clr-dg-row>
+            <clr-dg-footer>
+                <clr-dg-column-toggle>
+                <clr-dg-column-toggle-title>{{'entity.datagrid.selectDisplayFieldLabel' | translate}}</clr-dg-column-toggle-title>
+                <clr-dg-column-toggle-button clrType="selectAll">{{'entity.action.selectAll' | translate}}</clr-dg-column-toggle-button>
+                <clr-dg-column-toggle-button clrType="ok">
+                    <clr-icon shape="check"></clr-icon>
+                </clr-dg-column-toggle-button>
+                </clr-dg-column-toggle>
+                <%_ if (databaseType !== 'cassandra') { _%>
+                {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                {{'entity.datagrid.total' | translate}} {{totalItems}} <span jhiTranslate="<%= i18nKeyPrefix %>.home.title"><%= entityClassPluralHumanized %></span>
+                <clr-dg-pagination #pagination [clrDgTotalItems]="totalItems" [clrDgPageSize]="itemsPerPage"
+                       [(clrDgPage)]="page"></clr-dg-pagination>
+                <%_ } else { _%>
+                {{'entity.datagrid.total' | translate}} {{totalItems}} <span jhiTranslate="<%= i18nKeyPrefix %>.home.title"><%= entityClassPluralHumanized %></span>
+                <%_ } _%>
+            </clr-dg-footer>
+        </clr-datagrid>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-sm btn-link btn-warning remove-all" (click)="this.selected = []">清空</button>
+        <button type="button" class="btn btn-primary" (click)="this.exampleTagSelectDialogService.submit(this.selected)">确定</button>
+    </div>
+
+</clr-modal>
+    
+    

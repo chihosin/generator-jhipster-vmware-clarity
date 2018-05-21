@@ -22,7 +22,8 @@ import {
     <%_ } _%>
 } from './';
 
-import { <%= entityAngularName %>SelectModalComponent } from './<%= entityFileName %>-select-modal.component';
+import { <%= entityAngularName %>SelectDialogComponent } from './<%= entityFileName %>-select-dialog.component';
+import { <%= entityAngularName %>SelectDialogService } from './<%= entityFileName %>-select-dialog.service';
 <%_ for (idx in relationships) { _%>
 import { <%=relationships[idx].otherEntityAngularName%>FilterComponent } from 'app/entities/<%=relationships[idx].otherEntityClientRootFolder%>/<%=relationships[idx].otherEntityFileName%>/<%=relationships[idx].otherEntityFileName%>-filter.component';
 <%_ } _%>
@@ -46,7 +47,7 @@ const ENTITY_STATES = [
         <%= entityAngularName %>DetailComponent,
         <%= entityAngularName %>UpdateComponent,
         <%= entityAngularName %>DeleteDialogComponent,
-        <%= entityAngularName %>SelectModalComponent,
+        <%= entityAngularName %>SelectDialogComponent,
         <%_ for (idx in relationships) { _%>
         <%=relationships[idx].otherEntityAngularName%>FilterComponent
         <%_ } _%>
@@ -59,6 +60,7 @@ const ENTITY_STATES = [
     providers: [
         <%= entityAngularName %>Service,
         <%= entityAngularName %>Resolve,
+        <%= entityAngularName %>SelectDialogService,
         <%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
         <%= entityAngularName %>ResolvePagingParams,
         <%_ } else if (pagination === 'no') {_%>
@@ -66,7 +68,7 @@ const ENTITY_STATES = [
         <%_ } _%>
     ],
     exports: [
-        <%= entityAngularName %>SelectModalComponent,
+        <%= entityAngularName %>SelectDialogComponent,
         <%_ for (idx in relationships) { _%>
         <%=relationships[idx].otherEntityAngularName%>FilterComponent
         <%_ } _%>

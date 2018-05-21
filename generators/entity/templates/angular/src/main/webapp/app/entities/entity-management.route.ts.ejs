@@ -8,7 +8,7 @@ import { <%= entityAngularName %>Service } from './<%= entityFileName %>.service
 import { <%= entityAngularName %>Component } from './<%= entityFileName %>.component';
 import { <%= entityAngularName %>DetailComponent } from './<%= entityFileName %>-detail.component';
 import { <%= entityAngularName %>UpdateComponent } from './<%= entityFileName %>-update.component';
-import { <%= entityAngularName %>SelectModalComponent } from './<%= entityFileName %>-select-modal.component';
+import { <%= entityAngularName %>SelectDialogComponent } from './<%= entityFileName %>-select-dialog.component';
 
 <%_ if (entityFileName.length <= 30) { _%>
 import { <%= entityAngularName %>DeleteDialogComponent } from './<%= entityFileName %>-delete-dialog.component';
@@ -139,11 +139,11 @@ export const <%= entityInstance %>PopupRoute: Routes = [
     },
     {
         path:  '<%= microserviceName %>/<%= entityUrl %>/select',
-        component: <%= entityAngularName %>SelectModalComponent,
+        component: <%= entityAngularName %>SelectDialogComponent,
         resolve: {},
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: <% if (enableTranslation){ %>'<%= angularAppName %>.<%= entityTranslationKey %>.selectModal'<% }else{ %>'<%= entityClassPlural %>'<% } %>
+            pageTitle: <% if (enableTranslation){ %>'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog'<% }else{ %>'<%= entityClassPlural %>'<% } %>
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

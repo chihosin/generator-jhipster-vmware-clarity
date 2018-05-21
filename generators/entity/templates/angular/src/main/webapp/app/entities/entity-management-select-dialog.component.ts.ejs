@@ -1,0 +1,95 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HttpErrorResponse,  HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs/Subscription';
+import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+
+import { I<%= entityAngularName %> } from 'app/shared/model/employee/<%= entityFileName %>.model';
+import { Principal } from 'app/core';
+
+import { ITEMS_PER_PAGE } from 'app/shared';
+import { Subject } from 'rxjs/Subject';
+import { ClrDatagridSortOrder, ClrDatagridStateInterface } from '@clr/angular';
+import { SEARCH_DEBOUNCE_TIME } from 'app/shared/constants/load.constants';
+import { <%= entityAngularName %>Service } from './<%= entityFileName %>.service';
+
+import { resolveFilter } from 'app/shared/util/filter-util';
+import { Router } from '@angular/router';
+import { <%= entityAngularName %>SelectDialogService } from 'app/entities/employee/<%= entityFileName %>/<%= entityFileName %>-select-dialog.service';
+
+@Component({
+    selector: '<%= jhiPrefixDashed %>-<%= entityFileName %>-select-dialog',
+    templateUrl: './<%= entityFileName %>-select-dialog.component.html',
+    styleUrls: [
+        './<%= entityFileName %>-select-dialog.component.scss'
+    ]
+})
+export class <%= entityAngularName %>SelectDialogComponent implements OnInit, OnDestroy {
+    <%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
+<%- include('select-dialog-pagination-template', {toArrayString: toArrayString}); -%>
+    <%_ } else if (pagination === 'no') { _%>
+<%- include('select-dialog-no-pagination-template', {toArrayString: toArrayString}); -%>
+    <%_ } _%>
+
+    ngOnInit() {
+        // remove for Clarity
+        // this.loadAll();
+        this.principal.identity().then(account => {
+            this.currentAccount = account;
+        });
+        this.registerChangeIn<%= entityClassPlural %>();
+    }
+
+    ngOnDestroy() {
+        // fixed router into error
+        if (this.eventSubscriber) {
+            this.eventManager.destroy(this.eventSubscriber);
+        }
+        // this.eventManager.destroy(this.eventSubscriber);
+    }
+
+    trackId(index: number, item: I<%= entityAngularName %>) {
+        return item.id;
+    }
+
+    registerChangeIn<%= entityClassPlural %>() {
+        this.eventSubscriber = this.eventManager.subscribe('<%= entityInstance %>ListModification', response => this.loadAll());
+    }
+
+    sort() {
+        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+        if (this.predicate !== 'id') {
+            result.push('id');
+        }
+        return result;
+    }
+
+    remove(item:  I<%= entityAngularName %>) {
+        for (let i = 0; i < this.selected.length; i++) {
+            if (item.id === this.selected[i].id) {
+                this.selected.splice(i, 1);
+                return;
+            }
+        }
+    }
+
+    private paginate<%= entityClassPlural %>(data: I<%= entityAngularName %>[], headers: HttpHeaders) {
+        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        this.queryCount = this.totalItems;
+        this.<%= entityInstancePlural %> = data;
+        // added for Clarity
+        this.loading = false;
+        data.forEach(item => {
+            for (let i = 0; i < this.selected.length; i++) {
+                if (item.id === this.selected[i].id) {
+                    this.selected[i] = item;
+                    break;
+                }
+            }
+        });
+    }
+
+    private onError(errorMessage: string) {
+        this.jhiAlertService.error(errorMessage, null, null);
+    }
+
+}
