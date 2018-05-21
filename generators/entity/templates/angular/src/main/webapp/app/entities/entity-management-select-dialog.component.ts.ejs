@@ -3,7 +3,7 @@ import { HttpErrorResponse,  HttpHeaders, HttpResponse } from '@angular/common/h
 import { Subscription } from 'rxjs/Subscription';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import { I<%= entityAngularName %> } from 'app/shared/model/employee/<%= entityFileName %>.model';
+import { I<%= entityAngularName %> } from 'app/shared/model/<%= entityModelFileName %>.model';
 import { Principal } from 'app/core';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
@@ -14,7 +14,7 @@ import { <%= entityAngularName %>Service } from './<%= entityFileName %>.service
 
 import { resolveFilter } from 'app/shared/util/filter-util';
 import { Router } from '@angular/router';
-import { <%= entityAngularName %>SelectDialogService } from 'app/entities/employee/<%= entityFileName %>/<%= entityFileName %>-select-dialog.service';
+import { <%= entityAngularName %>SelectDialogService } from 'app/entities/<%= entityModelFileName %>/<%= entityFileName %>-select-dialog.service';
 
 @Component({
     selector: '<%= jhiPrefixDashed %>-<%= entityFileName %>-select-dialog',

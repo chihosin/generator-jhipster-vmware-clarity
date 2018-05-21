@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { I<%= entityAngularName %> } from 'app/shared/model/employee/<%= entityFileName %>.model';
+import { I<%= entityAngularName %> } from 'app/shared/model/<%= entityModelFileName %>.model';
 
 @Injectable()
 export class <%= entityAngularName %>SelectDialogService {
@@ -16,7 +16,7 @@ export class <%= entityAngularName %>SelectDialogService {
                 {
                     outlets:
                         {
-                            popup: `employee/example-tag/select`
+                            popup: `<%= entityModelFileName %>/select`
                         }
                 }
             ]

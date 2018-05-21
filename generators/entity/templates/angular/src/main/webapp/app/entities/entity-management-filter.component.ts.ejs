@@ -3,10 +3,10 @@ import { Subject } from 'rxjs/Subject';
 import { ClrDatagridFilter, ClrDatagridFilterInterface } from '@clr/angular';
 import { SelectFilterValue } from 'app/shared/util/filter-util';
 import { Router } from '@angular/router';
-import { <%= entityAngularName %>SelectDialogService } from 'app/entities/employee/<%= entityFileName %>/<%= entityFileName %>-select-dialog.service';
-import { <%= entityAngularName %>Service } from 'app/entities/employee/<%= entityFileName %>/<%= entityFileName %>.service';
+import { <%= entityAngularName %>SelectDialogService } from './<%= entityFileName %>-select-dialog.service';
+import { <%= entityAngularName %>Service } from './<%= entityFileName %>.service';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { I<%= entityAngularName %> } from 'app/shared/model/employee/<%= entityFileName %>.model';
+import { I<%= entityAngularName %> } from 'app/shared/model/<%= entityModelFileName %>.model';
 import { JhiAlertService } from 'ng-jhipster';
 
 @Component({

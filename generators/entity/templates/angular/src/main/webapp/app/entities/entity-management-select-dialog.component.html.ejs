@@ -1,10 +1,10 @@
 <clr-modal [(clrModalOpen)]="open" [clrModalStaticBackdrop]="true" [clrModalSize]="'xl'">
-    <h3 class="modal-title">选择</h3>
+    <h3 class="modal-title">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.title' | translate}}</h3>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
         
         <div class="card card-block" *ngIf="selected.length > 0">
-            <span class="label-group-title">已选择:</span>
+            <span class="label-group-title">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.selected' | translate}}:</span>
             <span class="label" *ngFor="let item of selected" (click)="remove(item)">
                 {{item.name}}
                 <clr-icon shape="window-close"></clr-icon>
@@ -166,8 +166,8 @@
         </clr-datagrid>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-sm btn-link btn-warning remove-all" (click)="selected = []">清空</button>
-        <button type="button" class="btn btn-primary" (click)="exampleTagSelectDialogService.submit(selected)">确定</button>
+        <button class="btn btn-sm btn-link btn-warning remove-all" (click)="selected = []">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.empty' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="exampleTagSelectDialogService.submit(selected)">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.confirm' | translate}}</button>
     </div>
 
 </clr-modal>
