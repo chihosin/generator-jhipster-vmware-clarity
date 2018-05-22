@@ -30,17 +30,6 @@ export class <%= entityAngularName %>SelectDialogComponent implements OnInit, On
 <%- include('select-dialog-no-pagination-template', {toArrayString: toArrayString}); -%>
     <%_ } _%>
 
-    get opened() {
-        return this._opened;
-    }
-
-    set opened(value) {
-        this._opened = value;
-        if (!value) {
-            this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
-        }
-    }
-
     ngOnInit() {
         // remove for Clarity
         // this.loadAll();
