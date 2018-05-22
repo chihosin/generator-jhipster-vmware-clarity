@@ -32,20 +32,7 @@ export class <%= entityAngularName %>ResolvePagingParams implements Resolve<any>
          };
      }
 }
-<%_ } else if (pagination === 'no') { _%>
-@Injectable()
-export class <%= entityAngularName %>ResolveNoPagingParams implements Resolve<any> {
-     constructor(private paginationUtil: JhiPaginationUtil) {}
-     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-         const sort = route.queryParams['sort'] ? route.queryParams['sort'] : 'id,asc';
-         return {
-             predicate: this.paginationUtil.parsePredicate(sort),
-             ascending: this.paginationUtil.parseAscending(sort)
-         };
-     }
-}
 <%_ } _%>
-
 @Injectable()
 export class <%= entityAngularName %>Resolve implements Resolve<any> {
 
@@ -74,10 +61,6 @@ export const <%= entityInstance %>Route: Routes = [
         <%_ if (pagination === 'pagination' || pagination === 'pager'){ _%>
         resolve: {
             'pagingParams': <%= entityAngularName %>ResolvePagingParams
-        },
-        <%_ } else if (pagination === 'no') { _%>
-        resolve: {
-            'pagingParams': <%= entityAngularName %>ResolveNoPagingParams
         },
         <%_ } _%>
         data: {

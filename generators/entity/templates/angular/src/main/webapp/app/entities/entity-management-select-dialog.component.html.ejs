@@ -1,8 +1,8 @@
-<clr-modal [(clrModalOpen)]="open" [clrModalStaticBackdrop]="true" [clrModalSize]="'xl'">
+<clr-modal [(clrModalOpen)]="opened" [clrModalStaticBackdrop]="true" [clrModalSize]="'xl'">
     <h3 class="modal-title">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.title' | translate}}</h3>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        
+
         <div class="card card-block" *ngIf="selected.length > 0">
             <span class="label-group-title">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.selected' | translate}}:</span>
             <span class="label" *ngFor="let item of selected" (click)="remove(item)">
@@ -10,7 +10,7 @@
                 <clr-icon shape="window-close"></clr-icon>
             </span>
         </div>
-        
+
         <clr-datagrid
             (clrDgRefresh)="refresh($event)"
             [clrDgLoading]="loading"
@@ -166,10 +166,10 @@
         </clr-datagrid>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-sm btn-link btn-warning remove-all" (click)="selected = []">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.empty' | translate}}</button>
-        <button type="button" class="btn btn-primary" (click)="exampleTagSelectDialogService.submit(selected)">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.confirm' | translate}}</button>
+        <button class="btn btn-sm btn-link btn-warning remove-all" (click)="selected = []">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.clear' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="opened = false;">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.cancel' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="confirm()">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.confirm' | translate}}</button>
     </div>
 
 </clr-modal>
-    
-    
+

@@ -1,7 +1,6 @@
     <%= entityInstancePlural %>: I<%= entityAngularName %>[];
     currentAccount: any;
     eventSubscriber: Subscription;
-    routeData: any;
     predicate: any;
     reverse: any;
     <%_ if (searchEngine === 'elasticsearch') { _%>
@@ -13,6 +12,7 @@
     filters: any;
     sorters: any;
     selected: Array<I<%= entityAngularName %>>;
+    private _opened: any;
 
     constructor(
         private <%= entityInstance %>Service: <%= entityAngularName %>Service,
@@ -22,38 +22,12 @@
         <%_ } _%>
         private eventManager: JhiEventManager,
         private principal: Principal,
-        private router: Router,
-        private eventManager: JhiEventManager,
         public <%= entityInstance %>SelectDialogService: <%= entityAngularName %>SelectDialogService
     ) {
-        // added for Clarity
-        this.sorters = {
-          id: ClrDatagridSortOrder.UNSORTED,
-          <%_ for (idx in fields) { _%>
-          <%= fields[idx].fieldName %>: ClrDatagridSortOrder.UNSORTED,
-          <%_ } _%>
-        };
-        this.filters = {
-          id: null,
-          <%_ for (idx in fields) { _%>
-          <%= fields[idx].fieldName %>:  null,
-          <%_ } _%>
-        };
-        
         this.loading = true;
         this.searchDebounce = new Subject<ClrDatagridStateInterface>();
         this.searchDebounce.debounceTime(SEARCH_DEBOUNCE_TIME).subscribe(() => this.loadAll());
         this.selected = this.<%= entityInstance %>SelectDialogService.selected;
-    }
-
-    get open() {
-        return true;
-    }
-
-    set open(val) {
-        if (!val) {
-            this.<%= entityInstance %>SelectDialogService.close();
-        }
     }
 
     // added for Clarity
@@ -97,7 +71,6 @@
         if (this.currentSearch) {
             this.<%= entityInstance %>Service.search({
                 query: this.currentSearch,
-                sort: this.sort()
                 }).subscribe(
                     (res: HttpResponse<I<%= entityAngularName %>[]>) => this.<%= entityInstancePlural %> = res.body,
                     (res: HttpErrorResponse) => this.onError(res.message)

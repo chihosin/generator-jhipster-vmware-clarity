@@ -21,7 +21,7 @@
     searchDebounce: Subject<ClrDatagridStateInterface>;
     filters: any;
     sorters: any;
-    selected: Array< I<%= entityAngularName %>>;
+    selected: Array<I<%= entityAngularName %>>;
     <%_ } _%>
 
     constructor(
@@ -33,8 +33,7 @@
         <%_ if (fieldsContainBlob) { _%>
         private dataUtils: JhiDataUtils,
         <%_ } _%>
-        private router: Router,
-        private eventManager: JhiEventManager
+        private router: Router
     ) {
         // added for Clarity
         this.sorters = {

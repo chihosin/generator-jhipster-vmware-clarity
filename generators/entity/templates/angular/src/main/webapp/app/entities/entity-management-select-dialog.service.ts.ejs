@@ -5,13 +5,15 @@ import { I<%= entityAngularName %> } from 'app/shared/model/<%= entityModelFileN
 @Injectable()
 export class <%= entityAngularName %>SelectDialogService {
     public selected: Array<I<%= entityAngularName %>>;
-    private _callBack: Function;
+    private callback: Function;
+
     constructor(private router: Router) {
         this.selected = [];
     }
-    subscribe(selected: Array<I<%= entityAngularName %>>, callBack: Function) {
+
+    subscribe(selected: Array<I<%= entityAngularName %>>, callback: Function) {
         this.selected = [...(selected || [])];
-        this._callBack = callBack;
+        this.callback = callBack;
         this.router.navigate([
                 {
                     outlets:
@@ -22,13 +24,15 @@ export class <%= entityAngularName %>SelectDialogService {
             ]
         );
     }
+
     submit(selected: Array<I<%= entityAngularName %>>) {
         this.router.navigate([{ outlets: { popup: null } }]).then(() => {
-            if (this._callBack) {
-                this._callBack(selected);
+            if (this.callback) {
+                this.callback(selected);
             }
         });
     }
+
     close() {
         this.router.navigate([{ outlets: { popup: null } }]);
     }

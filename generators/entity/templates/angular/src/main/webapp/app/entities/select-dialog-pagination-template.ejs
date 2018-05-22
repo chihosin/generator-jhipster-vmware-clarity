@@ -23,6 +23,7 @@
     sorters: any;
     selected: Array<I<%= entityAngularName %>>;
     <%_ } _%>
+    private _opened: any;
 
     constructor(
         private <%= entityInstance %>Service: <%= entityAngularName %>Service,
@@ -33,7 +34,6 @@
         private dataUtils: JhiDataUtils,
         <%_ } _%>
         private router: Router,
-        private eventManager: JhiEventManager,
         public <%= entityInstance %>SelectDialogService: <%= entityAngularName %>SelectDialogService
     ) {
         // added for Clarity
@@ -59,13 +59,14 @@
         this.selected = this.<%= entityInstance %>SelectDialogService.selected;
     }
 
-    get open() {
-        return true;
+    get opened() {
+        return this._opened;
     }
 
-    set open(val) {
-        if (!val) {
-            this.<%= entityInstance %>SelectDialogService.close();
+    set opened(value) {
+        this._opened = value;
+        if (!value) {
+            this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
         }
     }
 

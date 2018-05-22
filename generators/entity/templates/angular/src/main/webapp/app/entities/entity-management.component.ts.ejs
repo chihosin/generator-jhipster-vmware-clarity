@@ -32,8 +32,10 @@ export class <%= entityAngularName %>Component implements OnInit, OnDestroy {
     <%_ } _%>
 
     ngOnInit() {
-        // remove for Clarity
-        // this.loadAll();
+        // modify for Clarity
+        <%_ if (pagination === 'no') { _%>
+        this.loadAll();
+        <%_ } _%>
         this.principal.identity().then(account => {
             this.currentAccount = account;
         });

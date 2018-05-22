@@ -16,9 +16,7 @@ import {
     <%= entityInstance %>PopupRoute,
     <%= entityAngularName %>Resolve,
     <%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
-    <%= entityAngularName %>ResolvePagingParams,
-    <%_ } else if (pagination === 'no') {_%>
-    <%= entityAngularName %>ResolveNoPagingParams,
+    <%= entityAngularName %>ResolvePagingParams
     <%_ } _%>
 } from './';
 
@@ -62,9 +60,7 @@ const ENTITY_STATES = [
         <%= entityAngularName %>Resolve,
         <%= entityAngularName %>SelectDialogService,
         <%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
-        <%= entityAngularName %>ResolvePagingParams,
-        <%_ } else if (pagination === 'no') {_%>
-        <%= entityAngularName %>ResolveNoPagingParams,
+        <%= entityAngularName %>ResolvePagingParams
         <%_ } _%>
     ],
     exports: [
