@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angu
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { ClrDatagridFilter, ClrDatagridFilterInterface } from '@clr/angular';
-import { FilterRelationship, FilterType, StringFilterValue } from 'app/shared/util/filter-util';
+import { StringFilter, FilterType, StringFilterValue } from 'app/shared/util/filter-util';
 
 @Component({
     selector: '<%= jhiPrefixDashed %>-string-filter',
@@ -13,11 +13,11 @@ import { FilterRelationship, FilterType, StringFilterValue } from 'app/shared/ut
 })
 export class <%=jhiPrefixCapitalized%>StringFilterComponent implements ClrDatagridFilterInterface<any> {
     @Output('clrFilterValueChange') clrFilterValueChange = new EventEmitter();
+    private _changes = new Subject<any>();
     property: string;
     value: any;
     stringContainType = FilterType.STRING_CONTAIN;
     stringAdvancedType = FilterType.STRING_ADVANCED;
-    private _changes = new Subject<any>();
 
     constructor(public filterFn: ClrDatagridFilter) {
         this.filterFn.setFilter(this);
@@ -43,16 +43,16 @@ export class <%=jhiPrefixCapitalized%>StringFilterComponent implements ClrDatagr
     }
 
     isActive(): boolean {
-        return this.value && (this.value.keyWord || this.value.primaryValue);
+        return this.value && (this.value.keyword !== '' || this.value.primaryValue !== '');
     }
 
     accepts(item: any): boolean {
-        return false;
+        return StringFilter(item[this.property], this.value);
     }
 
     submit() {
         this.value.type = this.value.enableAdvancedFilter ? this.stringAdvancedType : this.stringContainType;
-        this.changes.next(true);
+        this._changes.next(true);
     }
 
     close(event) {

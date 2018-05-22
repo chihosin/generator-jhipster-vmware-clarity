@@ -1,16 +1,9 @@
     <%= entityInstancePlural %>: I<%= entityAngularName %>[];
     currentAccount: any;
     eventSubscriber: Subscription;
-    predicate: any;
-    reverse: any;
-    <%_ if (searchEngine === 'elasticsearch') { _%>
-    currentSearch: string;
-    <%_ } _%>
+    routeData: any;
     // added for Clarity
     loading: any;
-    searchDebounce: Subject<ClrDatagridStateInterface>;
-    filters: any;
-    sorters: any;
     selected: Array<I<%= entityAngularName %>>;
     private _opened: any;
 
@@ -22,70 +15,28 @@
         <%_ } _%>
         private eventManager: JhiEventManager,
         private principal: Principal,
+        private router: Router,
         public <%= entityInstance %>SelectDialogService: <%= entityAngularName %>SelectDialogService
     ) {
+        // added for Clarity
         this.loading = true;
-        this.searchDebounce = new Subject<ClrDatagridStateInterface>();
-        this.searchDebounce.debounceTime(SEARCH_DEBOUNCE_TIME).subscribe(() => this.loadAll());
         this.selected = this.<%= entityInstance %>SelectDialogService.selected;
     }
 
-    // added for Clarity
-    refresh(state: ClrDatagridStateInterface) {
-      // added grid sort
-      this.predicate = state.sort ? state.sort.by : 'id';
-      this.reverse = state.sort ? state.sort.reverse : true;
-      // added grid filter
-      this.currentSearch = null;
-      if (state.filters) {
-        this.currentSearch = '';
-        state.filters.forEach(filter => {
-          if (filter['value'] !== '') {
-            switch (filter['property']) {
-              <%_ for (idx in fields) { _%>
-              case '<%= fields[idx].fieldName %>':
-                this.currentSearch += `(${resolveFilter(filter)}) AND `;
-                break;
-              <%_ } _%>
-              <%_ for (idx in relationships) { _%>
-                case '<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>':
-                  this.currentSearch += `(${resolveFilter(filter)}) AND `;
-                  break;
-                <%_ } _%>
-            }
-          }
-        });
-        this.currentSearch += '*:*';
-      }
-
-      // fixed filter refresh debounce
-      if (state.filters) {
-        this.searchDebounce.next();
-        return;
-      }
-      this.loadAll();
-    }
-
     loadAll() {
-        <%_ if (searchEngine === 'elasticsearch') { _%>
-        if (this.currentSearch) {
-            this.<%= entityInstance %>Service.search({
-                query: this.currentSearch,
-                }).subscribe(
-                    (res: HttpResponse<I<%= entityAngularName %>[]>) => this.<%= entityInstancePlural %> = res.body,
-                    (res: HttpErrorResponse) => this.onError(res.message)
-                );
-            return;
-       }
-       <%_ } _%>
         this.<%= entityInstance %>Service.query().subscribe(
             (res: HttpResponse<I<%= entityAngularName %>[]>) => {
                 this.<%= entityInstancePlural %> = res.body;
-                <%_ if (searchEngine === 'elasticsearch') { _%>
-                this.currentSearch = '';
-                <%_ } _%>
                 // added for Clarity
                 this.loading = false;
+                res.body.forEach(item => {
+                    for (let i = 0; i < this.selected.length; i++) {
+                        if (item.id === this.selected[i].id) {
+                            this.selected[i] = item;
+                            break;
+                        }
+                    }
+                });
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );

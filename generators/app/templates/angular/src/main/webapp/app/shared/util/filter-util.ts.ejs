@@ -54,8 +54,8 @@ export function resolveFilter(filter: any) {
             }
             break;
         case FilterType.STRING_CONTAIN:
-            if (filter.value.keyWord && filter.value.keyWord !== '') {
-                queryString += _conditionToQueryString(filter.property, FilterSymbol.CONTAIN, filter.value.keyWord);
+            if (filter.value.keyword && filter.value.keyword !== '') {
+                queryString += _conditionToQueryString(filter.property, FilterSymbol.CONTAIN, filter.value.keyword);
             }
             break;
         case FilterType.STRING_ADVANCED:
@@ -224,6 +224,47 @@ export function decodeFiltersQueryParam(filters: any, queryString: string): any 
     return filters;
 }
 
+export function  StringFilter(value: string, filterValue: StringFilterValue) {
+    if (filterValue.type === FilterType.STRING_CONTAIN) {
+        return _conditionRegularCheck(value, filterValue.keyword, FilterSymbol.CONTAIN);
+    }
+    return _conditionRegularCheck(value, filterValue.primaryValue, filterValue.primarySymbol) &&
+        _conditionRegularCheck(value, filterValue.secondaryValue, filterValue.secondarySymbol);
+}
+
+export function  NumberFilter(value: string, filterValue: NumberFilterValue) {
+    if (filterValue.type === FilterType.NUMBER_RANGE) {
+        return _conditionRegularCheck(value, filterValue.min, FilterSymbol.GREATER_THAN_EQUAL) &&
+            _conditionRegularCheck(value, filterValue.max, FilterSymbol.LESS_THAN_EQUAL);
+    }
+    return _conditionRegularCheck(value, filterValue.primaryValue, filterValue.primarySymbol) &&
+        _conditionRegularCheck(value, filterValue.secondaryValue, filterValue.secondarySymbol);
+}
+
+export function  DateFilter(value: string, filterValue: NumberFilterValue) {
+    if (filterValue.type === FilterType.DATE_RANGE || FilterType.DATE_TIME_RANGE) {
+        return (!filterValue.min || _conditionRegularCheck(new Date(value), new Date(filterValue.min), FilterSymbol.GREATER_THAN_EQUAL)) &&
+            (!filterValue.max || _conditionRegularCheck(new Date(value), new Date(filterValue.max), FilterSymbol.LESS_THAN_EQUAL));
+    }
+    return (filterValue.primaryValue || filterValue.primarySymbol === null ||
+        _conditionRegularCheck(new Date(value), new Date(filterValue.primaryValue), filterValue.primarySymbol)) &&
+        (filterValue.secondaryValue || filterValue.secondarySymbol === null ||
+            _conditionRegularCheck(new Date(value), new Date(filterValue.secondaryValue), filterValue.secondarySymbol));
+}
+
+export function  TimeFilter(value: string, filterValue: NumberFilterValue) {
+    if (filterValue.type === FilterType.DATE_RANGE || FilterType.DATE_TIME_RANGE) {
+        return (!filterValue.min ||
+            _conditionRegularCheck(new Date(`1970-1-1 ${value}`), new Date(`1970-1-1 ${filterValue.min}`), FilterSymbol.GREATER_THAN_EQUAL)) &&
+            (!filterValue.max ||
+                _conditionRegularCheck(new Date(`1970-1-1 ${value}`), new Date(`1970-1-1 ${filterValue.max}`), FilterSymbol.LESS_THAN_EQUAL));
+    }
+    return (filterValue.primaryValue || filterValue.primarySymbol === null ||
+        _conditionRegularCheck(new Date(`1970-1-1 ${value}`), new Date(`1970-1-1 ${filterValue.primaryValue}`), filterValue.primarySymbol)) &&
+        (filterValue.secondaryValue || filterValue.secondarySymbol === null ||
+            _conditionRegularCheck(new Date(`1970-1-1 ${value}`), new Date(`1970-1-1 ${filterValue.secondaryValue}`), filterValue.secondarySymbol));
+}
+
 function _conditionToQueryString(property: string, symbol: string, value: any) {
     switch (symbol) {
         case FilterSymbol.EQUAL:
@@ -242,6 +283,32 @@ function _conditionToQueryString(property: string, symbol: string, value: any) {
             return `${property}:${value}*`;
         case FilterSymbol.BEGIN_CONTAIN:
             return `${property}:*${value}`;
+    }
+}
+
+function _conditionRegularCheck(value: any, keyword: any, symbol: FilterSymbol) {
+    if (!value || value === '' || !keyword || keyword === '' || !symbol) {
+        return true;
+    }
+    switch (symbol) {
+        case FilterSymbol.EQUAL:
+            return value === keyword;
+        case FilterSymbol.NOT_EQUAL:
+            return value !== keyword;
+        case FilterSymbol.GREATER_THAN_EQUAL:
+            return value >= keyword;
+        case FilterSymbol.LESS_THAN_EQUAL:
+            return value <= keyword;
+        case FilterSymbol.CONTAIN:
+            return value.indexOf(keyword) > -1;
+        case FilterSymbol.NOT_CONTAIN:
+            return value.indexOf(keyword) > -1;
+        case FilterSymbol.END_CONTAIN:
+            return value.indexOf(keyword) === 1;
+        case FilterSymbol.BEGIN_CONTAIN:
+            return value.indexOf(keyword) === value.length - keyword.length;
+        default:
+            return false;
     }
 }
 
@@ -270,19 +337,20 @@ export class NumberFilterValue {
 export class StringFilterValue {
     type: FilterType;
     enableAdvancedFilter: boolean;
-    keyWord: string;
+    keyword: string;
     primarySymbol: FilterSymbol;
-    primaryValue: number;
+    primaryValue: string;
     secondarySymbol: FilterSymbol;
-    secondaryValue: number;
+    secondaryValue: string;
     relationship: FilterRelationship;
 
     constructor() {
         this.type = FilterType.STRING_CONTAIN;
         this.enableAdvancedFilter = false;
-        this.keyWord = '';
+        this.keyword = '';
         this.primarySymbol = null;
-        this.secondaryValue = null;
+        this.primaryValue = '';
+        this.secondarySymbol = null;
         this.relationship = FilterRelationship.AND;
     }
 }
@@ -304,7 +372,7 @@ export class DateFilterValue {
         this.max = null;
         this.min = null;
         this.primarySymbol = null;
-        this.secondaryValue = null;
+        this.secondarySymbol = null;
         this.relationship = FilterRelationship.AND;
     }
 }
@@ -326,7 +394,7 @@ export class TimeFilterValue {
         this.max = null;
         this.min = null;
         this.primarySymbol = null;
-        this.secondaryValue = null;
+        this.secondarySymbol = null;
         this.relationship = FilterRelationship.AND;
     }
 }
@@ -348,7 +416,7 @@ export class DateTimeFilterValue {
         this.max = null;
         this.min = null;
         this.primarySymbol = null;
-        this.secondaryValue = null;
+        this.secondarySymbol = null;
         this.relationship = FilterRelationship.AND;
     }
 }

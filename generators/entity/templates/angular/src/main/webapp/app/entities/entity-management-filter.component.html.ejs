@@ -3,7 +3,7 @@
     <div class="row label-group" *ngIf="selected.length > 0">
         <div class="col-sm-12">
                 <span class="label" *ngFor="let item of this.selected" (click)="remove(item)">
-                    {{item.name}}
+                    {{item.id}}
                     <clr-icon shape="window-close"></clr-icon>
                 </span>
         </div>

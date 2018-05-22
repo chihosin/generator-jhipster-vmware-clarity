@@ -42,8 +42,10 @@ export class <%= entityAngularName %>SelectDialogComponent implements OnInit, On
     }
 
     ngOnInit() {
-        // remove for Clarity
-        // this.loadAll();
+        // modify for Clarity
+        <%_ if (pagination === 'no') { _%>
+        this.loadAll();
+        <%_ } _%>
         this.principal.identity().then(account => {
             this.currentAccount = account;
         });
@@ -62,17 +64,22 @@ export class <%= entityAngularName %>SelectDialogComponent implements OnInit, On
     trackId(index: number, item: I<%= entityAngularName %>) {
         return item.id;
     }
+    <%_ if (fieldsContainBlob) { _%>
+    byteSize(field) {
+        return this.dataUtils.byteSize(field);
+    }
+    openFile(contentType, field) {
+        return this.dataUtils.openFile(contentType, field);
+    }
+    <%_ } _%>
+    <%_
+    let eventCallBack = 'this.loadAll()';
+    if (pagination === 'infinite-scroll') {
+        eventCallBack = 'this.reset()';
+    } _%>
 
     registerChangeIn<%= entityClassPlural %>() {
-        this.eventSubscriber = this.eventManager.subscribe('<%= entityInstance %>ListModification', response => this.loadAll());
-    }
-
-    sort() {
-        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
-        if (this.predicate !== 'id') {
-            result.push('id');
-        }
-        return result;
+        this.eventSubscriber = this.eventManager.subscribe('<%= entityInstance %>ListModification', response => <%= eventCallBack %>);
     }
 
     remove(item:  I<%= entityAngularName %>) {
@@ -82,6 +89,20 @@ export class <%= entityAngularName %>SelectDialogComponent implements OnInit, On
                 return;
             }
         }
+    }
+
+    <%_ if (databaseType !== 'cassandra' && pagination !== 'no') { _%>
+    sort() {
+        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+        if (this.predicate !== 'id') {
+            result.push('id');
+        }
+        return result;
+    }
+    <%_ } _%>
+
+    confirm() {
+        this.<%= entityInstance %>SelectDialogService.submit([...this.selected]);
     }
 
     <%_ if (pagination !== 'no') { _%>
@@ -94,17 +115,24 @@ export class <%= entityAngularName %>SelectDialogComponent implements OnInit, On
         this.<%= entityInstancePlural %> = data;
         // added for Clarity
         this.loading = false;
-    }
         <%_ } else if (pagination === 'infinite-scroll') { _%>
-    private paginate<%= entityClassPlural %>(data: I<%= entityAngularName %>[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
             this.<%= entityInstancePlural %>.push(data[i]);
         }
+        data.forEach(item => {
+            for (let i = 0; i < this.selected.length; i++) {
+                if (item.id === this.selected[i].id) {
+                    this.selected[i] = item;
+                    break;
+                }
+            }
+        });
+        <%_ } _%>
     }
-    <%_ }} _%>
 
+    <%_ } _%>
     private onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
     }

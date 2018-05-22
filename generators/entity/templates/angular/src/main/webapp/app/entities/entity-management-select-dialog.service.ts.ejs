@@ -13,7 +13,7 @@ export class <%= entityAngularName %>SelectDialogService {
 
     subscribe(selected: Array<I<%= entityAngularName %>>, callback: Function) {
         this.selected = [...(selected || [])];
-        this.callback = callBack;
+        this.callback = callback;
         this.router.navigate([
                 {
                     outlets:

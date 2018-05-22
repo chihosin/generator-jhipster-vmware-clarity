@@ -85,17 +85,17 @@
     <%_ for (idx in relationships) { _%>
     <%_ if (relationships[idx].relationshipType === 'many-to-one' || (relationships[idx].relationshipType === 'one-to-one' && relationships[idx].ownerSide === true) || (relationships[idx].relationshipType === 'many-to-many' && relationships[idx].ownerSide === true && pagination === 'no')) { _%>
     <%_ const fieldName = dto === 'no' ? "." + relationships[idx].otherEntityField : relationships[idx].otherEntityFieldCapitalized; _%>
-    <clr-dg-column [clrDgField]="'<%=relationships[idx].relationshipName + (fieldName)%>'"
+    <clr-dg-column [clrDgField]="'<%=relationships[idx].relationshipName%>'"
                     <%_ if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[clrDgSortOrder]="sorters.<%=relationships[idx].relationshipName%>"<%_ } _%>
                     <%_ if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']"<%_ } _%>>
                     <ng-container *clrDgHideableColumn="{hidden: false}">
                     {{'<%=`${i18nKeyPrefix}.${relationships[idx].relationshipName}` %>' | translate}}
                     </ng-container>
                     <clr-dg-filter [clrDgFilter]="<%=relationships[idx].relationshipName%>Filter">
-                        <jhi-<%=relationships[idx].otherEntityStateName%>-filter #<%=relationships[idx].relationshipName%>Filter
-                                            [clrDgField]="'<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>'"
-                                            [(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']">
-                        </jhi-<%=relationships[idx].otherEntityStateName%>-filter>
+                        <<%= jhiPrefixDashed %>-<%=relationships[idx].otherEntityStateName%>-filter #<%=relationships[idx].relationshipName%>Filter
+                                            [clrDgField]="'<%=relationships[idx].relationshipName%>'"
+                                            <%_ if (pagination !== 'no') { _%>[(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']"<%_ } _%>>
+                        </<%= jhiPrefixDashed %>-<%=relationships[idx].otherEntityStateName%>-filter>
                     </clr-dg-filter>
     </clr-dg-column>
     <%_ } _%>

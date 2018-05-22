@@ -12,7 +12,7 @@ import {DateFilterValue, FilterRelationship, FilterType} from 'app/shared/util/f
 })
 export class <%=jhiPrefixCapitalized%>DateFilterComponent implements ClrDatagridFilterInterface<any> {
     @Output('clrFilterValueChange') clrFilterValueChange = new EventEmitter();
-    changes = new Subject<any>();
+    _changes = new Subject<any>();
     property: string;
     value: any;
     dateRangeType = FilterType.DATE_RANGE;
@@ -21,6 +21,10 @@ export class <%=jhiPrefixCapitalized%>DateFilterComponent implements ClrDatagrid
     constructor(public filterFn: ClrDatagridFilter) {
         this.filterFn.setFilter(this);
         this.value = new DateFilterValue();
+    }
+
+    public get changes(): Observable<any> {
+        return this._changes.asObservable();
     }
 
     @Input('clrDgField')
@@ -42,12 +46,12 @@ export class <%=jhiPrefixCapitalized%>DateFilterComponent implements ClrDatagrid
     }
 
     accepts(item: any): boolean {
-        return false;
+        return DateFilter(item[this.property], this.value);
     }
 
     submit() {
         this.value.type = this.value.enableAdvancedFilter ? this.dateAdvancedType : this.dateRangeType;
-        this.changes.next(true);
+        this._changes.next(true);
     }
 
     close(event) {

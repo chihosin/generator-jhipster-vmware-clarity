@@ -6,80 +6,103 @@
         <div class="card card-block" *ngIf="selected.length > 0">
             <span class="label-group-title">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.selected' | translate}}:</span>
             <span class="label" *ngFor="let item of selected" (click)="remove(item)">
-                {{item.name}}
+                {{item.id}}
                 <clr-icon shape="window-close"></clr-icon>
             </span>
         </div>
 
         <clr-datagrid
+            <%_ if (pagination !== 'no') { _%>
             (clrDgRefresh)="refresh($event)"
+            <%_ } _%>
             [clrDgLoading]="loading"
-            [(clrDgSelected)]="selected"
-        >
-            <clr-dg-column [clrDgField]="'id'"
-                 [clrDgSortOrder]="sorters.id"
-                 [(clrFilterValue)]="filters.id">
+            [(clrDgSelected)]="selected">
+
+            <clr-dg-column [clrDgField]="'id'"<%_ if (pagination === 'pagination' || pagination === 'pager'){ _%>[clrDgSortOrder]="sorters.id"<%_ } _%>>
                 <ng-container *clrDgHideableColumn="{hidden: true}">
                     {{'global.field.id' | translate }}
                 </ng-container>
-            </clr-dg-column>
-             <%_ for (idx in fields) { _%>
-            <clr-dg-column [clrDgField]="'<%= fields[idx].fieldName%>'"
-                [clrDgSortOrder]="sorters.<%= fields[idx].fieldName%>">
-                {{'<%=`${i18nKeyPrefix}.${fields[idx].fieldName}` %>' | translate}}
-                <%_ if (fields[idx].fieldName === 'id') { _%>
-                <ng-container *clrDgHideableColumn="{hidden: false}">
-                </ng-container>
-                <%_ } else if (fields[idx].fieldType === 'String') { _%>
-                <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
-                    <<%= jhiPrefixDashed %>-string-filter #<%= fields[idx].fieldName%>Filter
-                                      [clrDgField]="'<%= fields[idx].fieldName%>'"
-                                      [(clrFilterValue)]="filters.<%= fields[idx].fieldName%>"
-                         >
-                    </<%= jhiPrefixDashed %>-string-filter>
-                </clr-dg-filter>
-                <%_ } else if (fields[idx].fieldType === 'Integer' || fields[idx].fieldType === 'BigDecimal' || fields[idx].fieldType === 'Float' || fields[idx].fieldType === 'Double' || fields[idx].fieldType === 'Long') { _%>
-                <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
-                    <<%= jhiPrefixDashed %>-number-filter #<%= fields[idx].fieldName%>Filter
-                                          [clrDgField]="'<%= fields[idx].fieldName%>'"
-                                          [(clrFilterValue)]="filters.<%= fields[idx].fieldName%>"
-                    >
+                <clr-dg-filter [clrDgFilter]="idFilter">
+                    <<%= jhiPrefixDashed %>-number-filter #idFilter
+                                    [clrDgField]="'idFilter'"
+                                    <%_ if (pagination === 'pagination' || pagination === 'pager'){ _%>
+                                    [(clrFilterValue)]="filters.id"
+                                    <%_ } _%>>
                     </<%= jhiPrefixDashed %>-number-filter>
                 </clr-dg-filter>
-                <%_ } else if (fields[idx].fieldType === 'Instant') { _%>
-                <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
-                    <<%= jhiPrefixDashed %>-date-filter #<%= fields[idx].fieldName%>Filter
-                                          [clrDgField]="'<%= fields[idx].fieldName%>'"
-                                          [(clrFilterValue)]="filters.<%= fields[idx].fieldName%>"
-                    >
-                    </<%= jhiPrefixDashed %>-date-filter>
-                </clr-dg-filter>
-                    <%_ } _%>
+            </clr-dg-column>
+            <%_ for (idx in fields) { _%>
+            <clr-dg-column [clrDgField]="'<%= fields[idx].fieldName%>'" <%_ if (pagination === 'pagination' || pagination === 'pager'){ _%> [clrDgSortOrder]="sorters.<%= fields[idx].fieldName%>"<%_ } _%>>
+
+                            <ng-container *clrDgHideableColumn="{hidden: false}">
+                            {{'<%=`${i18nKeyPrefix}.${fields[idx].fieldName}` %>' | translate}}
+                            </ng-container>
+
+                            <%_ if (fields[idx].fieldType === 'String') { _%>
+                            <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
+                                <<%= jhiPrefixDashed %>-string-filter #<%= fields[idx].fieldName%>Filter
+                                                [clrDgField]="'<%= fields[idx].fieldName%>'"
+                                                <%_ if (pagination === 'pagination' || pagination === 'pager'){ _%>
+                                                [(clrFilterValue)]="filters.<%= fields[idx].fieldName%>"
+                                                <%_ } _%>>
+                                </<%= jhiPrefixDashed %>-string-filter>
+                            </clr-dg-filter>
+                            <%_ } else if (fields[idx].fieldType === 'Integer' || fields[idx].fieldType === 'BigDecimal' || fields[idx].fieldType === 'Float' || fields[idx].fieldType === 'Double' || fields[idx].fieldType === 'Long') { _%>
+                            <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
+                                <<%= jhiPrefixDashed %>-number-filter #<%= fields[idx].fieldName%>Filter
+                                                [clrDgField]="'<%= fields[idx].fieldName%>'"
+                                                <%_ if (pagination === 'pagination' || pagination === 'pager'){ _%>
+                                                [(clrFilterValue)]="filters.<%= fields[idx].fieldName%>"
+                                                <%_ } _%>>
+                                </<%= jhiPrefixDashed %>-number-filter>
+                            </clr-dg-filter>
+                            <%_ } else if (fields[idx].fieldType === 'LocalDate' || fields[idx].fieldType === 'Instant' || fields[idx].fieldType === 'ZonedDateTime' ) { _%>
+                            <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
+                                <<%= jhiPrefixDashed %>-date-filter #<%= fields[idx].fieldName%>Filter
+                                                [clrDgField]="'<%= fields[idx].fieldName%>'"
+                                                <%_ if (pagination === 'pagination' || pagination === 'pager'){ _%>
+                                                [(clrFilterValue)]="filters.<%= fields[idx].fieldName%>"
+                                                <%_ } _%>>
+                                </<%= jhiPrefixDashed %>-date-filter>
+                            </clr-dg-filter>
+                            <%_ } else if (fields[idx].fieldType === 'Boolean') { _%>
+                            // todo: Boolean 筛选器
+                            <%_ } else if (fields[idx].fieldType === 'Enumeration') { _%>
+                            // todo: Enumeration 筛选器
+                            <%_ } else if (fields[idx].fieldType === 'Blob') { _%>
+                            // todo: Blob Text 筛选器
+                            <%_ } _%>
             </clr-dg-column>
             <%_ } _%>
+
             <%_ for (idx in relationships) { _%>
-            <%_ if (relationships[idx].relationshipType === 'many-to-one'
-                || (relationships[idx].relationshipType === 'one-to-one' && relationships[idx].ownerSide === true)
-                || (relationships[idx].relationshipType === 'many-to-many' && relationships[idx].ownerSide === true && pagination === 'no')) {
-                const fieldName = dto === 'no' ? "." + relationships[idx].otherEntityField : relationships[idx].otherEntityFieldCapitalized;_%>
-            <clr-dg-column [clrDgField]="'<%=relationships[idx].relationshipName + (fieldName)%>'"
-                <% if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[clrDgSortOrder]="sorters.<%=relationships[idx].relationshipName%>"<% } %>
-            >
-                {{'<%=`${i18nKeyPrefix}.${relationships[idx].relationshipName}` %>' | translate}}
+            <%_ if (relationships[idx].relationshipType === 'many-to-one' || (relationships[idx].relationshipType === 'one-to-one' && relationships[idx].ownerSide === true) || (relationships[idx].relationshipType === 'many-to-many' && relationships[idx].ownerSide === true && pagination === 'no')) { _%>
+            <%_ const fieldName = dto === 'no' ? "." + relationships[idx].otherEntityField : relationships[idx].otherEntityFieldCapitalized; _%>
+            <clr-dg-column [clrDgField]="'<%=relationships[idx].relationshipName%>'"
+                            <%_ if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[clrDgSortOrder]="sorters.<%=relationships[idx].relationshipName%>"<%_ } _%>
+                            <%_ if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']"<%_ } _%>>
+                            <ng-container *clrDgHideableColumn="{hidden: false}">
+                            {{'<%=`${i18nKeyPrefix}.${relationships[idx].relationshipName}` %>' | translate}}
+                            </ng-container>
             </clr-dg-column>
             <%_ } _%>
             <%_ } _%>
+
             <clr-dg-row
-                 *ngFor="let <%=entityInstance %> of <%=entityInstancePlural %> ;trackBy: trackId"
+                <%_ if (pagination === 'pagination' || pagination === 'pager'){ _%>
+                *ngFor="let <%=entityInstance %> of <%=entityInstancePlural %> ;trackBy: trackId"
+                <%_ } else { _%>
+                *clrDgItems="let <%=entityInstance %> of <%=entityInstancePlural %> ;trackBy: trackId"
+                <%_ } _%>
                 [clrDgItem]="<%=entityInstance %>">
                 <clr-dg-cell>
                     {{<%=entityInstance %>.id}}
                 </clr-dg-cell>
                 <%_ for (idx in fields) {
-                    const fieldName = fields[idx].fieldName;
-                    const fieldNameCapitalized = fields[idx].fieldNameCapitalized;
-                    const fieldType = fields[idx].fieldType;
-                    const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent; _%>
+                const fieldName = fields[idx].fieldName;
+                const fieldNameCapitalized = fields[idx].fieldNameCapitalized;
+                const fieldType = fields[idx].fieldType;
+                const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent; _%>
                 <%_ if (['byte[]', 'ByteBuffer'].includes(fieldType) && fieldTypeBlobContent === 'image') { _%>
                 <clr-dg-cell>
                     <a *ngIf="<%= entityInstance %>.<%= fieldName %>" (click)="openFile(<%= entityInstance %>.<%= fieldName %>ContentType, <%= entityInstance %>.<%= fieldName %>)">
@@ -105,23 +128,23 @@
                 <%_ } _%>
                 <%_ } _%>
                 <%_ for (idx in relationships) {
-                    const relationshipType = relationships[idx].relationshipType;
-                    const ownerSide = relationships[idx].ownerSide;
-                    const relationshipFieldName = relationships[idx].relationshipFieldName;
-                    const relationshipFieldNamePlural = relationships[idx].relationshipFieldNamePlural;
-                    const otherEntityName = relationships[idx].otherEntityName;
-                    const otherEntityStateName = relationships[idx].otherEntityStateName;
-                    const otherEntityField = relationships[idx].otherEntityField;
-                    const otherEntityFieldCapitalized = relationships[idx].otherEntityFieldCapitalized; _%>
+                const relationshipType = relationships[idx].relationshipType;
+                const ownerSide = relationships[idx].ownerSide;
+                const relationshipFieldName = relationships[idx].relationshipFieldName;
+                const relationshipFieldNamePlural = relationships[idx].relationshipFieldNamePlural;
+                const otherEntityName = relationships[idx].otherEntityName;
+                const otherEntityStateName = relationships[idx].otherEntityStateName;
+                const otherEntityField = relationships[idx].otherEntityField;
+                const otherEntityFieldCapitalized = relationships[idx].otherEntityFieldCapitalized; _%>
                 <%_ if (relationshipType === 'many-to-one'
-                    || (relationshipType === 'one-to-one' && ownerSide === true)
-                    || (relationshipType === 'many-to-many' && ownerSide === true && pagination === 'no')) { _%>
+                || (relationshipType === 'one-to-one' && ownerSide === true)
+                || (relationshipType === 'many-to-many' && ownerSide === true && pagination === 'no')) { _%>
                 <clr-dg-cell>
                     <%_ if (otherEntityName === 'user') { _%>
                     <%_ if (relationshipType === 'many-to-many') { _%>
                     <span *ngFor="let <%= relationshipFieldName %> of <%= entityInstance %>.<%= relationshipFieldNamePlural %>; let last = last">
-                        {{<%= relationshipFieldName %>.<%= otherEntityField %>}}{{last ? '' : ', '}}
-                    </span>
+                                    {{<%= relationshipFieldName %>.<%= otherEntityField %>}}{{last ? '' : ', '}}
+                                </span>
                     <%_ } else { _%>
                     <%_ if (dto === 'no') { _%>
                     {{<%= entityInstance + "." + relationshipFieldName + "?." + otherEntityField %>}}
@@ -132,13 +155,17 @@
                     <%_ } else { _%>
                     <%_ if (relationshipType === 'many-to-many') { _%>
                     <span *ngFor="let <%= relationshipFieldName %> of <%= entityInstance %>.<%= relationshipFieldNamePlural %>; let last = last">
-                        <a class="form-control-static" [routerLink]="['../<%= otherEntityStateName %>', <%= relationshipFieldName %>?.id, 'view' ]">{{<%= relationshipFieldName %>.<%= otherEntityField %>}}</a>{{last ? '' : ', '}}
-                    </span>
+                                    <a class="form-control-static" [routerLink]="['../<%= otherEntityStateName %>', <%= relationshipFieldName %>?.id, 'view' ]">{{<%= relationshipFieldName %>.<%= otherEntityField %>}}</a>{{last ? '' : ', '}}
+                                </span>
                     <%_ } else { _%>
                     <%_ if (dto === 'no') { _%>
+                    <div *ngIf="<%= entityInstance + "." + relationshipFieldName %>">
                         {{<%= entityInstance + "." + relationshipFieldName + "?." + otherEntityField %>}}
+                    </div>
                     <%_ } else { _%>
+                    <div *ngIf="<%= entityInstance + "." + relationshipFieldName + "Id" %>">
                         {{<%= entityInstance + "." + relationshipFieldName + otherEntityFieldCapitalized %>}}
+                    </div>
                     <%_ } _%>
                     <%_ } _%>
                     <%_ } _%>
@@ -146,24 +173,26 @@
                 <%_ } _%>
                 <%_ } _%>
             </clr-dg-row>
+
             <clr-dg-footer>
                 <clr-dg-column-toggle>
-                <clr-dg-column-toggle-title>{{'entity.datagrid.selectDisplayFieldLabel' | translate}}</clr-dg-column-toggle-title>
-                <clr-dg-column-toggle-button clrType="selectAll">{{'entity.action.selectAll' | translate}}</clr-dg-column-toggle-button>
-                <clr-dg-column-toggle-button clrType="ok">
-                    <clr-icon shape="check"></clr-icon>
-                </clr-dg-column-toggle-button>
+                    <clr-dg-column-toggle-title>{{'entity.datagrid.selectDisplayFieldLabel' | translate}}</clr-dg-column-toggle-title>
+                    <clr-dg-column-toggle-button clrType="selectAll">{{'entity.action.selectAll' | translate}}</clr-dg-column-toggle-button>
+                    <clr-dg-column-toggle-button clrType="ok">
+                        <clr-icon shape="check"></clr-icon>
+                    </clr-dg-column-toggle-button>
                 </clr-dg-column-toggle>
-                <%_ if (databaseType !== 'cassandra') { _%>
+                <%_ if (databaseType !== 'cassandra' && (pagination === 'pagination' || pagination === 'pager')) { _%>
                 {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
                 {{'entity.datagrid.total' | translate}} {{totalItems}} <span jhiTranslate="<%= i18nKeyPrefix %>.home.title"><%= entityClassPluralHumanized %></span>
                 <clr-dg-pagination #pagination [clrDgTotalItems]="totalItems" [clrDgPageSize]="itemsPerPage"
-                       [(clrDgPage)]="page"></clr-dg-pagination>
+                                [(clrDgPage)]="page"></clr-dg-pagination>
                 <%_ } else { _%>
-                {{'entity.datagrid.total' | translate}} {{totalItems}} <span jhiTranslate="<%= i18nKeyPrefix %>.home.title"><%= entityClassPluralHumanized %></span>
+                {{'entity.datagrid.total' | translate}} {{<%= entityInstancePlural %> ? <%= entityInstancePlural %>.length : 0}} <span jhiTranslate="<%= i18nKeyPrefix %>.home.title"><%= entityClassPluralHumanized %></span>
                 <%_ } _%>
             </clr-dg-footer>
         </clr-datagrid>
+
     </div>
     <div class="modal-footer">
         <button class="btn btn-sm btn-link btn-warning remove-all" (click)="selected = []">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.clear' | translate}}</button>

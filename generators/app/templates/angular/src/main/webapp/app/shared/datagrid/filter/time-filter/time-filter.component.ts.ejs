@@ -12,7 +12,7 @@ import {FilterRelationship, FilterType, TimeFilterValue} from 'app/shared/util/f
 })
 export class <%=jhiPrefixCapitalized%>TimeFilterComponent implements ClrDatagridFilterInterface<any> {
     @Output('clrFilterValueChange') clrFilterValueChange = new EventEmitter();
-    changes = new Subject<any>();
+    _changes = new Subject<any>();
     property: string;
     value: any;
     timeRangeType = FilterType.TIME_RANGE;
@@ -21,6 +21,10 @@ export class <%=jhiPrefixCapitalized%>TimeFilterComponent implements ClrDatagrid
     constructor(public filterFn: ClrDatagridFilter) {
         this.filterFn.setFilter(this);
         this.value = new TimeFilterValue();
+    }
+
+    public get changes(): Observable<any> {
+        return this._changes.asObservable();
     }
 
     @Input('clrDgField')
@@ -42,12 +46,12 @@ export class <%=jhiPrefixCapitalized%>TimeFilterComponent implements ClrDatagrid
     }
 
     accepts(item: any): boolean {
-        return false;
+        return TimeFilter(item[this.property], this.value);
     }
 
     submit() {
         this.value.type = this.value.enableAdvancedFilter ? this.timeAdvancedType : this.timeRangeType;
-        this.changes.next(true);
+        this._changes.next(true);
     }
 
     close(event) {
