@@ -37,7 +37,7 @@ export class <%= entityAngularName %>SelectDialogComponent implements OnInit, On
     set opened(value) {
         this._opened = value;
         if (!value) {
-            this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+            this.<%= entityInstance %>SelectDialogService.close();
         }
     }
 
@@ -84,21 +84,26 @@ export class <%= entityAngularName %>SelectDialogComponent implements OnInit, On
         }
     }
 
+    <%_ if (pagination !== 'no') { _%>
+        <%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
     private paginate<%= entityClassPlural %>(data: I<%= entityAngularName %>[], headers: HttpHeaders) {
+        <%_ if (databaseType !== 'cassandra') { _%>
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         this.queryCount = this.totalItems;
+        <%_ } _%>
         this.<%= entityInstancePlural %> = data;
         // added for Clarity
         this.loading = false;
-        data.forEach(item => {
-            for (let i = 0; i < this.selected.length; i++) {
-                if (item.id === this.selected[i].id) {
-                    this.selected[i] = item;
-                    break;
-                }
-            }
-        });
     }
+        <%_ } else if (pagination === 'infinite-scroll') { _%>
+    private paginate<%= entityClassPlural %>(data: I<%= entityAngularName %>[], headers: HttpHeaders) {
+        this.links = this.parseLinks.parse(headers.get('link'));
+        this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
+        for (let i = 0; i < data.length; i++) {
+            this.<%= entityInstancePlural %>.push(data[i]);
+        }
+    }
+    <%_ }} _%>
 
     private onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);

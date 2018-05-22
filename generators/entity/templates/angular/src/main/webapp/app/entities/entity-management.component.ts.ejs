@@ -71,7 +71,7 @@ export class <%= entityAngularName %>Component implements OnInit, OnDestroy {
         this.eventSubscriber = this.eventManager.subscribe('<%= entityInstance %>ListModification', response => <%= eventCallBack %>);
     }
 
-<%_ if (databaseType !== 'cassandra') { _%>
+    <%_ if (databaseType !== 'cassandra' && pagination !== 'no') { _%>
     sort() {
         const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
         if (this.predicate !== 'id') {

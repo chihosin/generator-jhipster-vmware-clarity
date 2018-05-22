@@ -59,17 +59,6 @@
         this.selected = this.<%= entityInstance %>SelectDialogService.selected;
     }
 
-    get opened() {
-        return this._opened;
-    }
-
-    set opened(value) {
-        this._opened = value;
-        if (!value) {
-            this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
-        }
-    }
-
     // added for Clarity
     refresh(state: ClrDatagridStateInterface) {
       // added grid sort
