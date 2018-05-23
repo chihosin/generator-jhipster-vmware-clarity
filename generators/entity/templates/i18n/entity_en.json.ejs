@@ -23,6 +23,13 @@ let helpBlocks = 0; %>
             },
             "detail": {
                 "title": "<%= entityClassHumanized %>"
+            },
+            "filter": {
+                "title": "select <%= entityClassHumanized %>",
+                "select": "select",
+                "selected": "selected",
+                "noChoiceConditions": "no choice conditions",
+                "clear": "clear"
             }<% for (idx in fields) {
             if (typeof fields[idx].javadoc !== 'undefined') ++helpBlocks; %>,
             "<%=fields[idx].fieldName%>": "<%= fields[idx].fieldNameHumanized %>"<% } %><% for (idx in relationships) { %>,

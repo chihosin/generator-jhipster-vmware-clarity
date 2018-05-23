@@ -7,7 +7,7 @@
                 <clr-icon shape="window-close"></clr-icon>
             </span>
             <span *ngIf="selected.length < 1">
-                {{'<%= angularAppName %>.<%= entityTranslationKey %>.selectFilter.notSelected' | translate}}
+                {{'<%= angularAppName %>.<%= entityTranslationKey %>.filter.noChoiceConditions' | translate}}
             </span>
         </div>
     </div>
@@ -19,9 +19,11 @@
                     (click)="removeAll()"
                     *ngIf="selected.length > 0"
                 >
-                    清空
+                    {{'<%= angularAppName %>.<%= entityTranslationKey %>.filter.clear' | translate}}
                 </button>
-                <button class="btn btn-outline btn-sm btn-link" (click)="openSelectDialog()">选择</button>
+                <button class="btn btn-outline btn-sm btn-link" (click)="openSelectDialog()">
+                    {{'<%= angularAppName %>.<%= entityTranslationKey %>.filter.select' | translate}}
+                </button>
             </div>
         </div>
     </div>

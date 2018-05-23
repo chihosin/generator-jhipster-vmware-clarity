@@ -23,6 +23,13 @@ let helpBlocks = 0; %>
             },
             "detail": {
                 "title": "<%= entityClassHumanized %>"
+            },
+            "filter": {
+                "title": "选择 <%= entityClassHumanized %>",
+                "select": "选择",
+                "selected": "已选",
+                "noChoiceConditions": "没有选择条件",
+                "clear": "清除"
             }<% for (idx in fields) {
             if (typeof fields[idx].javadoc !== 'undefined') ++helpBlocks; %>,
             "<%=fields[idx].fieldName%>": "<%= fields[idx].fieldNameHumanized %>"<% } %><% for (idx in relationships) { %>,

@@ -1,19 +1,19 @@
 <clr-modal [(clrModalOpen)]="opened" [clrModalStaticBackdrop]="true" [clrModalSize]="'xl'">
-    <h3 class="modal-title">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.title' | translate}}</h3>
+    <h3 class="modal-title">{{'<%= angularAppName %>.<%= entityTranslationKey %>.filter.title' | translate}}</h3>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
 
         <div class="card card-block" *ngIf="!<%= entityInstance %>SelectDialogService.single">
-            <span class="label-group-title">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.selected' | translate}}:</span>
+            <span class="label-group-title">{{'<%= angularAppName %>.<%= entityTranslationKey %>.filter.selected' | translate}}:</span>
             <span *ngIf="selected.length < 1">
-                {{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.notSelected' | translate}}
+                {{'global.messages.info.noOption' | translate}}
             </span>
             <span class="label" *ngFor="let item of selected" (click)="remove(item)">
                 {{item.id}}
                 <clr-icon shape="window-close"></clr-icon>
             </span> 
             <button *ngIf="selected.length > 0" class="btn btn-sm btn-link btn-warning remove-all" (click)="selected = []">
-                {{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.clear' | translate}}
+                {{'<%= angularAppName %>.<%= entityTranslationKey %>.filter.clear' | translate}}
             </button>
         </div>
 
@@ -197,11 +197,11 @@
                 </clr-dg-column-toggle>
                 <%_ if (databaseType !== 'cassandra' && (pagination === 'pagination' || pagination === 'pager')) { _%>
                 {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-                {{'entity.datagrid.total' | translate}} {{totalItems}} <span jhiTranslate="<%= i18nKeyPrefix %>.home.title"><%= entityClassPluralHumanized %></span>
+                {{'entity.datagrid.pagination.of' | translate}} {{totalItems}} <span jhiTranslate="<%= i18nKeyPrefix %>.home.title"><%= entityClassPluralHumanized %></span>
                 <clr-dg-pagination #pagination [clrDgTotalItems]="totalItems" [clrDgPageSize]="itemsPerPage"
                                 [(clrDgPage)]="page"></clr-dg-pagination>
                 <%_ } else { _%>
-                {{'entity.datagrid.total' | translate}} {{<%= entityInstancePlural %> ? <%= entityInstancePlural %>.length : 0}} <span jhiTranslate="<%= i18nKeyPrefix %>.home.title"><%= entityClassPluralHumanized %></span>
+                {{'entity.datagrid.pagination.of' | translate}} {{<%= entityInstancePlural %> ? <%= entityInstancePlural %>.length : 0}} <span jhiTranslate="<%= i18nKeyPrefix %>.home.title"><%= entityClassPluralHumanized %></span>
                 <%_ } _%>
             </clr-dg-footer>
         </clr-datagrid>
@@ -209,8 +209,8 @@
 
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="opened = false;">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.cancel' | translate}}</button>
-        <button type="button" class="btn btn-primary" (click)="confirm()">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.confirm' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="opened = false;">{{'entity.action.cancel' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="confirm()">{{'entity.action.confirm' | translate}}</button>
     </div>
 
 </clr-modal>
