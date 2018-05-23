@@ -24,7 +24,7 @@ import { <%= entityAngularName %>SelectDialogComponent } from './<%= entityFileN
 import { <%= entityAngularName %>SelectDialogService } from './<%= entityFileName %>-select-dialog.service';
 import { <%= entityAngularName %>FilterComponent } from './<%= entityFileName %>-filter.component';
 <%_ for (idx in relationships) { _%>
-import { <%= angularXAppName %><%=relationships[idx].otherEntityAngularName%>Module } from 'app/entities/<%=relationships[idx].otherEntityClientRootFolder%>/<%=relationships[idx].otherEntityFileName%>/<%=relationships[idx].relationshipName%>.module';
+import { <%= angularXAppName %><%=relationships[idx].otherEntityAngularName%>Module } from 'app/entities/<%=relationships[idx].otherEntityClientRootFolder%>/<%=relationships[idx].otherEntityFileName%>/<%=relationships[idx].otherEntityFileName%>.module';
 <%_ } _%>
 
 const ENTITY_STATES = [
