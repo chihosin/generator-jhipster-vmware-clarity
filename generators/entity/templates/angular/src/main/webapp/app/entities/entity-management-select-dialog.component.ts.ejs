@@ -102,7 +102,11 @@ export class <%= entityAngularName %>SelectDialogComponent implements OnInit, On
 
     <%_ } _%>
     confirm() {
-        this.<%= entityInstance %>SelectDialogService.submit([...this.selected]);
+        if (this.<%= entityInstance %>SelectDialogService.single) {
+            this.<%= entityInstance %>SelectDialogService.submit([this.selected]);
+        } else {
+            this.<%= entityInstance %>SelectDialogService.submit([...this.selected]);
+        }
     }
 
     <%_ if (pagination !== 'no') { _%>

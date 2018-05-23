@@ -4,7 +4,7 @@
     routeData: any;
     // added for Clarity
     loading: any;
-    selected: Array<I<%= entityAngularName %>>;
+    selected: any;
     private _opened: any;
 
     constructor(
@@ -20,7 +20,14 @@
     ) {
         // added for Clarity
         this.loading = true;
-        this.selected = this.<%= entityInstance %>SelectDialogService.selected;
+        const selectDialogService = this.<%= entityInstance %>SelectDialogService;
+        if (selectDialogService.single) {
+            if (selectDialogService.selected && selectDialogService.selected.length > 0) {
+                this.selected = selectDialogService.selected[0];
+            }
+        } else {
+            this.selected = selectDialogService.selected;
+        }
     }
 
     loadAll() {

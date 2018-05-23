@@ -5,13 +5,15 @@ import { I<%= entityAngularName %> } from 'app/shared/model/<%= entityModelFileN
 @Injectable()
 export class <%= entityAngularName %>SelectDialogService {
     public selected: Array<I<%= entityAngularName %>>;
+    public single: boolean;
     private callback: Function;
 
     constructor(private router: Router) {
         this.selected = [];
     }
 
-    subscribe(selected: Array<I<%= entityAngularName %>>, callback: Function) {
+    subscribe(selected: Array<I<%= entityAngularName %>>, callback: Function, single = false) {
+        this.single = single;
         this.selected = [...(selected || [])];
         this.callback = callback;
         this.router.navigate([

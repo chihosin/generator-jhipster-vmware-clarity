@@ -1,11 +1,14 @@
 <div class="box">
     <p class="p6">{{<% if (enableTranslation){ %>'<%= angularAppName %>.<%= entityTranslationKey %>.home.title'<% }else{ %>'<%= entityClassPlural %>'<% } %> | translate}}</p>
-    <div class="row label-group" *ngIf="selected.length > 0">
+    <div class="row label-group">
         <div class="col-sm-12">
-                <span class="label" *ngFor="let item of this.selected" (click)="remove(item)">
-                    {{item.id}}
-                    <clr-icon shape="window-close"></clr-icon>
-                </span>
+            <span class="label" *ngFor="let item of selected" (click)="remove(item)">
+                {{item.id}}
+                <clr-icon shape="window-close"></clr-icon>
+            </span>
+            <span *ngIf="selected.length < 1">
+                {{'<%= angularAppName %>.<%= entityTranslationKey %>.selectFilter.notSelected' | translate}}
+            </span>
         </div>
     </div>
     <div class="row">

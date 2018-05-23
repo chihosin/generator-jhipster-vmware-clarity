@@ -3,21 +3,34 @@
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="card card-block" *ngIf="selected.length > 0">
+        <div class="card card-block" *ngIf="!<%= entityInstance %>SelectDialogService.single">
             <span class="label-group-title">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.selected' | translate}}:</span>
+            <span *ngIf="selected.length < 1">
+                {{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.notSelected' | translate}}
+            </span>
             <span class="label" *ngFor="let item of selected" (click)="remove(item)">
                 {{item.id}}
                 <clr-icon shape="window-close"></clr-icon>
-            </span>
+            </span> 
+            <button *ngIf="selected.length > 0" class="btn btn-sm btn-link btn-warning remove-all" (click)="selected = []">
+                {{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.clear' | translate}}
+            </button>
         </div>
 
+        <%_for(let i = 0; i < 2; i++) {_%>
         <clr-datagrid
+            *ngIf="<%_ if(i === 1) { _%>!<%_ } _%><%= entityInstance %>SelectDialogService.single"
             <%_ if (pagination !== 'no') { _%>
             (clrDgRefresh)="refresh($event)"
             <%_ } _%>
             [clrDgLoading]="loading"
-            [(clrDgSelected)]="selected">
-
+            [clDgRowSelection]="true"
+            <%_ if(i === 0) { _%>
+            [(clrDgSingleSelected)]="selected"
+            <%_ } else if(i === 1) { _%>
+            [(clrDgSelected)]="selected"
+            <%_ } _%>
+        >
             <clr-dg-column [clrDgField]="'id'"<%_ if (pagination === 'pagination' || pagination === 'pager'){ _%>[clrDgSortOrder]="sorters.id"<%_ } _%>>
                 <ng-container *clrDgHideableColumn="{hidden: true}">
                     {{'global.field.id' | translate }}
@@ -192,10 +205,10 @@
                 <%_ } _%>
             </clr-dg-footer>
         </clr-datagrid>
+        <%_}_%>
 
     </div>
     <div class="modal-footer">
-        <button class="btn btn-sm btn-link btn-warning remove-all" (click)="selected = []">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.clear' | translate}}</button>
         <button type="button" class="btn btn-primary" (click)="opened = false;">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.cancel' | translate}}</button>
         <button type="button" class="btn btn-primary" (click)="confirm()">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.confirm' | translate}}</button>
     </div>

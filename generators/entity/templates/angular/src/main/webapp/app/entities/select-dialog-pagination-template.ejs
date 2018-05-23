@@ -21,7 +21,7 @@
     searchDebounce: Subject<ClrDatagridStateInterface>;
     filters: any;
     sorters: any;
-    selected: Array<I<%= entityAngularName %>>;
+    selected: any;
     <%_ } _%>
     private _opened: any;
 
@@ -54,7 +54,14 @@
         this.searchDebounce = new Subject<ClrDatagridStateInterface>();
         this.searchDebounce.debounceTime(SEARCH_DEBOUNCE_TIME).subscribe(() => this.loadAll());
         <%_ } _%>
-        this.selected = this.<%= entityInstance %>SelectDialogService.selected;
+        const selectDialogService = this.<%= entityInstance %>SelectDialogService;
+        if (selectDialogService.single) {
+            if (selectDialogService.selected && selectDialogService.selected.length > 0) {
+                this.selected = selectDialogService.selected[0];
+            }
+        } else {
+            this.selected = selectDialogService.selected;
+        }
     }
 
     // added for Clarity
