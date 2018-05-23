@@ -1,7 +1,8 @@
-import {Component, OnInit, OnDestroy, Input, Output, EventEmitter} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
-import {ClrDatagridFilter, ClrDatagridFilterInterface} from '@clr/angular';
-import {DateTimeFilterValue, FilterRelationship, FilterType} from 'app/shared/util/filter-util';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { ClrDatagridFilter, ClrDatagridFilterInterface } from '@clr/angular';
+import { DateFilter, DateTimeFilterValue, FilterType } from 'app/shared/util/filter-util';
 
 @Component({
     selector: '<%= jhiPrefixDashed %>-date-time-filter',

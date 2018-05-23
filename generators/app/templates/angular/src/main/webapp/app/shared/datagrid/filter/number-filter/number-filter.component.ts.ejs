@@ -1,7 +1,8 @@
-import {Component, OnInit, OnDestroy, Input, Output, EventEmitter} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
-import {ClrDatagridFilter, ClrDatagridFilterInterface} from '@clr/angular';
-import {FilterRelationship, FilterSymbol, FilterType, NumberFilterValue} from 'app/shared/util/filter-util';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { ClrDatagridFilter, ClrDatagridFilterInterface } from '@clr/angular';
+import { NumberFilter, FilterSymbol, FilterType, NumberFilterValue } from 'app/shared/util/filter-util';
 
 @Component({
     selector: '<%= jhiPrefixDashed %>-number-filter',

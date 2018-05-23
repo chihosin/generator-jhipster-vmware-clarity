@@ -22,8 +22,9 @@ import {
 
 import { <%= entityAngularName %>SelectDialogComponent } from './<%= entityFileName %>-select-dialog.component';
 import { <%= entityAngularName %>SelectDialogService } from './<%= entityFileName %>-select-dialog.service';
+import { <%= entityAngularName %>FilterComponent } from './<%= entityFileName %>-filter.component';
 <%_ for (idx in relationships) { _%>
-import { <%=relationships[idx].otherEntityAngularName%>FilterComponent } from 'app/entities/<%=relationships[idx].otherEntityClientRootFolder%>/<%=relationships[idx].otherEntityFileName%>/<%=relationships[idx].otherEntityFileName%>-filter.component';
+import { <%= angularXAppName %><%=relationships[idx].otherEntityAngularName%>Module } from 'app/entities/<%=relationships[idx].otherEntityClientRootFolder%>/<%=relationships[idx].otherEntityFileName%>/<%=relationships[idx].relationshipName%>.module';
 <%_ } _%>
 
 const ENTITY_STATES = [
@@ -38,7 +39,10 @@ const ENTITY_STATES = [
               if (key === 'User') { _%>
         <%= angularXAppName %>AdminModule,
         <%_ }}); _%>
-        RouterModule.forChild(ENTITY_STATES)
+        RouterModule.forChild(ENTITY_STATES),
+        <%_ for (idx in relationships) { _%>
+        <%= angularXAppName %><%=relationships[idx].otherEntityAngularName%>Module
+        <%_ } _%>
     ],
     declarations: [
         <%= entityAngularName %>Component,
@@ -46,9 +50,7 @@ const ENTITY_STATES = [
         <%= entityAngularName %>UpdateComponent,
         <%= entityAngularName %>DeleteDialogComponent,
         <%= entityAngularName %>SelectDialogComponent,
-        <%_ for (idx in relationships) { _%>
-        <%=relationships[idx].otherEntityAngularName%>FilterComponent
-        <%_ } _%>
+        <%= entityAngularName %>FilterComponent
     ],
     entryComponents: [
         <%= entityAngularName %>Component,
@@ -65,9 +67,7 @@ const ENTITY_STATES = [
     ],
     exports: [
         <%= entityAngularName %>SelectDialogComponent,
-        <%_ for (idx in relationships) { _%>
-        <%=relationships[idx].otherEntityAngularName%>FilterComponent
-        <%_ } _%>
+        <%= entityAngularName %>FilterComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

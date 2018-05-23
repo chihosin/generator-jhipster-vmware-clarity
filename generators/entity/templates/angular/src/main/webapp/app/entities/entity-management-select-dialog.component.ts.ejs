@@ -99,8 +99,8 @@ export class <%= entityAngularName %>SelectDialogComponent implements OnInit, On
         }
         return result;
     }
-    <%_ } _%>
 
+    <%_ } _%>
     confirm() {
         this.<%= entityInstance %>SelectDialogService.submit([...this.selected]);
     }

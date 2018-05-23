@@ -241,7 +241,7 @@ export function  NumberFilter(value: string, filterValue: NumberFilterValue) {
         _conditionRegularCheck(value, filterValue.secondaryValue, filterValue.secondarySymbol);
 }
 
-export function  DateFilter(value: string, filterValue: NumberFilterValue) {
+export function  DateFilter(value: any, filterValue: any) {
     if (filterValue.type === FilterType.DATE_RANGE || FilterType.DATE_TIME_RANGE) {
         return (!filterValue.min || _conditionRegularCheck(new Date(value), new Date(filterValue.min), FilterSymbol.GREATER_THAN_EQUAL)) &&
             (!filterValue.max || _conditionRegularCheck(new Date(value), new Date(filterValue.max), FilterSymbol.LESS_THAN_EQUAL));
@@ -252,16 +252,16 @@ export function  DateFilter(value: string, filterValue: NumberFilterValue) {
             _conditionRegularCheck(new Date(value), new Date(filterValue.secondaryValue), filterValue.secondarySymbol));
 }
 
-export function  TimeFilter(value: string, filterValue: NumberFilterValue) {
+export function  TimeFilter(value: string, filterValue: TimeFilterValue) {
     if (filterValue.type === FilterType.DATE_RANGE || FilterType.DATE_TIME_RANGE) {
         return (!filterValue.min ||
             _conditionRegularCheck(new Date(`1970-1-1 ${value}`), new Date(`1970-1-1 ${filterValue.min}`), FilterSymbol.GREATER_THAN_EQUAL)) &&
             (!filterValue.max ||
                 _conditionRegularCheck(new Date(`1970-1-1 ${value}`), new Date(`1970-1-1 ${filterValue.max}`), FilterSymbol.LESS_THAN_EQUAL));
     }
-    return (filterValue.primaryValue || filterValue.primarySymbol === null ||
+    return (!filterValue.primaryValue || filterValue.primarySymbol === null ||
         _conditionRegularCheck(new Date(`1970-1-1 ${value}`), new Date(`1970-1-1 ${filterValue.primaryValue}`), filterValue.primarySymbol)) &&
-        (filterValue.secondaryValue || filterValue.secondarySymbol === null ||
+        (!filterValue.secondaryValue || filterValue.secondarySymbol === null ||
             _conditionRegularCheck(new Date(`1970-1-1 ${value}`), new Date(`1970-1-1 ${filterValue.secondaryValue}`), filterValue.secondarySymbol));
 }
 

@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 import { ClrDatagridFilter, ClrDatagridFilterInterface } from '@clr/angular';
 import { SelectFilterValue } from 'app/shared/util/filter-util';
 import { Router } from '@angular/router';
@@ -94,7 +95,7 @@ export class <%= entityAngularName %>FilterComponent implements ClrDatagridFilte
             });
             this.value.selected = values;
             this.selected = selected;
-            this.changes.next(true);
+            this._changes.next(true);
             this.filterFn.open = false;
         });
     }
@@ -102,7 +103,7 @@ export class <%= entityAngularName %>FilterComponent implements ClrDatagridFilte
     removeAll() {
         this.selected = [];
         this.value.selected = [];
-        this.changes.next(true);
+        this._changes.next(true);
     }
 
     remove(item: I<%= entityAngularName %>) {
@@ -113,7 +114,7 @@ export class <%= entityAngularName %>FilterComponent implements ClrDatagridFilte
                 break;
             }
         }
-        this.changes.next(true);
+        this._changes.next(true);
     }
 
     private onError(errorMessage: string) {
