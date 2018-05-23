@@ -30,9 +30,6 @@
         private parseLinks: JhiParseLinks,
         private jhiAlertService: JhiAlertService,
         private principal: Principal,
-        <%_ if (fieldsContainBlob) { _%>
-        private dataUtils: JhiDataUtils,
-        <%_ } _%>
         private router: Router,
         private eventManager: JhiEventManager,
         public <%= entityInstance %>SelectDialogService: <%= entityAngularName %>SelectDialogService

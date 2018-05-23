@@ -57,9 +57,11 @@ export class <%= entityAngularName %>Component implements OnInit, OnDestroy {
     byteSize(field) {
         return this.dataUtils.byteSize(field);
     }
+
     openFile(contentType, field) {
         return this.dataUtils.openFile(contentType, field);
     }
+    
     <%_ } _%>
     <%_
     let eventCallBack = 'this.loadAll()';
@@ -79,6 +81,7 @@ export class <%= entityAngularName %>Component implements OnInit, OnDestroy {
         }
         return result;
     }
+
     <%_ } _%>
     <%_ if (pagination !== 'no') { _%>
         <%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
@@ -91,7 +94,7 @@ export class <%= entityAngularName %>Component implements OnInit, OnDestroy {
         // added for Clarity
         this.loading = false;
     }
-        <%_ } else if (pagination === 'infinite-scroll') { _%>
+    <%_ } else if (pagination === 'infinite-scroll') { _%>
     private paginate<%= entityClassPlural %>(data: I<%= entityAngularName %>[], headers: HttpHeaders) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);

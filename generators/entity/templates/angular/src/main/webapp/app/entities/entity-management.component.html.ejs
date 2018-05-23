@@ -25,10 +25,11 @@
         </div>
     </clr-dg-action-bar>
 
-    <clr-dg-column [clrDgField]="'id'"<%_ if (pagination === 'pagination' || pagination === 'pager'){ _%>[clrDgSortOrder]="sorters.id"<%_ } _%>>
+    <clr-dg-column [clrDgField]="'id'" <%_ if (pagination === 'pagination' || pagination === 'pager'){ _%> [clrDgSortOrder]="sorters.id"<%_ } _%>>
         <ng-container *clrDgHideableColumn="{hidden: true}">
             {{'global.field.id' | translate }}
         </ng-container>
+        <%_ if (searchEngine === 'elasticsearch') { _%>
         <clr-dg-filter [clrDgFilter]="idFilter">
             <<%= jhiPrefixDashed %>-number-filter #idFilter
                             [clrDgField]="'idFilter'"
@@ -37,6 +38,7 @@
                             <%_ } _%>>
             </<%= jhiPrefixDashed %>-number-filter>
         </clr-dg-filter>
+        <%_ } _%>
     </clr-dg-column>
     <%_ for (idx in fields) { _%>
     <clr-dg-column [clrDgField]="'<%= fields[idx].fieldName%>'" <%_ if (pagination === 'pagination' || pagination === 'pager'){ _%> [clrDgSortOrder]="sorters.<%= fields[idx].fieldName%>"<%_ } _%>>
@@ -45,7 +47,7 @@
                     {{'<%=`${i18nKeyPrefix}.${fields[idx].fieldName}` %>' | translate}}
                     </ng-container>
 
-                    <%_ if (fields[idx].fieldType === 'String') { _%>
+                    <%_ if (searchEngine === 'elasticsearch' && (fields[idx].fieldType === 'String')) { _%>
                     <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
                         <<%= jhiPrefixDashed %>-string-filter #<%= fields[idx].fieldName%>Filter
                                         [clrDgField]="'<%= fields[idx].fieldName%>'"
@@ -54,7 +56,7 @@
                                         <%_ } _%>>
                         </<%= jhiPrefixDashed %>-string-filter>
                     </clr-dg-filter>
-                    <%_ } else if (fields[idx].fieldType === 'Integer' || fields[idx].fieldType === 'BigDecimal' || fields[idx].fieldType === 'Float' || fields[idx].fieldType === 'Double' || fields[idx].fieldType === 'Long') { _%>
+                    <%_ } else if (searchEngine === 'elasticsearch' && (fields[idx].fieldType === 'Integer' || fields[idx].fieldType === 'BigDecimal' || fields[idx].fieldType === 'Float' || fields[idx].fieldType === 'Double' || fields[idx].fieldType === 'Long')) { _%>
                     <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
                         <<%= jhiPrefixDashed %>-number-filter #<%= fields[idx].fieldName%>Filter
                                         [clrDgField]="'<%= fields[idx].fieldName%>'"
@@ -63,7 +65,7 @@
                                         <%_ } _%>>
                         </<%= jhiPrefixDashed %>-number-filter>
                     </clr-dg-filter>
-                    <%_ } else if (fields[idx].fieldType === 'LocalDate' || fields[idx].fieldType === 'Instant' || fields[idx].fieldType === 'ZonedDateTime' ) { _%>
+                    <%_ } else if (searchEngine === 'elasticsearch' && (fields[idx].fieldType === 'LocalDate' || fields[idx].fieldType === 'Instant' || fields[idx].fieldType === 'ZonedDateTime')) { _%>
                     <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
                         <<%= jhiPrefixDashed %>-date-filter #<%= fields[idx].fieldName%>Filter
                                         [clrDgField]="'<%= fields[idx].fieldName%>'"
@@ -72,11 +74,11 @@
                                         <%_ } _%>>
                         </<%= jhiPrefixDashed %>-date-filter>
                     </clr-dg-filter>
-                    <%_ } else if (fields[idx].fieldType === 'Boolean') { _%>
+                    <%_ } else if (searchEngine === 'elasticsearch' && fields[idx].fieldType === 'Boolean') { _%>
                     // todo: Boolean 筛选器
-                    <%_ } else if (fields[idx].fieldType === 'Enumeration') { _%>
+                    <%_ } else if (searchEngine === 'elasticsearch' && fields[idx].fieldType === 'Enumeration') { _%>
                     // todo: Enumeration 筛选器
-                    <%_ } else if (fields[idx].fieldType === 'Blob') { _%>
+                    <%_ } else if (searchEngine === 'elasticsearch' && fields[idx].fieldType === 'Blob') { _%>
                     // todo: Blob Text 筛选器
                     <%_ } _%>
     </clr-dg-column>
@@ -91,12 +93,14 @@
                     <ng-container *clrDgHideableColumn="{hidden: false}">
                     {{'<%=`${i18nKeyPrefix}.${relationships[idx].relationshipName}` %>' | translate}}
                     </ng-container>
+                    <%_ if (searchEngine === 'elasticsearch') { _%>
                     <clr-dg-filter [clrDgFilter]="<%=relationships[idx].relationshipName%>Filter">
                         <<%= jhiPrefixDashed %>-<%=relationships[idx].otherEntityStateName%>-filter #<%=relationships[idx].relationshipName%>Filter
                                             [clrDgField]="'<%=relationships[idx].relationshipName%>'"
                                             <%_ if (pagination !== 'no') { _%>[(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']"<%_ } _%>>
                         </<%= jhiPrefixDashed %>-<%=relationships[idx].otherEntityStateName%>-filter>
                     </clr-dg-filter>
+                    <%_ } _%>
     </clr-dg-column>
     <%_ } _%>
     <%_ } _%>
