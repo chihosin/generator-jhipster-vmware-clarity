@@ -25,25 +25,25 @@
                 <clr-icon shape="caret down"></clr-icon>
             </button>
             <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
-                <label class="dropdown-header">Setting</label>
-                <button type="button" clrDropdownItem>Profile</button>
-                <button type="button" clrDropdownItem>Preferences</button>
+                <label class="dropdown-header" jhiTranslate="global.menu.setting.settingLabel">Setting</label>
+                <button type="button" clrDropdownItem jhiTranslate="global.menu.setting.profile">Profile</button>
+                <button type="button" clrDropdownItem jhiTranslate="global.menu.setting.preferences">Preferences</button>
                 <div class="dropdown-divider"></div>
-                <label class="dropdown-header" jhiTranslate="global.menu.user-interface.title">User Interface</label>
+                <label class="dropdown-header" jhiTranslate="global.menu.setting.userInterfaceLabel">User Interface</label>
                 <clr-dropdown>
-                    <button type="button" clrDropdownTrigger jhiTranslate="global.menu.user-interface.theme">Theme
+                    <button type="button" clrDropdownTrigger jhiTranslate="global.menu.setting.themeLabel">Theme
                     </button>
                     <clr-dropdown-menu clrPosition="bottom-right">
-                        <button type="button" clrDropdownItem jhiTranslate="global.menu.user-interface.theme-light">
+                        <button type="button" clrDropdownItem jhiTranslate="global.menu.setting.lightTheme">
                             Light
                         </button>
-                        <button type="button" clrDropdownItem jhiTranslate="global.menu.user-interface.theme-dark">
+                        <button type="button" clrDropdownItem jhiTranslate="global.menu.setting.darkTheme">
                             Dark
                         </button>
                     </clr-dropdown-menu>
                 </clr-dropdown>
                 <clr-dropdown *ngIf="languages">
-                    <button type="button" clrDropdownTrigger jhiTranslate="global.menu.user-interface.language">
+                    <button type="button" clrDropdownTrigger jhiTranslate="global.menu.setting.languageLabel">
                         Language
                     </button>
                     <clr-dropdown-menu clrPosition="bottom-right">

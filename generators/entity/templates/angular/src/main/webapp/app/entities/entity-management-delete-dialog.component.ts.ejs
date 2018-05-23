@@ -13,6 +13,7 @@ import { PROGRESS_STATE } from 'app/shared/constants/load.constants';
 export class <%= entityAngularName %>DeleteDialogComponent implements OnInit {
     private item: I<%= entityAngularName %>;
     private list: I<%= entityAngularName %>[];
+    private progressIndex: number;
     private progressValue: number;
     private progressState: string;
     private _opened: any;
@@ -23,6 +24,7 @@ export class <%= entityAngularName %>DeleteDialogComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router
     ) {
+        this.progressIndex = 0;
         this.progressValue = 0;
         this.progressState = PROGRESS_STATE.READY;
     }
@@ -61,10 +63,11 @@ export class <%= entityAngularName %>DeleteDialogComponent implements OnInit {
 
     confirmBatchDelete() {
         const loop = () => {
-            this.<%= entityInstance %>Service.delete(this.list[this.progressValue].id).subscribe(
+            this.<%= entityInstance %>Service.delete(this.list[this.progressIndex].id).subscribe(
                 response => {
-                    if (this.progressValue >= 0 && this.progressValue < this.list.length) {
-                        this.progressValue++;
+                    this.progressValue++;
+                    if (this.progressIndex + 1 < this.list.length) {
+                        this.progressIndex++;
                         loop();
                     } else {
                         this.progressState = PROGRESS_STATE.SUCCESS;

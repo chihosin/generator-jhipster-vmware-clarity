@@ -1,14 +1,14 @@
 <clr-modal [(clrModalOpen)]="opened" [clrModalSize]="'sm'" *ngIf="item">
     <h3 class="modal-title" jhiTranslate="entity.delete.title">Confirm delete operation</h3>
     <div class="modal-body">
-        <p jhiTranslate="<%= microserviceName %>.<%= entityInstance %>.delete.question"
-           translateValues="{name: '{{item.name}}'}">
+        <p jhiTranslate="<%= i18nKeyPrefix %>.delete.question"
+           translateValues="{id: '{{item.id}}'}">
             Are you sure you want to delete this <%= entityClassHumanized %>?
         </p>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline" (click)="opened=false;">Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="confirmDelete(item.id)">Ok</button>
+        <button type="button" class="btn btn-outline" (click)="opened=false;">{{'entity.action.cancel' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="confirmDelete(item.id)">{{'entity.action.confirm' | translate}}</button>
     </div>
 </clr-modal>
 <clr-modal *ngIf="list"
@@ -19,23 +19,23 @@
     <h3 class="modal-title" jhiTranslate="entity.delete.title">Confirm delete operation</h3>
     <div class="modal-body">
         <p *ngIf="progressState == 'READY'"
-           jhiTranslate="<%= microserviceName %>.<%= entityInstance %>.batchDelete.question"
+           jhiTranslate="<%= i18nKeyPrefix %>.batchDelete.question"
            translateValues="{count: '{{list.length}}'}">
             Are you sure you want to delete this <%= entityClassHumanized %>?
         </p>
         <h4 *ngIf="progressState == 'SUCCESS'"
-            jhiTranslate="<%= microserviceName %>.<%= entityInstance %>.batchDelete.success"
+            jhiTranslate="<%= i18nKeyPrefix %>.batchDelete.success"
             translateValues="{count: '{{list.length}}'}">
-            Success
+            Successfully deleted users
         </h4>
         <h4 *ngIf="progressState == 'ERROR'"
-            jhiTranslate="<%= microserviceName %>.<%= entityInstance %>.batchDelete.error"
-            translateValues="{index: '{{progressValue+1}}', count: '{{list.length-(progressValue-1)}}',name: '{{list[progressValue].name}}'}">
-            Error
+            jhiTranslate="<%= i18nKeyPrefix %>.batchDelete.error"
+            translateValues="{index: '{{progressIndex+1}}', count: '{{list.length}}',id: '{{list[progressIndex].id}}'}">
+            Failed to delete users
         </h4>
         <h4 *ngIf="progressState == 'IN_PROGRESS'"
-            jhiTranslate="<%= microserviceName %>.<%= entityInstance %>.batchDelete.progress"
-            translateValues="{index: '{{progressValue+1}}', count: '{{list.length-(progressValue+1)}}',name: '{{list[progressValue].name}}'}">
+            jhiTranslate="<%= i18nKeyPrefix %>.batchDelete.progress"
+            translateValues="{index: '{{progressIndex+1}}', count: '{{list.length}}',id: '{{list[progressIndex].id}}'}">
             Removing...
         </h4>
         <div *ngIf="progressState != 'READY'"

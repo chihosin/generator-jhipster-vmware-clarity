@@ -2,6 +2,7 @@
     currentAccount: any;
     eventSubscriber: Subscription;
     routeData: any;
+    itemsPerPage: any;
     // added for Clarity
     loading: any;
     selected: Array<I<%= entityAngularName %>>;
@@ -22,6 +23,8 @@
     }
 
     loadAll() {
+        this.loading = true;
+        this.itemsPerPage = ITEMS_PER_PAGE;
         this.<%= entityInstance %>Service.query().subscribe(
             (res: HttpResponse<I<%= entityAngularName %>[]>) => {
                 this.<%= entityInstancePlural %> = res.body;
