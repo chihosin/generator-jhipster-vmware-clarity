@@ -22,13 +22,13 @@ const files = {
             path: MAIN_SRC_DIR,
             templates: [
                 {
-                    file: 'content/scss/global.scss.ejs',
+                    file: 'content/scss/global.scss',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'content/scss/global.scss'
                 },
                 {
-                    file: 'content/scss/vendor.scss.ejs',
+                    file: 'content/scss/vendor.scss',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'content/scss/vendor.scss'
@@ -41,379 +41,419 @@ const files = {
             path: ANGULAR_DIR,
             templates: [
                 {
-                    file: 'app.module.ts.ejs',
+                    file: 'app.module.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'app.module.ts'
                 },
                 {
-                    file: 'app-routing.module.ts.ejs',
+                    file: 'app-routing.module.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'app-routing.module.ts'
                 },
                 {
-                    file: 'vendor.ts.ejs',
+                    file: 'vendor.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'vendor.ts'
                 },
                 {
-                    file: 'account/activate/activate.component.ts.ejs',
+                    file: 'account/activate/activate.component.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'account/activate/activate.component.ts'
                 },
                 {
-                    file: 'account/activate/activate.component.html.ejs',
+                    file: 'account/activate/activate.component.html',
                     method: 'processHtml',
                     template: true,
                     renameTo: () => 'account/activate/activate.component.html'
                 },
                 {
-                    file: 'account/login/login.component.ts.ejs',
+                    file: 'account/login/login.component.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'account/login/login.component.ts'
                 },
                 {
-                    file: 'account/login/login.component.html.ejs',
+                    file: 'account/login/login.component.html',
                     method: 'processHtml',
                     template: true,
                     renameTo: () => 'account/login/login.component.html'
                 },
                 {
-                    file: 'account/login/login.route.ts.ejs',
+                    file: 'account/login/login.route.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'account/login/login.route.ts'
                 },
                 {
-                    file: 'account/password-reset/finish/password-reset-finish.component.ts.ejs',
+                    file:
+                        'account/password-reset/finish/password-reset-finish.component.ts',
                     method: 'processJs',
                     template: true,
-                    renameTo: () => 'account/password-reset/finish/password-reset-finish.component.ts'
+                    renameTo: () =>
+                        'account/password-reset/finish/password-reset-finish.component.ts'
                 },
                 {
-                    file: 'account/password-reset/finish/password-reset-finish.component.html.ejs',
+                    file:
+                        'account/password-reset/finish/password-reset-finish.component.html',
                     method: 'processHtml',
                     template: true,
-                    renameTo: () => 'account/password-reset/finish/password-reset-finish.component.html'
+                    renameTo: () =>
+                        'account/password-reset/finish/password-reset-finish.component.html'
                 },
                 {
-                    file: 'account/register/register.component.ts.ejs',
+                    file: 'account/register/register.component.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'account/register/register.component.ts'
                 },
                 {
-                    file: 'account/register/register.component.html.ejs',
+                    file: 'account/register/register.component.html',
                     method: 'processHtml',
                     template: true,
                     renameTo: () => 'account/register/register.component.html'
                 },
                 {
-                    file: 'account/account.module.ts.ejs',
+                    file: 'account/account.module.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'account/account.module.ts'
                 },
                 {
-                    file: 'account/account.route.ts.ejs',
+                    file: 'account/account.route.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'account/account.route.ts'
                 },
                 {
-                    file: 'account/index.ts.ejs',
+                    file: 'account/index.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'account/index.ts'
                 },
                 {
-                    file: 'blocks/interceptor/auth-expired.interceptor.ts.ejs',
+                    file: 'blocks/interceptor/auth-expired.interceptor.ts',
                     method: 'processJs',
                     template: true,
-                    renameTo: () => 'blocks/interceptor/auth-expired.interceptor.ts'
+                    renameTo: () =>
+                        'blocks/interceptor/auth-expired.interceptor.ts'
                 },
                 {
-                    file: 'core/auth/user-route-access-service.ts.ejs',
+                    file: 'core/auth/user-route-access-service.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'core/auth/user-route-access-service.ts'
                 },
                 {
-                    file: 'core/core.module.ts.ejs',
+                    file: 'core/core.module.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'core/core.module.ts'
                 },
                 {
-                    file: 'core/index.ts.ejs',
+                    file: 'core/index.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'core/index.ts'
                 },
                 {
-                    file: 'home/home.component.ts.ejs',
+                    file: 'home/home.component.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'home/home.component.ts'
                 },
                 {
-                    file: 'home/home.component.html.ejs',
+                    file: 'home/home.component.html',
                     method: 'processHtml',
                     template: true,
                     renameTo: () => 'home/home.component.html'
                 },
                 {
-                    file: 'layouts/index.ts.ejs',
+                    file: 'layouts/index.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'layouts/index.ts'
                 },
                 {
-                    file: 'layouts/main/main.component.ts.ejs',
+                    file: 'layouts/main/main.component.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'layouts/main/main.component.ts'
                 },
                 {
-                    file: 'layouts/main/main.component.html.ejs',
+                    file: 'layouts/main/main.component.html',
                     method: 'processHtml',
                     template: true,
                     renameTo: () => 'layouts/main/main.component.html'
                 },
                 {
-                    file: 'layouts/navbar/navbar.component.ts.ejs',
+                    file: 'layouts/navbar/navbar.component.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'layouts/navbar/navbar.component.ts'
                 },
                 {
-                    file: 'layouts/navbar/navbar.component.html.ejs',
+                    file: 'layouts/navbar/navbar.component.html',
                     method: 'processHtml',
                     template: true,
                     renameTo: () => 'layouts/navbar/navbar.component.html'
                 },
                 {
-                    file: 'layouts/navbar/navbar.scss.ejs',
+                    file: 'layouts/navbar/navbar.scss',
                     method: 'processHtml',
                     template: true,
                     renameTo: () => 'layouts/navbar/navbar.scss'
                 },
                 {
-                    file: 'layouts/sidebar/sidebar.component.ts.ejs',
+                    file: 'layouts/sidebar/sidebar.component.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'layouts/sidebar/sidebar.component.ts'
                 },
                 {
-                    file: 'layouts/sidebar/sidebar.route.ts.ejs',
+                    file: 'layouts/sidebar/sidebar.route.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'layouts/sidebar/sidebar.route.ts'
                 },
                 {
-                    file: 'layouts/sidebar/sidebar.component.html.ejs',
+                    file: 'layouts/sidebar/sidebar.component.html',
                     method: 'processHtml',
                     template: true,
                     renameTo: () => 'layouts/sidebar/sidebar.component.html'
                 },
                 {
-                    file: 'layouts/sidebar/sidebar.scss.ejs',
+                    file: 'layouts/sidebar/sidebar.scss',
                     method: 'processHtml',
                     template: true,
                     renameTo: () => 'layouts/sidebar/sidebar.scss'
                 },
                 {
-                    file: 'shared/alert/alert.component.ts.ejs',
+                    file: 'shared/alert/alert.component.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'shared/alert/alert.component.ts'
                 },
                 {
-                    file: 'shared/alert/alert-error.component.ts.ejs',
+                    file: 'shared/alert/alert-error.component.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'shared/alert/alert-error.component.ts'
                 },
                 {
-                    file: 'shared/constants/load.constants.ts.ejs',
+                    file: 'shared/constants/load.constants.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'shared/constants/load.constants.ts'
                 },
                 {
-                    file: 'shared/index.ts.ejs',
+                    file: 'shared/index.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'shared/index.ts'
                 },
                 {
-                    file: 'shared/shared.module.ts.ejs',
+                    file: 'shared/shared.module.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'shared/shared.module.ts'
                 },
                 {
-                    file: 'shared/shared-libs.module.ts.ejs',
+                    file: 'shared/shared-libs.module.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'shared/shared-libs.module.ts'
                 },
                 {
-                    file: 'shared/util/datepicker-adapter.ts.ejs',
+                    file: 'shared/util/datepicker-adapter.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'shared/util/datepicker-adapter.ts'
                 },
                 {
-                    file: 'admin/health/health.component.ts.ejs',
+                    file: 'admin/health/health.component.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'admin/health/health.component.ts'
                 },
                 {
-                    file: 'admin/health/health-modal.component.ts.ejs',
+                    file: 'admin/health/health-modal.component.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'admin/health/health-modal.component.ts'
                 },
                 {
-                    file: 'admin/metrics/metrics.component.ts.ejs',
+                    file: 'admin/metrics/metrics.component.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'admin/metrics/metrics.component.ts'
                 },
                 {
-                    file: 'admin/metrics/metrics-modal.component.ts.ejs',
+                    file: 'admin/metrics/metrics-modal.component.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'admin/metrics/metrics-modal.component.ts'
                 },
                 {
-                    file: 'admin/user-management/user-management.route.ts.ejs',
+                    file: 'admin/user-management/user-management.route.ts',
                     method: 'processJs',
                     template: true,
-                    renameTo: () => 'admin/user-management/user-management.route.ts'
+                    renameTo: () =>
+                        'admin/user-management/user-management.route.ts'
                 },
                 {
-                    file: 'admin/user-management/user-management-delete-dialog.component.html.ejs',
+                    file:
+                        'admin/user-management/user-management-delete-dialog.component.html',
                     method: 'processHtml',
                     template: true,
-                    renameTo: () => 'admin/user-management/user-management-delete-dialog.component.html'
+                    renameTo: () =>
+                        'admin/user-management/user-management-delete-dialog.component.html'
                 },
                 {
-                    file: 'admin/user-management/user-management-delete-dialog.component.ts.ejs',
+                    file:
+                        'admin/user-management/user-management-delete-dialog.component.ts',
                     method: 'processJs',
                     template: true,
-                    renameTo: () => 'admin/user-management/user-management-delete-dialog.component.ts'
+                    renameTo: () =>
+                        'admin/user-management/user-management-delete-dialog.component.ts'
                 },
                 {
-                    file: 'admin/admin.module.ts.ejs',
+                    file: 'admin/admin.module.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'admin/admin.module.ts'
                 },
                 {
-                    file: 'shared/datagrid/filter/string-filter/string-filter.component.ts.ejs',
+                    file:
+                        'shared/datagrid/filter/string-filter/string-filter.component.ts',
                     method: 'processJs',
                     template: true,
-                    renameTo: () => 'shared/datagrid/filter/string-filter/string-filter.component.ts'
+                    renameTo: () =>
+                        'shared/datagrid/filter/string-filter/string-filter.component.ts'
                 },
                 {
-                    file: 'shared/datagrid/filter/string-filter/string-filter.component.html.ejs',
+                    file:
+                        'shared/datagrid/filter/string-filter/string-filter.component.html',
                     method: 'processHtml',
                     template: true,
-                    renameTo: () => 'shared/datagrid/filter/string-filter/string-filter.component.html'
+                    renameTo: () =>
+                        'shared/datagrid/filter/string-filter/string-filter.component.html'
                 },
                 {
-                    file: 'shared/datagrid/filter/string-filter/string-filter.component.scss.ejs',
+                    file:
+                        'shared/datagrid/filter/string-filter/string-filter.component.scss',
                     method: 'processHtml',
                     template: true,
-                    renameTo: () => 'shared/datagrid/filter/string-filter/string-filter.component.scss'
+                    renameTo: () =>
+                        'shared/datagrid/filter/string-filter/string-filter.component.scss'
                 },
                 {
-                    file: 'shared/datagrid/filter/number-filter/number-filter.component.ts.ejs',
+                    file:
+                        'shared/datagrid/filter/number-filter/number-filter.component.ts',
                     method: 'processJs',
                     template: true,
-                    renameTo: () => 'shared/datagrid/filter/number-filter/number-filter.component.ts'
+                    renameTo: () =>
+                        'shared/datagrid/filter/number-filter/number-filter.component.ts'
                 },
                 {
-                    file: 'shared/datagrid/filter/number-filter/number-filter.component.html.ejs',
+                    file:
+                        'shared/datagrid/filter/number-filter/number-filter.component.html',
                     method: 'processHtml',
                     template: true,
-                    renameTo: () => 'shared/datagrid/filter/number-filter/number-filter.component.html'
+                    renameTo: () =>
+                        'shared/datagrid/filter/number-filter/number-filter.component.html'
                 },
                 {
-                    file: 'shared/datagrid/filter/number-filter/number-filter.component.scss.ejs',
+                    file:
+                        'shared/datagrid/filter/number-filter/number-filter.component.scss',
                     method: 'processHtml',
                     template: true,
-                    renameTo: () => 'shared/datagrid/filter/number-filter/number-filter.component.scss'
+                    renameTo: () =>
+                        'shared/datagrid/filter/number-filter/number-filter.component.scss'
                 },
                 {
-                    file: 'shared/datagrid/filter/date-filter/date-filter.component.ts.ejs',
+                    file:
+                        'shared/datagrid/filter/date-filter/date-filter.component.ts',
                     method: 'processJs',
                     template: true,
-                    renameTo: () => 'shared/datagrid/filter/date-filter/date-filter.component.ts'
+                    renameTo: () =>
+                        'shared/datagrid/filter/date-filter/date-filter.component.ts'
                 },
                 {
-                    file: 'shared/datagrid/filter/date-filter/date-filter.component.html.ejs',
+                    file:
+                        'shared/datagrid/filter/date-filter/date-filter.component.html',
                     method: 'processHtml',
                     template: true,
-                    renameTo: () => 'shared/datagrid/filter/date-filter/date-filter.component.html'
+                    renameTo: () =>
+                        'shared/datagrid/filter/date-filter/date-filter.component.html'
                 },
                 {
-                    file: 'shared/datagrid/filter/date-filter/date-filter.component.scss.ejs',
+                    file:
+                        'shared/datagrid/filter/date-filter/date-filter.component.scss',
                     method: 'processHtml',
                     template: true,
-                    renameTo: () => 'shared/datagrid/filter/date-filter/date-filter.component.scss'
+                    renameTo: () =>
+                        'shared/datagrid/filter/date-filter/date-filter.component.scss'
                 },
                 {
-                    file: 'shared/datagrid/filter/time-filter/time-filter.component.ts.ejs',
+                    file:
+                        'shared/datagrid/filter/time-filter/time-filter.component.ts',
                     method: 'processJs',
                     template: true,
-                    renameTo: () => 'shared/datagrid/filter/time-filter/time-filter.component.ts'
+                    renameTo: () =>
+                        'shared/datagrid/filter/time-filter/time-filter.component.ts'
                 },
                 {
-                    file: 'shared/datagrid/filter/time-filter/time-filter.component.html.ejs',
+                    file:
+                        'shared/datagrid/filter/time-filter/time-filter.component.html',
                     method: 'processHtml',
                     template: true,
-                    renameTo: () => 'shared/datagrid/filter/time-filter/time-filter.component.html'
+                    renameTo: () =>
+                        'shared/datagrid/filter/time-filter/time-filter.component.html'
                 },
                 {
-                    file: 'shared/datagrid/filter/time-filter/time-filter.component.scss.ejs',
+                    file:
+                        'shared/datagrid/filter/time-filter/time-filter.component.scss',
                     method: 'processHtml',
                     template: true,
-                    renameTo: () => 'shared/datagrid/filter/time-filter/time-filter.component.scss'
+                    renameTo: () =>
+                        'shared/datagrid/filter/time-filter/time-filter.component.scss'
                 },
                 {
-                    file: 'shared/datagrid/filter/date-time-filter/date-time-filter.component.ts.ejs',
+                    file:
+                        'shared/datagrid/filter/date-time-filter/date-time-filter.component.ts',
                     method: 'processJs',
                     template: true,
-                    renameTo: () => 'shared/datagrid/filter/date-time-filter/date-time-filter.component.ts'
+                    renameTo: () =>
+                        'shared/datagrid/filter/date-time-filter/date-time-filter.component.ts'
                 },
                 {
-                    file: 'shared/datagrid/filter/date-time-filter/date-time-filter.component.html.ejs',
+                    file:
+                        'shared/datagrid/filter/date-time-filter/date-time-filter.component.html',
                     method: 'processHtml',
                     template: true,
-                    renameTo: () => 'shared/datagrid/filter/date-time-filter/date-time-filter.component.html'
+                    renameTo: () =>
+                        'shared/datagrid/filter/date-time-filter/date-time-filter.component.html'
                 },
                 {
-                    file: 'shared/datagrid/filter/date-time-filter/date-time-filter.component.scss.ejs',
+                    file:
+                        'shared/datagrid/filter/date-time-filter/date-time-filter.component.scss',
                     method: 'processHtml',
                     template: true,
-                    renameTo: () => 'shared/datagrid/filter/date-time-filter/date-time-filter.component.scss'
+                    renameTo: () =>
+                        'shared/datagrid/filter/date-time-filter/date-time-filter.component.scss'
                 },
                 {
-                    file: 'shared/shared-common.module.ts.ejs',
+                    file: 'shared/shared-common.module.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'shared/shared-common.module.ts'
                 },
                 {
-                    file: 'shared/util/filter-util.ts.ejs',
+                    file: 'shared/util/filter-util.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: () => 'shared/util/filter-util.ts'
@@ -437,19 +477,43 @@ module.exports = class extends BaseGenerator {
 
                 // setup config
                 utils.copyObjectProps(this, this.config);
-                this.skipUserManagement = this.config.skipUserManagement || this.options['skip-user-management'];
+                this.serviceDiscoveryType =
+                    this.config.serviceDiscoveryType || false;
+                this.skipUserManagement =
+                    this.config.skipUserManagement ||
+                    this.options['skip-user-management'];
                 this.enableI18nRTL = this.isI18nRTLSupportNecessary(this.languages);
                 this.useConfigurationFile = false;
-                this.env.options.appPath = this.appPath || constants.CLIENT_MAIN_SRC_DIR;
+                this.env.options.appPath =
+                    this.appPath || constants.CLIENT_MAIN_SRC_DIR;
                 this.capitalizedBaseName = _.upperFirst(this.baseName);
-                this.cacheProvider = this.config.cacheProvider || this.config.hibernateCache || 'no';
-                this.enableHibernateCache = this.config.enableHibernateCache || (this.config.hibernateCache !== undefined && this.config.hibernateCache !== 'no');
-                this.websocket = this.config.websocket === 'no' ? false : this.config.websocket;
-                this.databaseType = this.config.databaseType || this.getDBTypeFromDBValue(this.options.db);
-                this.prodDatabaseType = this.config.prodDatabaseType || this.options.db;
-                this.devDatabaseType = this.config.devDatabaseType || this.options.db;
-                this.searchEngine = this.config.searchEngine === 'no' ? false : this.config.searchEngine;
-                this.messageBroker = this.config.messageBroker === 'no' ? false : this.config.messageBroker;
+                this.cacheProvider =
+                    this.config.cacheProvider ||
+                    this.config.hibernateCache ||
+                    'no';
+                this.enableHibernateCache =
+                    this.config.enableHibernateCache ||
+                    (this.config.hibernateCache !== undefined &&
+                        this.config.hibernateCache !== 'no');
+                this.websocket =
+                    this.config.websocket === 'no'
+                        ? false
+                        : this.config.websocket;
+                this.databaseType =
+                    this.config.databaseType ||
+                    this.getDBTypeFromDBValue(this.options.db);
+                this.prodDatabaseType =
+                    this.config.prodDatabaseType || this.options.db;
+                this.devDatabaseType =
+                    this.config.devDatabaseType || this.options.db;
+                this.searchEngine =
+                    this.config.searchEngine === 'no'
+                        ? false
+                        : this.config.searchEngine;
+                this.messageBroker =
+                    this.config.messageBroker === 'no'
+                        ? false
+                        : this.config.messageBroker;
                 this.jhiPrefixDashed = _.kebabCase(this.jhiPrefix);
                 this.jhiPrefixCapitalized = _.upperFirst(this.jhiPrefix);
                 this.jhiTablePrefix = this.getTableName(this.jhiPrefix);
@@ -472,8 +536,12 @@ module.exports = class extends BaseGenerator {
                     }
                 }
 
-                this.skipClient = this.applicationType === 'microservice' || this.options['skip-client'] || this.config.skipClient;
-                this.skipServer = this.options['skip-server'] || this.config.skipServer;
+                this.skipClient =
+                    this.applicationType === 'microservice' ||
+                    this.options['skip-client'] ||
+                    this.config.skipClient;
+                this.skipServer =
+                    this.options['skip-server'] || this.config.skipServer;
 
                 this.angularAppName = this.getAngularAppName(this.baseName);
                 this.angularXAppName = this.getAngularXAppName(this.baseName);
@@ -481,9 +549,13 @@ module.exports = class extends BaseGenerator {
                 this.mainClass = this.getMainClassName(this.baseName);
                 this.microserviceAppName = '';
 
-                this.filename = `${this.jhipsterConfigDirectory}/${this.entityNameCapitalized}.json`;
+                this.filename = `${this.jhipsterConfigDirectory}/${
+                    this.entityNameCapitalized
+                }.json`;
                 if (shelljs.test('-f', this.filename)) {
-                    this.log(chalk.green(`\nFound the ${this.filename} configuration file, entity can be automatically generated!\n`));
+                    this.log(chalk.green(`\nFound the ${
+                        this.filename
+                    } configuration file, entity can be automatically generated!\n`));
                     this.useConfigurationFile = true;
                     this.fromPath = this.filename;
                 }
@@ -495,25 +567,38 @@ module.exports = class extends BaseGenerator {
                     const fileData = this.fs.readJSON(fromPath);
                     if (fileData && fileData.dependencies) {
                         if (fileData.dependencies['@angular/common']) {
-                            this.libAngularVersion = fileData.dependencies['@angular/common'];
+                            this.libAngularVersion =
+                                fileData.dependencies['@angular/common'];
                         }
                         if (fileData.dependencies['@angular/animations']) {
-                            this.libAngularAnimationsVersion = fileData.dependencies['@angular/animations'];
+                            this.libAngularAnimationsVersion =
+                                fileData.dependencies['@angular/animations'];
                         }
                         if (fileData.dependencies['@clr/angular']) {
-                            this.libClrAngularVersion = fileData.dependencies['@clr/angular'];
+                            this.libClrAngularVersion =
+                                fileData.dependencies['@clr/angular'];
                         }
                         if (fileData.dependencies['@clr/icons']) {
-                            this.libClrIconsVersion = fileData.dependencies['@clr/icons'];
+                            this.libClrIconsVersion =
+                                fileData.dependencies['@clr/icons'];
                         }
                         if (fileData.dependencies['@clr/ui']) {
-                            this.libClrUiVersion = fileData.dependencies['@clr/ui'];
+                            this.libClrUiVersion =
+                                fileData.dependencies['@clr/ui'];
                         }
-                        if (fileData.dependencies['@webcomponents/custom-elements']) {
-                            this.libWebComponentsVersion = fileData.dependencies['@webcomponents/custom-elements'];
+                        if (
+                            fileData.dependencies[
+                                '@webcomponents/custom-elements'
+                            ]
+                        ) {
+                            this.libWebComponentsVersion =
+                                fileData.dependencies[
+                                    '@webcomponents/custom-elements'
+                                ];
                         }
                         if (fileData.dependencies['web-animations-js']) {
-                            this.libWebAnimationsVersion = fileData.dependencies['web-animations-js'];
+                            this.libWebAnimationsVersion =
+                                fileData.dependencies['web-animations-js'];
                         }
                     }
                 }
@@ -532,14 +617,23 @@ module.exports = class extends BaseGenerator {
                 if (this.config.skipClient) {
                     this.env.error(`${chalk.red.bold('ERROR!')} This module works only for client.`);
                 }
-                if (this.config.clientFramework !== 'angular5' && this.config.clientFramework !== 'angularX') {
+                if (
+                    this.config.clientFramework !== 'angular5' &&
+                    this.config.clientFramework !== 'angularX'
+                ) {
                     this.env.error(`${chalk.red.bold('ERROR!')} This module works only for Angular5.`);
                 }
             },
             checkJhipster() {
                 const currentJhipsterVersion = this.config.jhipsterVersion;
-                const minimumJhipsterVersion = packagejs.dependencies['generator-jhipster'];
-                if (!semver.satisfies(currentJhipsterVersion, minimumJhipsterVersion)) {
+                const minimumJhipsterVersion =
+                    packagejs.dependencies['generator-jhipster'];
+                if (
+                    !semver.satisfies(
+                        currentJhipsterVersion,
+                        minimumJhipsterVersion
+                    )
+                ) {
                     this.warning(`\nYour generated project used an old JHipster version (${currentJhipsterVersion})... you need at least (${minimumJhipsterVersion})\n`);
                 }
             }
@@ -560,11 +654,16 @@ module.exports = class extends BaseGenerator {
             if (this.libAngularAnimationsVersion) {
                 this.replaceContent(
                     'package.json',
-                    `"@angular/animations": "${this.libAngularAnimationsVersion}"`,
+                    `"@angular/animations": "${
+                        this.libAngularAnimationsVersion
+                    }"`,
                     `"@angular/animations": "${this.libAngularVersion}"`
                 );
             } else {
-                this.addNpmDependency('@angular/animations', `${this.libAngularVersion}`);
+                this.addNpmDependency(
+                    '@angular/animations',
+                    `${this.libAngularVersion}`
+                );
             }
             if (this.libClrAngularVersion) {
                 this.replaceContent(
@@ -573,7 +672,10 @@ module.exports = class extends BaseGenerator {
                     `"@clr/angular": "${CLARITY_ANGULAR_VERSION}"`
                 );
             } else {
-                this.addNpmDependency('@clr/angular', `${CLARITY_ANGULAR_VERSION}`);
+                this.addNpmDependency(
+                    '@clr/angular',
+                    `${CLARITY_ANGULAR_VERSION}`
+                );
             }
             if (this.libClrIconsVersion) {
                 this.replaceContent(
@@ -596,11 +698,16 @@ module.exports = class extends BaseGenerator {
             if (this.libWebComponentsVersion) {
                 this.replaceContent(
                     'package.json',
-                    `"@webcomponents/custom-elements": "${this.libWebComponentsVersion}"`,
+                    `"@webcomponents/custom-elements": "${
+                        this.libWebComponentsVersion
+                    }"`,
                     `"@webcomponents/custom-elements": "${WEB_COMPONENTS_VERSION}"`
                 );
             } else {
-                this.addNpmDependency('@webcomponents/custom-elements', `${WEB_COMPONENTS_VERSION}`);
+                this.addNpmDependency(
+                    '@webcomponents/custom-elements',
+                    `${WEB_COMPONENTS_VERSION}`
+                );
             }
             if (this.libWebAnimationsVersion) {
                 this.replaceContent(
@@ -609,18 +716,25 @@ module.exports = class extends BaseGenerator {
                     `"web-animations-js": "${WEB_ANIMATIONS_VERSION}"`
                 );
             } else {
-                this.addNpmDependency('web-animations-js', `${WEB_ANIMATIONS_VERSION}`);
+                this.addNpmDependency(
+                    'web-animations-js',
+                    `${WEB_ANIMATIONS_VERSION}`
+                );
             }
             // remove bootstrap ui
-            utils.rewriteJSONFile(fromPath, (jsonObj) => {
-                if (jsonObj.dependencies === undefined) {
-                    jsonObj.dependencies = {};
-                }
-                delete jsonObj.dependencies['@ng-bootstrap/ng-bootstrap'];
-                delete jsonObj.dependencies.bootstrap;
-                delete jsonObj.dependencies.jquery;
-                delete jsonObj.dependencies.moment;
-            }, this);
+            utils.rewriteJSONFile(
+                fromPath,
+                (jsonObj) => {
+                    if (jsonObj.dependencies === undefined) {
+                        jsonObj.dependencies = {};
+                    }
+                    delete jsonObj.dependencies['@ng-bootstrap/ng-bootstrap'];
+                    delete jsonObj.dependencies.bootstrap;
+                    delete jsonObj.dependencies.jquery;
+                    delete jsonObj.dependencies.moment;
+                },
+                this
+            );
         } catch (e) {
             this.log(`${chalk.red.bold('ERROR!')}`);
             this.log('  Problem when adding the new librairies in your package.json');
@@ -645,17 +759,39 @@ module.exports = class extends BaseGenerator {
         this.removeFolder(`${ANGULAR_DIR}layouts/footer`);
         this.removeFolder(`${ANGULAR_DIR}shared/login`);
 
+        // write language files
+        if (this.enableTranslation) {
+            this.languages.forEach((language) => {
+                this.installI18nClientFilesByLanguage(
+                    this,
+                    MAIN_SRC_DIR,
+                    language
+                );
+            });
+        } else {
+            this.installI18nClientFilesByLanguage(
+                this,
+                MAIN_SRC_DIR,
+                this.nativeLanguage
+            );
+        }
+
         // setup entity hook
         try {
-            this.registerModule(packagejs.name, 'entity', 'post', 'entity', packagejs.description);
+            this.registerModule(
+                packagejs.name,
+                'entity',
+                'post',
+                'entity',
+                packagejs.description
+            );
         } catch (err) {
             this.log(`${chalk.red.bold('WARN!')} Could not register as a jhipster entity post creation hook...\n`);
         }
     }
 
     install() {
-        const logMsg =
-            `To install your dependencies manually, run: ${chalk.yellow.bold(`${this.config.clientPackageManager} install`)}`;
+        const logMsg = `To install your dependencies manually, run: ${chalk.yellow.bold(`${this.config.clientPackageManager} install`)}`;
 
         const injectDependenciesAndConstants = (err) => {
             if (err) {

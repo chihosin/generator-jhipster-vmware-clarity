@@ -26,8 +26,8 @@
   "dependencies": {
     "chalk": "2.1.0",
     "fast-glob": "^2.2.2",
-    "generator-jhipster": ">=4.6.0",
-    "jhipster-core": "^2.0.1",
+    "generator-jhipster": "^5.0.0-beta.1",
+    "jhipster-core": "^2.0.3",
     "lodash": "^4.17.10",
     "mkdirp": "0.5.1",
     "pluralize": "^7.0.0",

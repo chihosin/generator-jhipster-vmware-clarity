@@ -13,101 +13,154 @@ const angularFiles = {
             path: ANGULAR_DIR,
             templates: [
                 {
-                    file: 'entities/entity-management.component.html.ejs',
+                    file: 'entities/entity-management.component.html',
                     method: 'processHtml',
                     template: true,
-                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}.component.html`
+                    renameTo: generator =>
+                        `entities/${generator.entityFolderName}/${
+                            generator.entityFileName
+                        }.component.html`
                 },
                 {
-                    file: 'entities/entity-management.component.ts.ejs',
+                    file: 'entities/entity-management.component.ts',
                     method: 'processJs',
                     template: true,
-                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}.component.ts`
+                    renameTo: generator =>
+                        `entities/${generator.entityFolderName}/${
+                            generator.entityFileName
+                        }.component.ts`
                 },
                 {
-                    file: 'entities/entity-management.route.ts.ejs',
+                    file: 'entities/entity-management.route.ts',
                     method: 'processJs',
                     template: true,
-                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}.route.ts`
+                    renameTo: generator =>
+                        `entities/${generator.entityFolderName}/${
+                            generator.entityFileName
+                        }.route.ts`
                 },
                 {
-                    file: 'entities/entity-management-delete-dialog.component.ts.ejs',
+                    file:
+                        'entities/entity-management-delete-dialog.component.ts',
                     method: 'processJs',
                     template: true,
-                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-delete-dialog.component.ts`
+                    renameTo: generator =>
+                        `entities/${generator.entityFolderName}/${
+                            generator.entityFileName
+                        }-delete-dialog.component.ts`
                 },
                 {
-                    file: 'entities/entity-management-delete-dialog.component.html.ejs',
+                    file:
+                        'entities/entity-management-delete-dialog.component.html',
                     method: 'processHtml',
                     template: true,
-                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-delete-dialog.component.html`
+                    renameTo: generator =>
+                        `entities/${generator.entityFolderName}/${
+                            generator.entityFileName
+                        }-delete-dialog.component.html`
                 },
                 {
-                    file: 'entities/entity-management-detail.component.html.ejs',
+                    file: 'entities/entity-management-detail.component.html',
                     method: 'processHtml',
                     template: true,
-                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-detail.component.html`
+                    renameTo: generator =>
+                        `entities/${generator.entityFolderName}/${
+                            generator.entityFileName
+                        }-detail.component.html`
                 },
                 {
-                    file: 'entities/entity-management-update.component.ts.ejs',
+                    file: 'entities/entity-management-update.component.ts',
                     method: 'processJs',
                     template: true,
-                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-update.component.ts`
+                    renameTo: generator =>
+                        `entities/${generator.entityFolderName}/${
+                            generator.entityFileName
+                        }-update.component.ts`
                 },
                 {
-                    file: 'entities/entity-management-update.component.html.ejs',
+                    file: 'entities/entity-management-update.component.html',
                     method: 'processHtml',
                     template: true,
-                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-update.component.html`
+                    renameTo: generator =>
+                        `entities/${generator.entityFolderName}/${
+                            generator.entityFileName
+                        }-update.component.html`
                 },
                 {
-                    file: 'entities/entity-management.module.ts.ejs',
+                    file: 'entities/entity-management.module.ts',
                     method: 'processJs',
                     template: true,
-                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}.module.ts`
+                    renameTo: generator =>
+                        `entities/${generator.entityFolderName}/${
+                            generator.entityFileName
+                        }.module.ts`
                 },
                 {
-                    file: 'entities/entity-management-filter.component.html.ejs',
+                    file: 'entities/entity-management-filter.component.html',
                     method: 'processHtml',
                     template: true,
-                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-filter.component.html`
+                    renameTo: generator =>
+                        `entities/${generator.entityFolderName}/${
+                            generator.entityFileName
+                        }-filter.component.html`
                 },
                 {
-                    file: 'entities/entity-management-filter.component.ts.ejs',
+                    file: 'entities/entity-management-filter.component.ts',
                     method: 'processJs',
                     template: true,
-                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-filter.component.ts`
+                    renameTo: generator =>
+                        `entities/${generator.entityFolderName}/${
+                            generator.entityFileName
+                        }-filter.component.ts`
                 },
                 {
-                    file: 'entities/entity-management-filter.component.scss.ejs',
+                    file: 'entities/entity-management-filter.component.scss',
                     method: 'processHtml',
                     template: true,
-                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-filter.component.scss`
+                    renameTo: generator =>
+                        `entities/${generator.entityFolderName}/${
+                            generator.entityFileName
+                        }-filter.component.scss`
                 },
                 {
-                    file: 'entities/entity-management-select-dialog.component.html.ejs',
+                    file:
+                        'entities/entity-management-select-dialog.component.html',
                     method: 'processHtml',
                     template: true,
-                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-select-dialog.component.html`
+                    renameTo: generator =>
+                        `entities/${generator.entityFolderName}/${
+                            generator.entityFileName
+                        }-select-dialog.component.html`
                 },
                 {
-                    file: 'entities/entity-management-select-dialog.component.ts.ejs',
+                    file:
+                        'entities/entity-management-select-dialog.component.ts',
                     method: 'processJs',
                     template: true,
-                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-select-dialog.component.ts`
+                    renameTo: generator =>
+                        `entities/${generator.entityFolderName}/${
+                            generator.entityFileName
+                        }-select-dialog.component.ts`
                 },
                 {
-                    file: 'entities/entity-management-select-dialog.component.scss.ejs',
+                    file:
+                        'entities/entity-management-select-dialog.component.scss',
                     method: 'processHtml',
                     template: true,
-                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-select-dialog.component.scss`
+                    renameTo: generator =>
+                        `entities/${generator.entityFolderName}/${
+                            generator.entityFileName
+                        }-select-dialog.component.scss`
                 },
                 {
-                    file: 'entities/entity-management-select-dialog.service.ts.ejs',
+                    file: 'entities/entity-management-select-dialog.service.ts',
                     method: 'processJs',
                     template: true,
-                    renameTo: generator => `entities/${generator.entityFolderName}/${generator.entityFileName}-select-dialog.service.ts`
-                },
+                    renameTo: generator =>
+                        `entities/${generator.entityFolderName}/${
+                            generator.entityFileName
+                        }-select-dialog.service.ts`
+                }
             ]
         }
     ]
@@ -137,7 +190,10 @@ module.exports = class extends BaseGenerator {
                 if (this.jhipsterAppConfig.skipClient) {
                     this.env.error(`${chalk.red.bold('ERROR!')} This module works only for client...`);
                 }
-                if (this.jhipsterAppConfig.clientFramework !== 'angular5' && this.jhipsterAppConfig.clientFramework !== 'angularX') {
+                if (
+                    this.jhipsterAppConfig.clientFramework !== 'angular5' &&
+                    this.jhipsterAppConfig.clientFramework !== 'angularX'
+                ) {
                     this.env.error(`${chalk.red.bold('ERROR!')} This module works only for Angular5...`);
                 }
             },
@@ -155,7 +211,20 @@ module.exports = class extends BaseGenerator {
             writeFiles() {
                 utils.copyObjectProps(this, this.entityConfig.options);
                 utils.copyObjectProps(this, this.entityConfig);
-                this.writeFilesToDisk(angularFiles, this, false, CLIENT_NG2_TEMPLATES_DIR);
+                this.writeFilesToDisk(
+                    angularFiles,
+                    this,
+                    false,
+                    CLIENT_NG2_TEMPLATES_DIR
+                );
+
+                if (this.enableTranslation) {
+                    const languages =
+                        this.languages || this.getAllInstalledLanguages();
+                    languages.forEach((language) => {
+                        this.copyI18n(language);
+                    });
+                }
             }
         };
     }
