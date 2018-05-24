@@ -11,26 +11,28 @@
             const fieldType = fields[idx].fieldType;
             const fieldTypeBlobContent = fields[idx].fieldTypeBlobContent; _%>
             <clr-stack-block>
-            <clr-stack-label><span jhiTranslate="<%= i18nKeyPrefix %>.<%= fieldName %>"><%= fields[idx].fieldNameHumanized %></span></clr-stack-label>
-            <clr-stack-content>
-                <%_ if (fields[idx].fieldIsEnum) { _%>
-                <span jhiTranslate="{{'<%= angularAppName %>.<%= fieldType %>.' + <%= entityInstance %>.<%= fieldName %>}}">{{<%= entityInstance %>.<%= fieldName %>}}</span>
-                <%_ } else if (['byte[]', 'ByteBuffer'].includes(fieldType) && fieldTypeBlobContent === 'image') { _%>
-                <div *ngIf="<%= entityInstance %>.<%= fieldName %>">
-                    <a (click)="openFile(<%= entityInstance %>.<%= fieldName %>ContentType, <%= entityInstance %>.<%= fieldName %>)">
-                        <img [src]="'data:' + <%=entityInstance %>.<%= fieldName %>ContentType + ';base64,' + <%= entityInstance %>.<%= fieldName %>" style="max-width: 100%;" alt="<%=entityInstance %> image"/>
-                    </a>
-                    {{<%= entityInstance %>.<%= fieldName %>ContentType}}, {{byteSize(<%= entityInstance %>.<%= fieldName %>)}}
-                </div>
-                <%_ } else if (['byte[]', 'ByteBuffer'].includes(fieldType) && fieldTypeBlobContent === 'any') { _%>
-                <div *ngIf="<%= entityInstance %>.<%= fieldName %>">
-                    <a (click)="openFile(<%= entityInstance %>.<%= fieldName %>ContentType, <%= entityInstance %>.<%= fieldName %>)" jhiTranslate="entity.action.open">open</a>
-                    {{<%= entityInstance %>.<%= fieldName %>ContentType}}, {{byteSize(<%= entityInstance %>.<%= fieldName %>)}}
-                </div>
-                <%_ } else { _%>
-                <span>{{<%= entityInstance %>.<%= fieldName %>}}</span>
-                <%_ } _%>
-            </clr-stack-content>
+                <clr-stack-label>
+                    <span jhiTranslate="<%= i18nKeyPrefix %>.<%= fieldName %>"><%= fields[idx].fieldNameHumanized %></span>
+                </clr-stack-label>
+                <clr-stack-content>
+                    <%_ if (fields[idx].fieldIsEnum) { _%>
+                    <span jhiTranslate="{{'<%= angularAppName %>.<%= fieldType %>.' + <%= entityInstance %>.<%= fieldName %>}}">{{<%= entityInstance %>.<%= fieldName %>}}</span>
+                    <%_ } else if (['byte[]', 'ByteBuffer'].includes(fieldType) && fieldTypeBlobContent === 'image') { _%>
+                    <div *ngIf="<%= entityInstance %>.<%= fieldName %>">
+                        <a (click)="openFile(<%= entityInstance %>.<%= fieldName %>ContentType, <%= entityInstance %>.<%= fieldName %>)">
+                            <img [src]="'data:' + <%=entityInstance %>.<%= fieldName %>ContentType + ';base64,' + <%= entityInstance %>.<%= fieldName %>" style="max-width: 100%;" alt="<%=entityInstance %> image"/>
+                        </a>
+                        {{<%= entityInstance %>.<%= fieldName %>ContentType}}, {{byteSize(<%= entityInstance %>.<%= fieldName %>)}}
+                    </div>
+                    <%_ } else if (['byte[]', 'ByteBuffer'].includes(fieldType) && fieldTypeBlobContent === 'any') { _%>
+                    <div *ngIf="<%= entityInstance %>.<%= fieldName %>">
+                        <a (click)="openFile(<%= entityInstance %>.<%= fieldName %>ContentType, <%= entityInstance %>.<%= fieldName %>)" jhiTranslate="entity.action.open">open</a>
+                        {{<%= entityInstance %>.<%= fieldName %>ContentType}}, {{byteSize(<%= entityInstance %>.<%= fieldName %>)}}
+                    </div>
+                    <%_ } else { _%>
+                    <span>{{<%= entityInstance %>.<%= fieldName %>}}</span>
+                    <%_ } _%>
+                </clr-stack-content>
             </clr-stack-block>
             <%_ } _%>
             <%_ for (idx in relationships) {
@@ -48,7 +50,9 @@
             || (relationshipType === 'one-to-one' && ownerSide === true)
             || (relationshipType === 'many-to-many' && ownerSide === true)) { _%>
             <clr-stack-block>
-            <clr-stack-label><span jhiTranslate="<%= i18nKeyPrefix %>.<%= relationshipName %>"><%= relationshipNameHumanized %></span></clr-stack-label>
+            <clr-stack-label>
+                <span jhiTranslate="<%= i18nKeyPrefix %>.<%= relationshipName %>"><%= relationshipNameHumanized %></span>
+            </clr-stack-label>
             <clr-stack-content>
                 <%_ if (otherEntityName === 'user') { _%>
                 <%_ if (relationshipType === 'many-to-many') { _%>
@@ -65,16 +69,16 @@
                 <%_ } else { _%>
                 <%_ if (relationshipType === 'many-to-many') { _%>
                 <span *ngFor="let <%= relationshipFieldName %> of <%= entityInstance %>.<%= relationshipFieldNamePlural %>; let last = last">
-                    <a [routerLink]="['/<%= otherEntityStateName %>', <%= relationshipFieldName %>?.id, 'view' ]">{{<%= relationshipFieldName %>.<%= otherEntityField %>}}</a>{{last ? '' : ', '}}
+                    <a [routerLink]="['../../../<%= otherEntityStateName %>', <%= relationshipFieldName %>?.id, 'view' ]">{{<%= relationshipFieldName %>.<%= otherEntityField %>}}</a>{{last ? '' : ', '}}
                 </span>
                 <%_ } else { _%>
                 <%_ if (dto === 'no') { _%>
                 <div *ngIf="<%= entityInstance + '.' + relationshipFieldName %>">
-                    <a [routerLink]="['/<%= otherEntityStateName %>', <%= entityInstance + '.' + relationshipFieldName + '?.id' %>, 'view']">{{<%= entityInstance + "." + relationshipFieldName + "?." + otherEntityField %>}}</a>
+                    <a [routerLink]="['../../../<%= otherEntityStateName %>', <%= entityInstance + '.' + relationshipFieldName + '?.id' %>, 'view']">{{<%= entityInstance + "." + relationshipFieldName + "?." + otherEntityField %>}}</a>
                 </div>
                 <%_ } else { _%>
                 <div *ngIf="<%= entityInstance + '.' + relationshipFieldName + "Id" %>">
-                    <a [routerLink]="['/<%= otherEntityStateName %>', <%= entityInstance + '.' + relationshipFieldName + "Id" %>, 'view']">{{<%= entityInstance + "." + relationshipFieldName + otherEntityFieldCapitalized %>}}</a>
+                    <a [routerLink]="['../../../<%= otherEntityStateName %>', <%= entityInstance + '.' + relationshipFieldName + "Id" %>, 'view']">{{<%= entityInstance + "." + relationshipFieldName + otherEntityFieldCapitalized %>}}</a>
                 </div>
                 <%_ } _%>
                 <%_ } _%>

@@ -31,7 +31,9 @@
                     }
                     _%>
                     <clr-stack-block>
-                        <clr-stack-label for="field_<%= fieldName %>"><%= fieldNameHumanized %></clr-stack-label>
+                        <clr-stack-label for="field_<%= fieldName %>">
+                            <span jhiTranslate="<%= i18nKeyPrefix %>.<%= fieldName %>"><%= fieldNameHumanized %></span>
+                        </clr-stack-label>
                         <clr-stack-content>
                         <%_ if (fields[idx].fieldIsEnum) { _%>
                         <select class="form-control" name="<%= fieldName %>" [(ngModel)]="<%= entityInstance %>.<%= fieldName %>" id="field_<%= fieldName %>" <% if (fields[idx].fieldValidate === true && fields[idx].fieldValidateRules.includes('required')) { %> required<% } %>>

@@ -299,6 +299,9 @@ export function  TimeFilter(value: string, filterValue: TimeFilterValue) {
 }
 
 function _conditionToQueryString(property: string, symbol: string, value: any) {
+    if (typeof value === 'string') {
+        value = value.replace(/(^\s*)|(\s*$)/g, '');
+    }
     switch (symbol) {
         case FilterSymbol.EQUAL:
             return `${property}:${value}`;
@@ -323,6 +326,9 @@ function _conditionRegularCheck(value: any, keyword: any, symbol: FilterSymbol) 
     if (!keyword || keyword === '' || !symbol) {
         return true;
     }
+    if (typeof keyword === 'string') {
+        keyword = keyword.replace(/(^\s*)|(\s*$)/g, '');
+    }
     try {
         switch (symbol) {
             case FilterSymbol.EQUAL:
@@ -336,10 +342,10 @@ function _conditionRegularCheck(value: any, keyword: any, symbol: FilterSymbol) 
             case FilterSymbol.CONTAIN:
                 return value.indexOf(keyword) > -1;
             case FilterSymbol.NOT_CONTAIN:
-                return value.indexOf(keyword) > -1;
-            case FilterSymbol.END_CONTAIN:
-                return value.indexOf(keyword) === 1;
+                return value.indexOf(keyword) === -1;
             case FilterSymbol.BEGIN_CONTAIN:
+                return value.indexOf(keyword) === 0;
+            case FilterSymbol.END_CONTAIN:
                 return value.indexOf(keyword) === value.length - keyword.length;
             default:
                 return false;
@@ -366,6 +372,8 @@ export class NumberFilterValue {
         this.max = null;
         this.min = null;
         this.primarySymbol = null;
+        this.primaryValue = null;
+        this.secondarySymbol = null;
         this.secondaryValue = null;
         this.relationship = FilterRelationship.AND;
     }
@@ -388,6 +396,7 @@ export class StringFilterValue {
         this.primarySymbol = null;
         this.primaryValue = '';
         this.secondarySymbol = null;
+        this.secondaryValue = '';
         this.relationship = FilterRelationship.AND;
     }
 }
@@ -409,7 +418,9 @@ export class DateFilterValue {
         this.max = null;
         this.min = null;
         this.primarySymbol = null;
+        this.primaryValue = null;
         this.secondarySymbol = null;
+        this.secondaryValue = null;
         this.relationship = FilterRelationship.AND;
     }
 }
@@ -431,7 +442,9 @@ export class TimeFilterValue {
         this.max = null;
         this.min = null;
         this.primarySymbol = null;
+        this.primaryValue = null;
         this.secondarySymbol = null;
+        this.secondaryValue = null;
         this.relationship = FilterRelationship.AND;
     }
 }
@@ -453,7 +466,9 @@ export class DateTimeFilterValue {
         this.max = null;
         this.min = null;
         this.primarySymbol = null;
+        this.primaryValue = null;
         this.secondarySymbol = null;
+        this.secondaryValue = null;
         this.relationship = FilterRelationship.AND;
     }
 }
@@ -461,7 +476,6 @@ export class DateTimeFilterValue {
 export class SelectFilterValue {
     type: FilterType;
     selected: Array<any>;
-
     constructor() {
         this.type = FilterType.SELECT;
         this.selected = [];

@@ -32,12 +32,12 @@
         <div class="col-sm-12">
           <div  class="check-box">
             <div class="radio-inline">
-              <input type="radio" name="relationship" id="and-radio-box" value="AND" [(ngModel)]="value.relationship" (ngModelChange)="submit()">
-              <label for="and-radio-box">{{'entity.filter.relationship.and' | translate}}</label>
+              <input type="radio" name="relationship" id="{{property}}-radio-box" value="AND" [(ngModel)]="value.relationship" (ngModelChange)="submit()">
+              <label for="{{property}}-radio-box">{{'entity.filter.relationship.and' | translate}}</label>
             </div>
             <div class="radio-inline" style="margin-left: 10px">
-              <input type="radio" name="relationship" id="or-radio-box" value="OR" [(ngModel)]="value.relationship" (ngModelChange)="submit()">
-              <label for="or-radio-box">{{'entity.filter.relationship.or' | translate}}</label>
+              <input type="radio" name="relationship" id="{{property}}-radio-box" value="OR" [(ngModel)]="value.relationship" (ngModelChange)="submit()">
+              <label for="{{property}}-radio-box">{{'entity.filter.relationship.or' | translate}}</label>
             </div>
           </div>
         </div>

@@ -163,6 +163,11 @@
         <clr-dg-cell>{{<%=entityInstance %>.<%=fieldName%> | date:'medium'}}</clr-dg-cell>
         <%_ } else if (fieldType === 'LocalDate') { _%>
         <clr-dg-cell>{{<%=entityInstance %>.<%=fieldName%> | date:'mediumDate'}}</clr-dg-cell>
+        <%_ } else if (fieldType === 'Boolean') { _%>
+        <clr-dg-cell>
+            <clr-icon *ngIf="<%=entityInstance %>.<%=fieldName%>" shape="check" class="is-success"></clr-icon>
+            <clr-icon *ngIf="!<%=entityInstance %>.<%=fieldName%>" shape="times" class="is-error"></clr-icon>
+        </clr-dg-cell>
         <%_ } else { _%>
         <clr-dg-cell>{{<%=entityInstance %>.<%=fieldName%>}}</clr-dg-cell>
         <%_ } _%>
