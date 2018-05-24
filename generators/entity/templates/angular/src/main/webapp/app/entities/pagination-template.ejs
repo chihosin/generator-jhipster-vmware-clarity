@@ -110,7 +110,7 @@
           page: this.page,
           size: this.itemsPerPage,
           <%_ if (searchEngine === 'elasticsearch') { _%>
-          search: encodeFiltersQueryParam(state.filters),
+          query: encodeFiltersQueryParam(state.filters),
           <%_ } _%>
           sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
         }

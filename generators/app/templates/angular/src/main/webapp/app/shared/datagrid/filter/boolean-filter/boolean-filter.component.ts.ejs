@@ -40,7 +40,17 @@ export class <%=jhiPrefixCapitalized%>BooleanFilterComponent implements ClrDatag
     @Input('clrFilterValue')
     public set clrFilterValue(filter: any) {
         if (filter && filter.value) {
+            if (filter.value.filter === '') {
+                filter.value.filter = false;
+            }
             this.value = filter.value;
+            if (this.value.filter === true) {
+                this.yes = true;
+                this.no = false;
+            } else if (this.value.filter === false){
+                this.yes = false;
+                this.no = true;
+            }
         }
     }
 
