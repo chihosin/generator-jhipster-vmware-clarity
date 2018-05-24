@@ -6,7 +6,7 @@
         <div class="card card-block" *ngIf="!<%= entityInstance %>SelectDialogService.single">
             <span class="label-group-title">{{'entity.selectDialog.selected' | translate}}:</span>
             <span *ngIf="selected.length < 1">
-                {{'global.messages.info.noOption' | translate}}
+                {{'entity.filter.none' | translate}}
             </span>
             <span class="label" *ngFor="let item of selected" (click)="remove(item)">
                 {{item.id}}
