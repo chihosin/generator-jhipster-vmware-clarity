@@ -1,10 +1,10 @@
 <clr-modal [(clrModalOpen)]="opened" [clrModalStaticBackdrop]="true" [clrModalSize]="'xl'">
-    <h3 class="modal-title">{{'<%= angularAppName %>.<%= entityTranslationKey %>.filter.title' | translate}}</h3>
+    <h3 class="modal-title">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.title' | translate}}</h3>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
 
         <div class="card card-block" *ngIf="!<%= entityInstance %>SelectDialogService.single">
-            <span class="label-group-title">{{'<%= angularAppName %>.<%= entityTranslationKey %>.filter.selected' | translate}}:</span>
+            <span class="label-group-title">{{'entity.selectDialog.selected' | translate}}:</span>
             <span *ngIf="selected.length < 1">
                 {{'global.messages.info.noOption' | translate}}
             </span>
@@ -13,7 +13,7 @@
                 <clr-icon shape="window-close"></clr-icon>
             </span> 
             <button *ngIf="selected.length > 0" class="btn btn-sm btn-link btn-warning remove-all" (click)="selected = []">
-                {{'<%= angularAppName %>.<%= entityTranslationKey %>.filter.clear' | translate}}
+                {{'entity.selectDialog.clear' | translate}}
             </button>
         </div>
 
@@ -209,8 +209,8 @@
 
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="opened = false;">{{'entity.action.cancel' | translate}}</button>
-        <button type="button" class="btn btn-primary" (click)="confirm()">{{'entity.action.confirm' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="opened = false;">{{'entity.selectDialog.cancel' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="confirm()">{{'entity.selectDialog.confirm' | translate}}</button>
     </div>
 
 </clr-modal>

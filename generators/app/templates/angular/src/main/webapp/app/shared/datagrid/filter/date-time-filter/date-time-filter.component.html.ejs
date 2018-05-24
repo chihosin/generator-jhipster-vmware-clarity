@@ -1,12 +1,12 @@
 <div style="width: 360px" (keyup.enter)="close($event)">
-  <p class="p6">{{value.enableAdvancedFilter ? '筛选器' : '日期时间范围'}}</p>
+  <p class="p6">{{(value.enableAdvancedFilter ? 'entity.filter.filterTitle' : 'entity.filter.dateTimeFilterTitle') | translate}}</p>
   <br/>
   <div class="date-range row" *ngIf="value.type === dateTimeRangeType">
     <div class="col-sm-12">
-      <input type="datetime-local" placeholder="开始日期时间" [(ngModel)]="value.min" (ngModelChange)="submit()"/>
+      <input type="datetime-local" placeholder="{{'entity.filter.startDate' | translate}}" [(ngModel)]="value.min" (ngModelChange)="submit()"/>
     </div>
     <div class="col-sm-12">
-      <input type="datetime-local" placeholder="结束日期时间" [(ngModel)]="value.max" (ngModelChange)="submit()"/>
+      <input type="datetime-local" placeholder="{{'entity.filter.endDate' | translate}}" [(ngModel)]="value.max" (ngModelChange)="submit()"/>
     </div>
   </div>
 
@@ -15,11 +15,11 @@
       <div class="col-sm-4">
         <div class="select condition">
           <select [(ngModel)]="value.primarySymbol" (ngModelChange)="submit()">
-            <option [value]="null">请选择</option>
-            <option value="EQUAL">等于</option>
-            <option value="NOT_EQUAL">不等于</option>
-            <option value="GREATER_THAN_EQUAL">大于等于</option>
-            <option value="LESS_THAN_EQUAL">小于等于</option>
+            <option [value]="null">{{'entity.filter.symbol.noChoice' | translate}}</option>
+            <option [value]="EQUAL">{{'entity.filter.symbol.equal' | translate}}</option>
+            <option value="NOT_EQUAL">{{'entity.filter.symbol.notEqual' | translate}}</option>
+            <option value="GREATER_THAN_EQUAL">{{'entity.filter.symbol.greaterThanEqual' | translate}}</option>
+            <option value="LESS_THAN_EQUAL">{{'entity.filter.symbol.lessThanEqual' | translate}}</option>
           </select>
         </div>
       </div>
@@ -33,11 +33,11 @@
           <div  class="check-box">
             <div class="radio-inline">
               <input type="radio" name="relationship" id="and-radio-box" value="AND" [(ngModel)]="value.relationship" (ngModelChange)="submit()">
-              <label for="and-radio-box">并且</label>
+              <label for="and-radio-box">{{'entity.filter.relationship.and' | translate}}</label>
             </div>
             <div class="radio-inline" style="margin-left: 10px">
               <input type="radio" name="relationship" id="or-radio-box" value="OR" [(ngModel)]="value.relationship" (ngModelChange)="submit()">
-              <label for="or-radio-box">或者</label>
+              <label for="or-radio-box">{{'entity.filter.relationship.or' | translate}}</label>
             </div>
           </div>
         </div>
@@ -46,11 +46,11 @@
         <div class="col-sm-4">
           <div class="select condition">
             <select [(ngModel)]="value.secondarySymbol" (ngModelChange)="submit()">
-              <option [value]="null">请选择</option>
-              <option value="EQUAL">等于</option>
-              <option value="NOT_EQUAL">不等于</option>
-              <option value="GREATER_THAN_EQUAL">大于等于</option>
-              <option value="LESS_THAN_EQUAL">小于等于</option>
+              <option [value]="null">{{'entity.filter.symbol.noChoice' | translate}}</option>
+              <option [value]="EQUAL">{{'entity.filter.symbol.equal' | translate}}</option>
+              <option value="NOT_EQUAL">{{'entity.filter.symbol.notEqual' | translate}}</option>
+              <option value="GREATER_THAN_EQUAL">{{'entity.filter.symbol.greaterThanEqual' | translate}}</option>
+              <option value="LESS_THAN_EQUAL">{{'entity.filter.symbol.lessThanEqual' | translate}}</option>
             </select>
           </div>
         </div>
@@ -64,7 +64,7 @@
   <div class="foot">
     <div class="toggle-switch">
       <input type="checkbox" id="filter-switch" [(ngModel)]="value.enableAdvancedFilter" (ngModelChange)="submit()">
-      <label for="filter-switch" style="line-height: 24px">筛选器</label>
+      <label for="filter-switch" style="line-height: 24px">{{'entity.filter.filterTitle' | translate}}</label>
     </div>
   </div>
 </div>
