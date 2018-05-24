@@ -1,5 +1,7 @@
 # generator-jhipster-vmware-clarity
+
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+
 > JHipster module, Clarity Design System for Angular.
 
 # Introduction
@@ -10,7 +12,7 @@ This is a [JHipster](http://jhipster.github.io/) module, that is meant to be use
 
 As this is a [JHipster](http://jhipster.github.io/) module, we expect you have JHipster and its related tools already installed:
 
-- [Installing JHipster](https://jhipster.github.io/installation.html)
+*   [Installing JHipster](https://jhipster.github.io/installation.html)
 
 # Installation
 
@@ -44,10 +46,17 @@ npm update -g generator-jhipster-vmware-clarity
 
 # Usage
 
+```bash
+# Install UI Framework
+yo jhipster-vmware-clarity
+
+# Create entity
+yo jhipster entity <entityName> --[options]
+```
+
 # License
 
 MIT © [Chiho Sin](https://github.com/chihosin)
-
 
 [npm-image]: https://img.shields.io/npm/v/generator-jhipster-vmware-clarity.svg
 [npm-url]: https://npmjs.org/package/generator-jhipster-vmware-clarity
