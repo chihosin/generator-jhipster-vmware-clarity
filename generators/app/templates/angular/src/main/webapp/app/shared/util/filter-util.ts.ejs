@@ -13,6 +13,7 @@ export enum FilterType {
     DATE_TIME_RANGE = 'DATE_TIME_RANGE',
     DATE_TIME_ADVANCED = 'DATE_TIME_ADVANCED',
     SELECT = 'SELECT',
+    BOOLEAN = 'BOOLEAN'
 }
 
 export enum FilterSymbol {
@@ -135,9 +136,14 @@ export function resolveFilter(filter: any) {
                 }
             });
             break;
+        case FilterType.BOOLEAN:
+            if (filter.value.filter != null) {
+                queryString += `${filter.property}: ${filter.value.filter}`;
+            }
+            break;
         default:
             queryString = `${filter.property}: *`;
-            return;
+            break;
     }
     return queryString === '' ? '*:*' : queryString;
 }
@@ -202,6 +208,8 @@ export function decodeFiltersQueryParam(filters: any, queryString: string): any 
                     value = new DateTimeFilterValue();
                 } else if (valuesString[i] === FilterType.SELECT) {
                     value = new SelectFilterValue();
+                } else if (valuesString[i] === FilterType.BOOLEAN) {
+                    value = new BooleanFilterValue();
                 } else {
                     continue;
                 }
@@ -457,5 +465,14 @@ export class SelectFilterValue {
     constructor() {
         this.type = FilterType.SELECT;
         this.selected = [];
+    }
+}
+
+export class BooleanFilterValue {
+    type: FilterType;
+    filter?: boolean;
+    constructor() {
+        this.type = FilterType.BOOLEAN;
+        this.filter = null;
     }
 }

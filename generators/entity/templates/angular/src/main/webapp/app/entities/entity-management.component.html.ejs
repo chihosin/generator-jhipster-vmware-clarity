@@ -79,7 +79,14 @@
                         </<%= jhiPrefixDashed %>-date-filter>
                     </clr-dg-filter>
                     <%_ } else if (searchEngine === 'elasticsearch' && fields[idx].fieldType === 'Boolean') { _%>
-                    // todo: Boolean 筛选器
+                    <clr-dg-filter [clrDgFilter]="<%= fields[idx].fieldName%>Filter">
+                        <<%= jhiPrefixDashed %>-boolean-filter #<%= fields[idx].fieldName%>Filter
+                                        [clrDgField]="'<%= fields[idx].fieldName%>'"
+                                        <%_ if (pagination === 'pagination' || pagination === 'pager'){ _%>
+                                        [(clrFilterValue)]="filters.<%= fields[idx].fieldName%>"
+                                        <%_ } _%>>
+                        </<%= jhiPrefixDashed %>-boolean-filter>
+                    </clr-dg-filter>
                     <%_ } else if (searchEngine === 'elasticsearch' && fields[idx].fieldType === 'Enumeration') { _%>
                     // todo: Enumeration 筛选器
                     <%_ } else if (searchEngine === 'elasticsearch' && fields[idx].fieldType === 'Blob') { _%>

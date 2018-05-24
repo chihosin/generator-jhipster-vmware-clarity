@@ -1,0 +1,13 @@
+<div class="box">
+    <p class="p6">{{'entity.filter.filterTitle' | translate}}</p>
+    <div class="form-group">
+        <div class="checkbox">
+            <input type="checkbox" id="{{property}}-checkbox-true" [(ngModel)]="yes" (ngModelChange)="update()">
+            <label for="{{property}}-checkbox-true">{{'entity.filter.yes' | translate}}</label>
+        </div>
+        <div class="checkbox">
+            <input type="checkbox" id="{{property}}-checkbox-false" [(ngModel)]="no" (ngModelChange)="update()">
+            <label for="{{property}}-checkbox-false">{{'entity.filter.no' | translate}}</label>
+        </div>
+    </div>
+</div>
