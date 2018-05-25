@@ -19,6 +19,14 @@ import { <% if (queries && queries.length > 0) { %>JhiAlertService, <% } %><% if
 import { I<%= entityAngularName %> } from 'app/shared/model/<%= entityModelFileName %>.model';
 import { <%= entityAngularName %>Service } from './<%= entityFileName %>.service';
 
+<%_ for (idx in relationships) {
+        const relationshipType = relationships[idx].relationshipType;
+        if (relationshipType === 'many-to-one' || relationshipType === 'one-to-one') {
+      _%>
+import { <%= relationships[idx].otherEntityAngularName %>SelectDialogService } from '../<%= relationships[idx].otherEntityFileName %>/<%= relationships[idx].otherEntityFileName %>-select-dialog.service';
+<%_ } _%>
+<%_ } _%>
+
 <%_
 let hasRelationshipQuery = false;
 Object.keys(differentRelationships).forEach(key => {
@@ -93,7 +101,15 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
       <%_ if (fieldsContainImageBlob) { _%>
       private elementRef: ElementRef,
       <%_ } _%>
-      private route: ActivatedRoute
+      private route: ActivatedRoute,
+      <%_ for (idx in relationships) {
+        const relationshipType = relationships[idx].relationshipType;
+        const relationshipName = relationships[idx].relationshipName;
+        if (relationshipType === 'many-to-one' || relationshipType === 'one-to-one') {
+      _%>
+      private <%= relationshipName %>SelectDialogService: <%= relationships[idx].otherEntityAngularName %>SelectDialogService,
+      <%_ } _%>
+      <%_ } _%>
   ) {}
 
   ngOnInit() {
@@ -216,4 +232,17 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
       this.<%= fieldName %> = moment(<%= entityInstance %>.<%= fieldName %>).format();
    <%_ } } _%>
   }
+
+  <%_ for (idx in relationships) {
+      const relationshipType = relationships[idx].relationshipType;
+      const relationshipName = relationships[idx].relationshipName;
+      if (relationshipType === 'many-to-one' || relationshipType === 'one-to-one') {
+  _%>
+  changeExampleTag() {
+      this.<%= relationshipName %>SelectDialogService.subscribe([], (selected: Array<IExample>) => {
+          this.<%= entityInstance %>.<%= relationshipName %> = selected[0];
+      }, true);
+  }
+  <%_ } _%>
+  <%_ } _%>
 }
