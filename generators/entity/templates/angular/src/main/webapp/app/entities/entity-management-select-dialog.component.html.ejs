@@ -196,19 +196,17 @@
 
             <clr-dg-footer>
                 <clr-dg-column-toggle>
-                    <clr-dg-column-toggle-title>{{'entity.datagrid.selectDisplayFieldLabel' | translate}}</clr-dg-column-toggle-title>
-                    <clr-dg-column-toggle-button clrType="selectAll">{{'entity.action.selectAll' | translate}}</clr-dg-column-toggle-button>
+                    <clr-dg-column-toggle-title>{{'entity.datagrid.fieldDisplay.title' | translate}}</clr-dg-column-toggle-title>
+                    <clr-dg-column-toggle-button clrType="selectAll">{{'entity.datagrid.fieldDisplay.showAll' | translate}}</clr-dg-column-toggle-button>
                     <clr-dg-column-toggle-button clrType="ok">
                         <clr-icon shape="check"></clr-icon>
                     </clr-dg-column-toggle-button>
                 </clr-dg-column-toggle>
-                <%_ if (databaseType !== 'cassandra' && (pagination === 'pagination' || pagination === 'pager')) { _%>
-                {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-                {{'entity.datagrid.pagination.of' | translate}} {{totalItems}} <span jhiTranslate="<%= i18nKeyPrefix %>.home.title"><%= entityClassPluralHumanized %></span>
-                <clr-dg-pagination #pagination [clrDgTotalItems]="totalItems" [clrDgPageSize]="itemsPerPage"
-                                [(clrDgPage)]="page"></clr-dg-pagination>
-                <%_ } else { _%>
-                {{'entity.datagrid.pagination.of' | translate}} {{<%= entityInstancePlural %> ? <%= entityInstancePlural %>.length : 0}} <span jhiTranslate="<%= i18nKeyPrefix %>.home.title"><%= entityClassPluralHumanized %></span>
+                <%_ if (databaseType !== 'cassandra') { _%>
+                <clr-dg-pagination #pagination [clrDgPageSize]="itemsPerPage" <%_ if (pagination === 'pagination' || pagination === 'pager') { _%> [clrDgTotalItems]="totalItems" [(clrDgPage)]="page" <%_ } _%>>
+                    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                    {{'entity.datagrid.pagination.of' | translate}} {{pagination.totalItems}} <span jhiTranslate="<%= i18nKeyPrefix %>.detail.title"><%= entityClassPluralHumanized %></span>
+                </clr-dg-pagination>
                 <%_ } _%>
             </clr-dg-footer>
         </clr-datagrid>

@@ -29,6 +29,9 @@
         private <%= entityInstance %>Service: <%= entityAngularName %>Service,
         private parseLinks: JhiParseLinks,
         private jhiAlertService: JhiAlertService,
+        <%_ if (fieldsContainBlob) { _%>
+        private dataUtils: JhiDataUtils,
+        <%_ } _%>
         private principal: Principal,
         private router: Router,
         private eventManager: JhiEventManager,

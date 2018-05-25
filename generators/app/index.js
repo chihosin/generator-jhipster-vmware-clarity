@@ -471,6 +471,30 @@ const files = {
                         'shared/datagrid/filter/boolean-filter/boolean-filter.component.scss'
                 },
                 {
+                    file:
+                        'shared/datagrid/filter/enum-filter/enum-filter.component.ts',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () =>
+                        'shared/datagrid/filter/enum-filter/enum-filter.component.ts'
+                },
+                {
+                    file:
+                        'shared/datagrid/filter/enum-filter/enum-filter.component.html',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () =>
+                        'shared/datagrid/filter/enum-filter/enum-filter.component.html'
+                },
+                {
+                    file:
+                        'shared/datagrid/filter/enum-filter/enum-filter.component.scss',
+                    method: 'processHtml',
+                    template: true,
+                    renameTo: () =>
+                        'shared/datagrid/filter/enum-filter/enum-filter.component.scss'
+                },
+                {
                     file: 'shared/shared-common.module.ts',
                     method: 'processJs',
                     template: true,
@@ -575,11 +599,11 @@ module.exports = class extends BaseGenerator {
 
                 this.filename = `${this.jhipsterConfigDirectory}/${
                     this.entityNameCapitalized
-                }.json`;
+                    }.json`;
                 if (shelljs.test('-f', this.filename)) {
                     this.log(chalk.green(`\nFound the ${
                         this.filename
-                    } configuration file, entity can be automatically generated!\n`));
+                        } configuration file, entity can be automatically generated!\n`));
                     this.useConfigurationFile = true;
                     this.fromPath = this.filename;
                 }
@@ -612,12 +636,12 @@ module.exports = class extends BaseGenerator {
                         }
                         if (
                             fileData.dependencies[
-                                '@webcomponents/custom-elements'
+                            '@webcomponents/custom-elements'
                             ]
                         ) {
                             this.libWebComponentsVersion =
                                 fileData.dependencies[
-                                    '@webcomponents/custom-elements'
+                                '@webcomponents/custom-elements'
                                 ];
                         }
                         if (fileData.dependencies['web-animations-js']) {
@@ -679,7 +703,7 @@ module.exports = class extends BaseGenerator {
                 this.replaceContent(
                     'package.json',
                     `"@angular/animations": "${
-                        this.libAngularAnimationsVersion
+                    this.libAngularAnimationsVersion
                     }"`,
                     `"@angular/animations": "${this.libAngularVersion}"`
                 );
@@ -723,7 +747,7 @@ module.exports = class extends BaseGenerator {
                 this.replaceContent(
                     'package.json',
                     `"@webcomponents/custom-elements": "${
-                        this.libWebComponentsVersion
+                    this.libWebComponentsVersion
                     }"`,
                     `"@webcomponents/custom-elements": "${WEB_COMPONENTS_VERSION}"`
                 );

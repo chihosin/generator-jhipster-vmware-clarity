@@ -8,7 +8,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { JhiEventManager, <% if (pagination !== 'no') { %>JhiParseLinks, <% } %>JhiAlertService<% if (fieldsContainBlob) { %>, JhiDataUtils<% } %> } from 'ng-jhipster';
 
-import { I<%= entityAngularName %> } from 'app/shared/model/<%= entityModelFileName %>.model';
+import {
+    I<%= entityAngularName %>,
+    <%_ for (idx in fields) { 
+        if (searchEngine === 'elasticsearch' && fields[idx].fieldIsEnum) { _%>
+    <%=fields[idx].fieldType%>,
+    <%_ }} _%>
+} from 'app/shared/model/<%= entityModelFileName %>.model';
 import { Principal } from 'app/core';
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { Subject } from 'rxjs/Subject';

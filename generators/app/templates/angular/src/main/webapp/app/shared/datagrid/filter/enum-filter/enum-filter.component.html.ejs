@@ -1,0 +1,36 @@
+<div class="box" (keyup.enter)="close($event)">
+  <p class="p6">{{'entity.filter.filterTitle' | translate}}</p>
+  <ul class="list-unstyled">
+    <li>
+      <div class="checkbox">
+        <input
+                type="checkbox"
+                id="{{property}}-all-checkbox"
+                [(ngModel)]="all"
+                (ngModelChange)="changeAllCheckBoxValue()"
+        >
+        <label for="{{property}}-all-checkbox">
+            {{'entity.filter.selectAll' | translate}}
+        </label>
+      </div>
+    </li>
+    <li *ngFor="let enum of enumList">
+      <div class="checkbox">
+        <input
+                type="checkbox"
+                id="{{property}}-{{enum}}-checkrads"
+                [(ngModel)]="checkBoxValue[enum]"
+                (ngModelChange)="changeCheckBoxValue()"
+        >
+        <label for="{{property}}-{{enum}}-checkrads">
+          <span *ngIf="i18nProperty">
+            {{(i18nProperty + '.' + enum) | translate}}
+          </span>
+          <span *ngIf="!i18nProperty">
+            {{enum}}
+          </span>
+        </label>
+      </div>
+    </li>
+  </ul>
+</div>

@@ -13,7 +13,8 @@ export enum FilterType {
     DATE_TIME_RANGE = 'DATE_TIME_RANGE',
     DATE_TIME_ADVANCED = 'DATE_TIME_ADVANCED',
     SELECT = 'SELECT',
-    BOOLEAN = 'BOOLEAN'
+    BOOLEAN = 'BOOLEAN',
+    ENUM = 'ENUM'
 }
 
 export enum FilterSymbol {
@@ -141,6 +142,17 @@ export function resolveFilter(filter: any) {
                 queryString += `${filter.property}: ${filter.value.filter}`;
             }
             break;
+        case FilterType.ENUM:
+            if (filter.value.filters) {
+                filter.value.filters.forEach(name => {
+                    if (queryString === '') {
+                        queryString += `${filter.property}:${name}`;
+                    } else {
+                        queryString += ` OR ${filter.property}:${name}`;
+                    }
+                });
+            }
+            break;
         default:
             queryString = `${filter.property}: *`;
             break;
@@ -210,6 +222,8 @@ export function decodeFiltersQueryParam(filters: any, queryString: string): any 
                     value = new SelectFilterValue();
                 } else if (valuesString[i] === FilterType.BOOLEAN) {
                     value = new BooleanFilterValue();
+                } else if (valuesString[i] === FilterType.ENUM) {
+                    value = new EnumFilterValue();
                 } else {
                     continue;
                 }
@@ -488,5 +502,14 @@ export class BooleanFilterValue {
     constructor() {
         this.type = FilterType.BOOLEAN;
         this.filter = null;
+    }
+}
+
+export class EnumFilterValue {
+    type: FilterType;
+    filters?: Array<string>;
+    constructor() {
+        this.type = FilterType.ENUM;
+        this.filters = null;
     }
 }
