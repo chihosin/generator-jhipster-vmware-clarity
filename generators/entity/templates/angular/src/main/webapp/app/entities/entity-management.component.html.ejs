@@ -145,8 +145,7 @@
             <button class="action-item" [routerLink]="['/<%= microserviceName %>/<%= entityUrl %>', <%= entityInstance %>.id, 'edit']">
                 {{'entity.action.edit' | translate}}
             </button>
-            <button class="action-item"
-                    [routerLink]="['/', { outlets: { popup: '<%= microserviceName %>/<%= entityUrl %>/'+ <%= entityInstance %>.id + '/delete'} }]">
+            <button class="action-item" (click)="delete(<%= entityInstance %>)">
                 {{'entity.action.delete' | translate}}
             </button>
         </clr-dg-action-overflow>

@@ -60,6 +60,16 @@ const angularFiles = {
                         }-delete-dialog.component.html`
                 },
                 {
+                    file:
+                        'entities/entity-management-delete-dialog.service.ts',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: generator =>
+                        `entities/${generator.entityFolderName}/${
+                            generator.entityFileName
+                        }-delete-dialog.service.ts`
+                },
+                {
                     file: 'entities/entity-management-detail.component.html',
                     method: 'processHtml',
                     template: true,

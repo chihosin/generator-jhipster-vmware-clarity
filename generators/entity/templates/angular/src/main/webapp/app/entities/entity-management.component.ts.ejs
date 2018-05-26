@@ -21,6 +21,8 @@ import { Subject } from 'rxjs/Subject';
 import { ClrDatagridSortOrder, ClrDatagridStateInterface } from '@clr/angular';
 import { SEARCH_DEBOUNCE_TIME } from 'app/shared/constants/load.constants';
 import { <%= entityAngularName %>Service } from './<%= entityFileName %>.service';
+import { <%= entityAngularName %>DeleteDialogService } from './<%= entityFileName %>-delete-dialog.service';
+import { <%= entityAngularName %>SelectDialogService } from './<%= entityFileName %>-select-dialog.service';
 
 import { decodeFiltersQueryParam, encodeFiltersQueryParam, resolveFilter} from 'app/shared/util/filter-util';
 
@@ -107,11 +109,19 @@ export class <%= entityAngularName %>Component implements OnInit, OnDestroy {
     }
 
     <%_ }} _%>
+    delete(item: I<%= entityAngularName %>) {
+        this.<%= entityInstance %>DeleteDialogService.open(() => {
+            this.loadAll();
+        }, [item]);
+    }
+
     // added for Clarity
     batchDelete() {
-      if (this.selected.length > 0) {
-        this.router.navigate([{ outlets: { popup: '<%= microserviceName %>/<%= entityUrl %>/' + this.selected.map(value => value.id) + '/delete' } }]);
-      }
+        if (this.selected.length > 0) {
+            this.<%= entityInstance %>DeleteDialogService.open(() => {
+                this.loadAll();
+            }, this.selected);
+        }
     }
 
     private onError(errorMessage: string) {

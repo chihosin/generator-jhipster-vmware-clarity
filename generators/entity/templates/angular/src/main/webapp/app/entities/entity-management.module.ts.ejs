@@ -21,6 +21,7 @@ import {
 } from './';
 
 import { <%= entityAngularName %>SelectDialogComponent } from './<%= entityFileName %>-select-dialog.component';
+import { <%= entityAngularName %>DeleteDialogService } from './<%= entityFileName %>-delete-dialog.service';
 import { <%= entityAngularName %>SelectDialogService } from './<%= entityFileName %>-select-dialog.service';
 import { <%= entityAngularName %>FilterComponent } from './<%= entityFileName %>-filter.component';
 <%_ for (idx in relationships) { _%>
@@ -56,16 +57,19 @@ const ENTITY_STATES = [
         <%= entityAngularName %>Component,
         <%= entityAngularName %>UpdateComponent,
         <%= entityAngularName %>DeleteDialogComponent,
+        <%= entityAngularName %>SelectDialogComponent
     ],
     providers: [
         <%= entityAngularName %>Service,
         <%= entityAngularName %>Resolve,
+        <%= entityAngularName %>DeleteDialogService,
         <%= entityAngularName %>SelectDialogService,
         <%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
         <%= entityAngularName %>ResolvePagingParams
         <%_ } _%>
     ],
     exports: [
+        <%= entityAngularName %>DeleteDialogComponent,
         <%= entityAngularName %>SelectDialogComponent,
         <%= entityAngularName %>FilterComponent
     ],

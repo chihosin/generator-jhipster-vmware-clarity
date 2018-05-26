@@ -33,7 +33,10 @@ import {
     <%_ if (enableTranslation) { _%>
     ActiveMenuDirective,
     <%_ } _%>
-    ErrorComponent
+    ErrorComponent,
+    PopupComponent,
+    PopupService,
+    PopupDirective
 } from './layouts';
 
 @NgModule({
@@ -58,10 +61,13 @@ import {
         <%_ if (enableTranslation) { _%>
         ActiveMenuDirective,
         <%_ } _%>
-        ErrorComponent
+        ErrorComponent,
+        PopupComponent,
+        PopupDirective
 ],
     providers: [
         ProfileService,
+        PopupService,
         <%_ if (authenticationType === 'jwt') { _%>
         {
             provide: HTTP_INTERCEPTORS,

@@ -6,6 +6,7 @@
         <div class="content-area">
             <router-outlet></router-outlet>
             <router-outlet name="popup"></router-outlet>
+            <<%= jhiPrefixDashed %>-popup></<%= jhiPrefixDashed %>-popup>
         </div>
         <nav class="sidenav" [clr-nav-level]="2" *ngIf="!this.router.isActive('', true)">
             <router-outlet name="sidebar"></router-outlet>

@@ -78,7 +78,7 @@ export class <%= entityAngularName %>FilterComponent implements ClrDatagridFilte
     accepts(item: any): boolean {
         if (this.selected && this.selected.length > 0) {
             for (let i = 0; i < this.selected.length; i++) {
-                if (item.id === this.selected[i].id) {
+                if (item[this.property].id === this.selected[i].id) {
                     return true;
                 }
             }
@@ -88,7 +88,7 @@ export class <%= entityAngularName %>FilterComponent implements ClrDatagridFilte
     }
 
     openSelectDialog() {
-        this.<%= entityInstance %>SelectDialogService.subscribe(this.selected, (selected: Array<I<%= entityAngularName %>>) => {
+        this.<%= entityInstance %>SelectDialogService.open((selected: Array<I<%= entityAngularName %>>) => {
             const values = [];
             selected.forEach(item => {
                values.push(item.id);
@@ -96,7 +96,7 @@ export class <%= entityAngularName %>FilterComponent implements ClrDatagridFilte
             this.value.selected = values;
             this.selected = selected;
             this._changes.next(true);
-        });
+        }, this.selected, true);
     }
 
     removeAll() {

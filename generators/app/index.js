@@ -495,6 +495,38 @@ const files = {
                         'shared/datagrid/filter/enum-filter/enum-filter.component.scss'
                 },
                 {
+                    file:
+                        'layouts/popup/popup-item.model.ts',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () =>
+                        'layouts/popup/popup-item.model.ts'
+                },
+                {
+                    file:
+                        'layouts/popup/popup.component.ts',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () =>
+                        'layouts/popup/popup.component.ts'
+                },
+                {
+                    file:
+                        'layouts/popup/popup.directive.ts',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () =>
+                        'layouts/popup/popup.directive.ts'
+                },
+                {
+                    file:
+                        'layouts/popup/popup.service.ts',
+                    method: 'processJs',
+                    template: true,
+                    renameTo: () =>
+                        'layouts/popup/popup.service.ts'
+                },
+                {
                     file: 'shared/shared-common.module.ts',
                     method: 'processJs',
                     template: true,

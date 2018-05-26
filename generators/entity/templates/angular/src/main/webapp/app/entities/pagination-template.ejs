@@ -30,6 +30,8 @@
     <%_ }}} _%>
 
     constructor(
+        private <%= entityInstance %>DeleteDialogService: <%= entityAngularName %>DeleteDialogService,
+        private <%= entityInstance %>SelectDialogService: <%= entityAngularName %>SelectDialogService,
         private <%= entityInstance %>Service: <%= entityAngularName %>Service,
         private parseLinks: JhiParseLinks,
         private jhiAlertService: JhiAlertService,

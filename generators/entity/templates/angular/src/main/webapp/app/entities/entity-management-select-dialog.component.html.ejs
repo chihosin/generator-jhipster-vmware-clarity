@@ -3,7 +3,7 @@
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="card card-block" *ngIf="!<%= entityInstance %>SelectDialogService.single">
+        <div class="card card-block" *ngIf="multiSelect">
             <span class="label-group-title">{{'entity.selectDialog.selected' | translate}}:</span>
             <span *ngIf="selected.length < 1">
                 {{'entity.filter.none' | translate}}
@@ -19,7 +19,7 @@
 
         <%_for(let i = 0; i < 2; i++) {_%>
         <clr-datagrid
-            *ngIf="<%_ if(i === 1) { _%>!<%_ } _%><%= entityInstance %>SelectDialogService.single"
+            *ngIf="<%_ if(i === 0) { _%>!<%_ } _%>multiSelect"
             <%_ if (pagination !== 'no') { _%>
             (clrDgRefresh)="refresh($event)"
             <%_ } _%>
@@ -99,11 +99,16 @@
             <%_ if (relationships[idx].relationshipType === 'many-to-one' || (relationships[idx].relationshipType === 'one-to-one' && relationships[idx].ownerSide === true) || (relationships[idx].relationshipType === 'many-to-many' && relationships[idx].ownerSide === true && pagination === 'no')) { _%>
             <%_ const fieldName = dto === 'no' ? "." + relationships[idx].otherEntityField : relationships[idx].otherEntityFieldCapitalized; _%>
             <clr-dg-column [clrDgField]="'<%=relationships[idx].relationshipName%>'"
-                            <%_ if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[clrDgSortOrder]="sorters.<%=relationships[idx].relationshipName%>"<%_ } _%>
-                            <%_ if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']"<%_ } _%>>
-                            <ng-container *clrDgHideableColumn="{hidden: false}">
-                            {{'<%=`${i18nKeyPrefix}.${relationships[idx].relationshipName}` %>' | translate}}
-                            </ng-container>
+                <%_ if (searchEngine === 'elasticsearch' && pagination !== 'no') { _%>
+                [clrDgSortOrder]="sorters.<%=relationships[idx].relationshipName%>"
+                <%_ } _%>
+                <%_ if (searchEngine === 'elasticsearch' && pagination !== 'no') { _%>
+                [(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']"
+                <%_ } _%>
+            >
+                <ng-container *clrDgHideableColumn="{hidden: false}">
+                {{'<%=`${i18nKeyPrefix}.${relationships[idx].relationshipName}` %>' | translate}}
+                </ng-container>
             </clr-dg-column>
             <%_ } _%>
             <%_ } _%>

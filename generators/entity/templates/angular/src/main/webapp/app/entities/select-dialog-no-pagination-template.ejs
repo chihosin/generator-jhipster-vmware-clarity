@@ -1,10 +1,12 @@
     <%= entityInstancePlural %>: I<%= entityAngularName %>[];
-    currentAccount: any;
     eventSubscriber: Subscription;
     routeData: any;
     // added for Clarity
     loading: any;
-    selected: any;
+    @Input() callback: Function;
+    @Input() selected: any;
+    @Input() multiSelect: boolean;
+    @Input() close: Function;
     private _opened: any;
 
     constructor(
@@ -15,19 +17,12 @@
         <%_ } _%>
         private eventManager: JhiEventManager,
         private principal: Principal,
-        private router: Router,
-        public <%= entityInstance %>SelectDialogService: <%= entityAngularName %>SelectDialogService
+        private router: Router
     ) {
         // added for Clarity
         this.loading = true;
-        const selectDialogService = this.<%= entityInstance %>SelectDialogService;
-        if (selectDialogService.single) {
-            if (selectDialogService.selected && selectDialogService.selected.length > 0) {
-                this.selected = selectDialogService.selected[0];
-            }
-        } else {
-            this.selected = selectDialogService.selected;
-        }
+        this.selected = this.multiSelect ? this.selected :
+            this.selected && this.selected.length > 0 ? this.selected[0] : null;
     }
 
     loadAll() {

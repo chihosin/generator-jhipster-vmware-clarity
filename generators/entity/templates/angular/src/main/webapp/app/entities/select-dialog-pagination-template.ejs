@@ -1,4 +1,3 @@
-    currentAccount: any;
     <%= entityInstancePlural %>: I<%= entityAngularName %>[];
     error: any;
     success: any;
@@ -21,7 +20,10 @@
     searchDebounce: Subject<ClrDatagridStateInterface>;
     filters: any;
     sorters: any;
-    selected: any;
+    @Input() callback: Function;
+    @Input() selected: any;
+    @Input() multiSelect: boolean;
+    @Input() close: Function;
     <%_ } _%>
     private _opened: any;
 
@@ -34,8 +36,7 @@
         <%_ } _%>
         private principal: Principal,
         private router: Router,
-        private eventManager: JhiEventManager,
-        public <%= entityInstance %>SelectDialogService: <%= entityAngularName %>SelectDialogService
+        private eventManager: JhiEventManager
     ) {
         // added for Clarity
         this.sorters = {
@@ -57,14 +58,8 @@
         this.searchDebounce = new Subject<ClrDatagridStateInterface>();
         this.searchDebounce.debounceTime(SEARCH_DEBOUNCE_TIME).subscribe(() => this.loadAll());
         <%_ } _%>
-        const selectDialogService = this.<%= entityInstance %>SelectDialogService;
-        if (selectDialogService.single) {
-            if (selectDialogService.selected && selectDialogService.selected.length > 0) {
-                this.selected = selectDialogService.selected[0];
-            }
-        } else {
-            this.selected = selectDialogService.selected;
-        }
+        this.selected = this.multiSelect ? this.selected :
+            this.selected && this.selected.length > 0 ? this.selected[0] : null;
     }
 
     // added for Clarity

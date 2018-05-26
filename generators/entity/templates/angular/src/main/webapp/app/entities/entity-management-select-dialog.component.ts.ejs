@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { HttpErrorResponse,  HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs/Subscription';
 import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
@@ -37,7 +37,7 @@ export class <%= entityAngularName %>SelectDialogComponent implements OnInit, On
     set opened(value) {
         this._opened = value;
         if (!value) {
-            this.<%= entityInstance %>SelectDialogService.close();
+            this.close();
         }
     }
 
@@ -46,9 +46,6 @@ export class <%= entityAngularName %>SelectDialogComponent implements OnInit, On
         <%_ if (pagination === 'no') { _%>
         this.loadAll();
         <%_ } _%>
-        this.principal.identity().then(account => {
-            this.currentAccount = account;
-        });
         this.registerChangeIn<%= entityClassPlural %>();
         this.opened = true;
     }
@@ -102,11 +99,8 @@ export class <%= entityAngularName %>SelectDialogComponent implements OnInit, On
 
     <%_ } _%>
     confirm() {
-        if (this.<%= entityInstance %>SelectDialogService.single) {
-            this.<%= entityInstance %>SelectDialogService.submit([this.selected]);
-        } else {
-            this.<%= entityInstance %>SelectDialogService.submit([...this.selected]);
-        }
+        this.callback(this.multiSelect ? [...this.selected] : [this.selected]);
+        this.opened = false;
     }
 
     <%_ if (pagination !== 'no') { _%>

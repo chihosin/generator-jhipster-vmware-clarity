@@ -26,7 +26,6 @@ import { <%= entityAngularName %>Service } from './<%= entityFileName %>.service
 import { <%= relationships[idx].otherEntityAngularName %>SelectDialogService } from '../<%= relationships[idx].otherEntityFileName %>/<%= relationships[idx].otherEntityFileName %>-select-dialog.service';
 <%_ } _%>
 <%_ } _%>
-
 <%_
 let hasRelationshipQuery = false;
 Object.keys(differentRelationships).forEach(key => {
@@ -49,6 +48,7 @@ import { <%= uniqueRel.otherEntityAngularName%>Service } from 'app/entities/<%= 
 <%_         }
         }
     }
+
 }); _%>
 @Component({
     selector: '<%= jhiPrefixDashed %>-<%= entityFileName %>-update',
@@ -238,10 +238,10 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
       const relationshipName = relationships[idx].relationshipName;
       if (relationshipType === 'many-to-one' || relationshipType === 'one-to-one') {
   _%>
-  changeExampleTag() {
-      this.<%= relationshipName %>SelectDialogService.subscribe([], (selected: Array<IExample>) => {
+  change<%= relationships[idx].otherEntityAngularName %>() {
+      this.<%= relationshipName %>SelectDialogService.open((selected: Array<I<%= relationships[idx].otherEntityAngularName %>>) => {
           this.<%= entityInstance %>.<%= relationshipName %> = selected[0];
-      }, true);
+      });
   }
   <%_ } _%>
   <%_ } _%>
