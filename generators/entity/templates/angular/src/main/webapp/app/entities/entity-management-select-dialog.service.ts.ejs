@@ -9,9 +9,9 @@ export class <%= entityAngularName %>SelectDialogService {
     constructor(private popupService: PopupService) {
     }
 
-    open(callback: Function, selected ?: Array<I<%= entityAngularName %>>, multiSelect = false) {
+    open(callback: Function, selected: Array<I<%= entityAngularName %>> = [], multiSelect = false) {
         this.popupService.load(<%= entityAngularName %>SelectDialogComponent, {
-            selected: [...(selected || [])],
+            selected: multiSelect ? [...selected] : (selected && selected.length === 1) ? selected[0] : null,
             multiSelect,
             callback,
             close: () => {

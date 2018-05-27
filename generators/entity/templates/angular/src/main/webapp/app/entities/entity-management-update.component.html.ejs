@@ -175,7 +175,7 @@
                         <clr-stack-label for="field_<%= relationshipName %>"><%= relationshipNameHumanized %></clr-stack-label>
                         <clr-stack-content>
                         <%_ if (dto === 'no') { _%>
-                            {{<%= entityInstance %>.<%= relationshipName %>.id}}
+                            {{<%= entityInstance %>.<%= relationshipName %> ? <%= entityInstance %>.<%= relationshipName %>.id : ''}}
                             <button type="button" class="btn btn-sm btn-link" (click)="change<%= relationships[idx].otherEntityAngularName %>()">
                                 {{'entity.update.select' | translate}}
                             </button>
@@ -220,11 +220,12 @@
                     <clr-stack-block >
                         <clr-stack-label for="field_<%= relationshipName %>"><%= relationshipNameHumanized %></clr-stack-label>
                         <clr-stack-content>
-                        <div class="select form-control multiple">
-                        <select class="form-control" id="field_<%= relationshipName %>" multiple name="<%= relationshipName %>" [(ngModel)]="<%=entityInstance %>.<%=relationshipFieldNamePlural %>"<% if (relationshipRequired) { %> required<% } %>>
-                        <option [ngValue]="getSelected(<%=entityInstance %>.<%=relationshipFieldNamePlural %>, <%=otherEntityName %>Option)" *ngFor="let <%=otherEntityName %>Option of <%=otherEntityNamePlural.toLowerCase() %>; trackBy: track<%=otherEntityNameCapitalized %>ById">{{<%=otherEntityName %>Option.<%=otherEntityField %>}}</option>
-                        </select>
-                        </div>
+                            <span class="label" *ngFor="let item of (<%=entityInstance %>.<%=relationshipFieldNamePlural %> || [])">
+                                {{item.id}}
+                            </span>
+                            <button type="button" class="btn btn-sm btn-link" (click)="change<%= relationships[idx].otherEntityAngularName %>()">
+                                {{'entity.update.select' | translate}}
+                            </button>
                         </clr-stack-content>
                     </clr-stack-block>
                     <%_ } _%>

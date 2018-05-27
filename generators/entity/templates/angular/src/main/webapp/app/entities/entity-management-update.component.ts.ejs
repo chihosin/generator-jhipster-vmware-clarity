@@ -21,7 +21,7 @@ import { <%= entityAngularName %>Service } from './<%= entityFileName %>.service
 
 <%_ for (idx in relationships) {
         const relationshipType = relationships[idx].relationshipType;
-        if (relationshipType === 'many-to-one' || relationshipType === 'one-to-one') {
+        if (relationshipType === 'many-to-one' || relationshipType === 'one-to-one' || relationshipType === 'many-to-many') {
       _%>
 import { <%= relationships[idx].otherEntityAngularName %>SelectDialogService } from '../<%= relationships[idx].otherEntityFileName %>/<%= relationships[idx].otherEntityFileName %>-select-dialog.service';
 <%_ } _%>
@@ -105,7 +105,7 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
       <%_ for (idx in relationships) {
         const relationshipType = relationships[idx].relationshipType;
         const relationshipName = relationships[idx].relationshipName;
-        if (relationshipType === 'many-to-one' || relationshipType === 'one-to-one') {
+        if (relationshipType === 'many-to-one' || relationshipType === 'one-to-one' || relationshipType === 'many-to-many') {
       _%>
       private <%= relationshipName %>SelectDialogService: <%= relationships[idx].otherEntityAngularName %>SelectDialogService,
       <%_ } _%>
@@ -241,8 +241,16 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
   change<%= relationships[idx].otherEntityAngularName %>() {
       this.<%= relationshipName %>SelectDialogService.open((selected: Array<I<%= relationships[idx].otherEntityAngularName %>>) => {
           this.<%= entityInstance %>.<%= relationshipName %> = selected[0];
-      });
+      }, [this.<%= entityInstance %>.<%= relationshipName %>]);
   }
+
+  <%_ } else if (relationshipType === 'many-to-many') { _%>
+  change<%= relationships[idx].otherEntityAngularName %>() {
+      this.<%= relationshipName %>SelectDialogService.open((selected: Array<I<%= relationships[idx].otherEntityAngularName %>>) => {
+          this.<%= entityInstance %>.<%= relationships[idx].relationshipNamePlural %> = selected;
+      }, this.<%= entityInstance %>.<%= relationships[idx].relationshipNamePlural %>, true);
+  }
+
   <%_ } _%>
   <%_ } _%>
 }

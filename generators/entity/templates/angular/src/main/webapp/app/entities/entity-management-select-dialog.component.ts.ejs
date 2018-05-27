@@ -14,7 +14,6 @@ import { <%= entityAngularName %>Service } from './<%= entityFileName %>.service
 
 import { resolveFilter } from 'app/shared/util/filter-util';
 import { Router } from '@angular/router';
-import { <%= entityAngularName %>SelectDialogService } from 'app/entities/<%= entityModelFileName %>/<%= entityFileName %>-select-dialog.service';
 
 @Component({
     selector: '<%= jhiPrefixDashed %>-<%= entityFileName %>-select-dialog',
@@ -119,15 +118,24 @@ export class <%= entityAngularName %>SelectDialogComponent implements OnInit, On
         for (let i = 0; i < data.length; i++) {
             this.<%= entityInstancePlural %>.push(data[i]);
         }
-        data.forEach(item => {
-            for (let i = 0; i < this.selected.length; i++) {
-                if (item.id === this.selected[i].id) {
-                    this.selected[i] = item;
-                    break;
-                }
-            }
-        });
         <%_ } _%>
+        if (this.multiSelect) {
+            data.forEach(item => {
+                for (let i = 0; i < this.selected.length; i++) {
+                    if (item.id === this.selected[i].id) {
+                        this.selected[i] = item;
+                        break;
+                    }
+                }
+            });
+        } else if (this.selected) {
+            data.forEach(item => {
+                if (this.selected.id === item.id) {
+                    this.selected = item;
+                    return false;
+                }
+            });
+        }
     }
 
     <%_ } _%>
