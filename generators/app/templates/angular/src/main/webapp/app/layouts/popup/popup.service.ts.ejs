@@ -5,7 +5,6 @@ import { PopupItem } from 'app/layouts/popup/popup-item.model';
 @Injectable()
 export class PopupService {
     private _component: Subject<any>;
-    
     constructor() {
         this._component = new Subject<any>();
     }

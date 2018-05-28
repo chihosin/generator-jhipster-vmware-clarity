@@ -41,12 +41,6 @@ export class <%= entityAngularName %>Resolve implements Resolve<any> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const id = route.params['id'] ? route.params['id'] : null;
-
-        // added for batch operation
-        if (String(id).includes(',')) {
-          return this.service.search({ query: 'id:(' + String(id).replace(/,/g, ' OR ') + ')' });
-        }
-
         if (id) {
             return this.service.find(id);
         }
