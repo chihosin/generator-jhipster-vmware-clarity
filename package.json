@@ -1,6 +1,6 @@
 {
   "name": "generator-jhipster-vmware-clarity",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A JHipster module that create VMWare Clarity Design UI framework for Angular client.",
   "keywords": [
     "yeoman-generator",
