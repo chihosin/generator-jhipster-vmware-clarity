@@ -42,7 +42,7 @@ const ENTITY_STATES = [
         <%_ }}); _%>
         RouterModule.forChild(ENTITY_STATES),
         <%_ for (idx in relationships) { _%>
-        <%= angularXAppName %><%=relationships[idx].otherEntityAngularName%>Module
+        <%= angularXAppName %><%=relationships[idx].otherEntityAngularName%>Module,
         <%_ } _%>
     ],
     declarations: [
