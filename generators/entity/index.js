@@ -18,7 +18,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
+                            generator.entityFileName
                         }.component.html`
                 },
                 {
@@ -27,7 +27,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
+                            generator.entityFileName
                         }.component.ts`
                 },
                 {
@@ -36,7 +36,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
+                            generator.entityFileName
                         }.route.ts`
                 },
                 {
@@ -46,7 +46,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
+                            generator.entityFileName
                         }-delete-dialog.component.ts`
                 },
                 {
@@ -56,7 +56,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
+                            generator.entityFileName
                         }-delete-dialog.component.html`
                 },
                 {
@@ -66,7 +66,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
+                            generator.entityFileName
                         }-delete-dialog.service.ts`
                 },
                 {
@@ -75,7 +75,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
+                            generator.entityFileName
                         }-detail.component.html`
                 },
                 {
@@ -84,7 +84,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
+                            generator.entityFileName
                         }-update.component.ts`
                 },
                 {
@@ -93,7 +93,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
+                            generator.entityFileName
                         }-update.component.html`
                 },
                 {
@@ -102,7 +102,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
+                            generator.entityFileName
                         }.module.ts`
                 },
                 {
@@ -136,7 +136,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
+                            generator.entityFileName
                         }-select-dialog.component.html`
                 },
                 {
@@ -146,7 +146,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
+                            generator.entityFileName
                         }-select-dialog.component.ts`
                 },
                 {
@@ -156,7 +156,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
+                            generator.entityFileName
                         }-select-dialog.component.scss`
                 },
                 {
@@ -165,7 +165,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
+                            generator.entityFileName
                         }-select-dialog.service.ts`
                 }
             ]
@@ -235,10 +235,8 @@ module.exports = class extends BaseGenerator {
 
                 // added, shared-common.module import select filter dialog
                 function convert(str) {
-                    return str.replace(/^\-/, '').replace(/\-(\w)(\w+)/g, function (a, b, c) {
-                        return b.toUpperCase() + c.toLowerCase();
-                    });
-                };
+                    return str.replace(/^\\-/, '').replace(/\\-(\w)(\w+)/g, (a, b, c) => b.toUpperCase() + c.toLowerCase());
+                }
                 const microserviceName = convert(this.entityConfig.microserviceName);
                 const filePath = 'src/main/webapp/app/shared/shared-common.module.ts';
                 const filterComponentName = this.stripMargin(`${microserviceName.substr(0, 1).toUpperCase()}${microserviceName.substr(1)}${this.entityConfig.name}FilterComponent`);
