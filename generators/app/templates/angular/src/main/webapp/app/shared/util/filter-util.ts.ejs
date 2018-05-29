@@ -266,9 +266,9 @@ export function  NumberFilter(value: string, filterValue: NumberFilterValue) {
             _conditionRegularCheck(value, filterValue.max, FilterSymbol.LESS_THAN_EQUAL);
     }
     if (filterValue.relationship === FilterRelationship.OR) {
-        return (filterValue.primaryValue && filterValue.primarySymbol
+        return (filterValue.primaryValue != null && filterValue.primarySymbol
             && _conditionRegularCheck(value, filterValue.primaryValue, filterValue.primarySymbol)) ||
-            (filterValue.secondaryValue && filterValue.secondarySymbol
+            (filterValue.secondaryValue != null && filterValue.secondarySymbol
                 && _conditionRegularCheck(value, filterValue.secondaryValue, filterValue.secondarySymbol));
     }
     return _conditionRegularCheck(value, filterValue.primaryValue, filterValue.primarySymbol) &&
@@ -337,7 +337,7 @@ function _conditionToQueryString(property: string, symbol: string, value: any) {
 }
 
 function _conditionRegularCheck(value: any, keyword: any, symbol: FilterSymbol) {
-    if (!keyword || keyword === '' || !symbol) {
+    if (keyword == null || keyword === '' || !symbol) {
         return true;
     }
     if (typeof keyword === 'string') {

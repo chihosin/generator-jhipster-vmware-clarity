@@ -44,7 +44,7 @@ export class <%=jhiPrefixCapitalized%>NumberFilterComponent implements ClrDatagr
     }
 
     isActive(): boolean {
-        return this.value && (this.value.max || this.value.min || this.value.primaryValue);
+        return this.value && (this.value.max != null || this.value.min != null || this.value.primaryValue != null);
     }
 
     accepts(item: any): boolean {
