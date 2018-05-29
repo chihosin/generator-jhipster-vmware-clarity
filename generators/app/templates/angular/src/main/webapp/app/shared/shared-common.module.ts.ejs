@@ -15,12 +15,19 @@ import {
     <%=jhiPrefixCapitalized%>BooleanFilterComponent,
     <%=jhiPrefixCapitalized%>EnumFilterComponent
 } from './';
+/* jhipster-needle-add-entity-filter-import - JHipster will add entity filter here */
+
+const SELECT_FILTER_COMPONENT = [
+    OrganizationStoreFilterComponent,
+    /* jhipster-needle-add-entity-filter - JHipster will add entity filter here */
+];
 
 @NgModule({
     imports: [
         <%=angularXAppName%>SharedLibsModule
     ],
     declarations: [
+        ...SELECT_FILTER_COMPONENT,
         <%_ if (enableTranslation) { _%>
         FindLanguageFromKeyPipe,
         <%_ } _%>
@@ -36,6 +43,7 @@ import {
     ],
     providers: [],
     exports: [
+        ...SELECT_FILTER_COMPONENT,
         <%=angularXAppName%>SharedLibsModule,
         <%_ if (enableTranslation) { _%>
         FindLanguageFromKeyPipe,

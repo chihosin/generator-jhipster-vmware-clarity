@@ -4,20 +4,20 @@ import { Observable } from 'rxjs/Observable';
 import { ClrDatagridFilter, ClrDatagridFilterInterface } from '@clr/angular';
 import { SelectFilterValue } from 'app/shared/util/filter-util';
 import { Router } from '@angular/router';
-import { <%= entityAngularName %>SelectDialogService } from './<%= entityFileName %>-select-dialog.service';
-import { <%= entityAngularName %>Service } from './<%= entityFileName %>.service';
+import { <%= entityAngularName %>SelectDialogService } from 'app/entities/<%= microserviceName %>/<%= entityFileName %>/<%= entityFileName %>-select-dialog.service';
+import { <%= entityAngularName %>Service } from 'app/entities/<%= microserviceName %>/<%= entityFileName %>/<%= entityFileName %>.service';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { I<%= entityAngularName %> } from 'app/shared/model/<%= entityModelFileName %>.model';
 import { JhiAlertService } from 'ng-jhipster';
 
 @Component({
-    selector: '<%= jhiPrefixDashed %>-<%= entityFileName %>-filter',
-    templateUrl: './<%= entityFileName %>-filter.component.html',
+    selector: '<%= jhiPrefixDashed %>-<%= microserviceName%>-<%= entityFileName %>-filter',
+    templateUrl: './<%= microserviceName%>-<%= entityFileName %>-filter.component.html',
     styleUrls: [
-        './<%= entityFileName %>-filter.component.scss'
+        './<%= microserviceName%>-<%= entityFileName %>-filter.component.scss'
     ]
 })
-export class <%= entityAngularName %>FilterComponent implements ClrDatagridFilterInterface<any> {
+export class <%= microserviceName.substr(0, 1).toUpperCase() + microserviceName.substr(1)%><%= entityAngularName %>FilterComponent implements ClrDatagridFilterInterface<any> {
     @Output('clrFilterValueChange') clrFilterValueChange = new EventEmitter();
     _changes = new Subject<any>();
     property: string;

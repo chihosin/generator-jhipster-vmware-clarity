@@ -110,27 +110,24 @@ const angularFiles = {
                     method: 'processHtml',
                     template: true,
                     renameTo: generator =>
-                        `entities/${generator.entityFolderName}/${
-                            generator.entityFileName
-                        }-filter.component.html`
+                        `shared/datagrid/filter/${generator.microserviceName}-${generator.entityFileName}-filter/` +
+                        `${generator.microserviceName}-${generator.entityFileName}-filter.component.html`
                 },
                 {
                     file: 'entities/entity-management-filter.component.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: generator =>
-                        `entities/${generator.entityFolderName}/${
-                            generator.entityFileName
-                        }-filter.component.ts`
+                        `shared/datagrid/filter/${generator.microserviceName}-${generator.entityFileName}-filter/` +
+                        `${generator.microserviceName}-${generator.entityFileName}-filter.component.ts`
                 },
                 {
                     file: 'entities/entity-management-filter.component.scss',
                     method: 'processHtml',
                     template: true,
                     renameTo: generator =>
-                        `entities/${generator.entityFolderName}/${
-                            generator.entityFileName
-                        }-filter.component.scss`
+                        `shared/datagrid/filter/${generator.microserviceName}-${generator.entityFileName}-filter/` +
+                        `${generator.microserviceName}-${generator.entityFileName}-filter.component.scss`
                 },
                 {
                     file:
@@ -235,6 +232,23 @@ module.exports = class extends BaseGenerator {
                         this.copyI18n(language);
                     });
                 }
+                const filePath = 'src/main/webapp/app/shared/shared-common.module.ts';
+                const filterComponentName = this.stripMargin(`${this.entityConfig.microserviceName.substr(0, 1).toUpperCase()}${this.entityConfig.microserviceName.substr(1)}${this.entityConfig.name}FilterComponent`);
+                const filterComponentImport = `import { ${filterComponentName} } from 'app/shared/datagrid/filter/${this.entityConfig.microserviceName}-${this.entityConfig.entityServiceFileName}-filter/${this.entityConfig.microserviceName}-${this.entityConfig.entityServiceFileName}-filter.component';`;
+                utils.rewriteFile({
+                    file: filePath,
+                    needle: 'jhipster-needle-add-entity-filter-import',
+                    splicable: [
+                        filterComponentImport
+                    ]
+                }, this);
+                utils.rewriteFile({
+                    file: filePath,
+                    needle: 'jhipster-needle-add-entity-filter',
+                    splicable: [
+                        `${filterComponentName},`
+                    ]
+                }, this);
             }
         };
     }

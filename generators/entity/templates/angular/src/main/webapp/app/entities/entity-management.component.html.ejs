@@ -121,10 +121,10 @@
         </ng-container>
         <%_ if (searchEngine === 'elasticsearch') { _%>
         <clr-dg-filter [clrDgFilter]="<%=relationships[idx].relationshipName%>Filter">
-            <<%= jhiPrefixDashed %>-<%=relationships[idx].otherEntityStateName%>-filter #<%=relationships[idx].relationshipName%>Filter
+            <<%= jhiPrefixDashed %>-<%= microserviceName%>-<%=relationships[idx].otherEntityStateName%>-filter #<%=relationships[idx].relationshipName%>Filter
                                 [clrDgField]="'<%=relationships[idx].relationshipName%>'"
                                 <%_ if (pagination !== 'no') { _%>[(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']"<%_ } _%>>
-            </<%= jhiPrefixDashed %>-<%=relationships[idx].otherEntityStateName%>-filter>
+            </<%= jhiPrefixDashed %>-<%= microserviceName%>-<%=relationships[idx].otherEntityStateName%>-filter>
         </clr-dg-filter>
         <%_ } _%>
     </clr-dg-column>
