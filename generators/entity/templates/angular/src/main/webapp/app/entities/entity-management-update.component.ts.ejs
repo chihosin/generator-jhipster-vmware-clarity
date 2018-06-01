@@ -57,21 +57,6 @@ import { <%= uniqueRel.otherEntityAngularName%>Service } from 'app/entities/<%= 
 export class <%= entityAngularName %>UpdateComponent implements OnInit {
   private _<%= entityInstance %>: I<%= entityAngularName %>;
   isSaving: boolean;
-  <%_ for (idx in relationships) {
-    const relationshipType = relationships[idx].relationshipType;
-    const ownerSide = relationships[idx].ownerSide;
-    const relationshipName = relationships[idx].relationshipName;
-    const relationshipFieldName = relationships[idx].relationshipFieldName;
-    const relationshipFieldNamePlural = relationships[idx].relationshipFieldNamePlural;
-    const relationshipNameCapitalized = relationships[idx].relationshipNameCapitalized;
-    const relationshipNamePlural = relationships[idx].relationshipNamePlural;
-    if (relationshipType === 'many-to-one'
-        || (relationshipType === 'one-to-one' && ownerSide === true)
-        || (relationshipType === 'many-to-many' && ownerSide === true)) { _%>
-  <%= relationshipNamePlural%>: I<%= relationshipNameCapitalized%>[];
-  <%_ } _%>
-  <%_ } _%>
-
   <%_ for ( idx in fields ) {
       const fieldName = fields[idx].fieldName;
       const fieldType = fields[idx].fieldType;
@@ -117,25 +102,6 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
       this.route.data.subscribe(({<%= entityInstance %>}) => {
           this.<%= entityInstance %> = <%= entityInstance %>.body ? <%= entityInstance %>.body : <%= entityInstance %>;
       });
-      <%_ for (idx in relationships) {
-        const relationshipType = relationships[idx].relationshipType;
-        const ownerSide = relationships[idx].ownerSide;
-        const relationshipName = relationships[idx].relationshipName;
-        const relationshipFieldName = relationships[idx].relationshipFieldName;
-        const relationshipFieldNamePlural = relationships[idx].relationshipFieldNamePlural;
-        const relationshipNamePlural = relationships[idx].relationshipNamePlural;
-        const relationshipNameCapitalized = relationships[idx].relationshipNameCapitalized;
-        if (relationshipType === 'many-to-one'
-          || (relationshipType === 'one-to-one' && ownerSide === true)
-          || (relationshipType === 'many-to-many' && ownerSide === true)) { _%>
-      this.<%= relationshipFieldName %>Service.query().subscribe(
-        (res: HttpResponse<I<%= relationshipNameCapitalized %>[]>) => {
-          this.<%= relationshipNamePlural%> = res.body;
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
-      <%_ } _%>
-      <%_ } _%>
   }
   <%_ if (fieldsContainBlob) { _%>
   byteSize(field) {
