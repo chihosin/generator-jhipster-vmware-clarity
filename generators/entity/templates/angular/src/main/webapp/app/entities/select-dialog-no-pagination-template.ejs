@@ -28,17 +28,27 @@
     loadAll() {
         this.<%= entityInstance %>Service.query().subscribe(
             (res: HttpResponse<I<%= entityAngularName %>[]>) => {
-                this.<%= entityInstancePlural %> = res.body;
+                const data = res.body;
+                this.<%= entityInstancePlural %> = data;
                 // added for Clarity
                 this.loading = false;
-                res.body.forEach(item => {
-                    for (let i = 0; i < this.selected.length; i++) {
-                        if (item.id === this.selected[i].id) {
-                            this.selected[i] = item;
-                            break;
+                if (this.multiSelect) {
+                    data.forEach(item => {
+                        for (let i = 0; i < this.selected.length; i++) {
+                            if (item.id === this.selected[i].id) {
+                                this.selected[i] = item;
+                                break;
+                            }
                         }
-                    }
-                });
+                    });
+                } else if (this.selected) {
+                    data.forEach(item => {
+                        if (this.selected.id === item.id) {
+                            this.selected = item;
+                            return false;
+                        }
+                    });
+                }
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
