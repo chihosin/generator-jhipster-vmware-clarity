@@ -80,8 +80,16 @@
                         <textarea class="form-control" name="<%= fieldName %>" id="field_<%= fieldName %>"
                                   [(ngModel)]="<%= entityInstance %>.<%= fieldName %>" <%- include ng_validators %>></textarea>
                         <%_ } else { _%>
+                        <%_ if (fieldInputType === 'checkbox') { _%>
+                        <div class="toggle-switch">
+                            <input type="checkbox" class="form-control" name="<%= fieldName %>" id="field_<%= fieldName %>"
+                               [(ngModel)]="<%= entityInstance %>.<%= fieldName %>"/>
+                            <label for="field_<%= fieldName %>"></label>
+                        </div>
+                        <%_ } else { _%> 
                         <input type="<%= fieldInputType %>" class="form-control" name="<%= fieldName %>" id="field_<%= fieldName %>"
                                [(ngModel)]="<%= entityInstance %>.<%= fieldName %>" <%- include ng_validators %>/>
+                        <%_ } _%>
                         <%_ if (['byte[]', 'ByteBuffer'].includes(fieldType) && fieldTypeBlobContent !== 'text') { _%>
                         <input type="hidden" class="form-control" name="<%= fieldName %>ContentType" id="field_<%= fieldName %>ContentType"
                                [(ngModel)]="<%= entityInstance %>.<%= fieldName %>ContentType" />
@@ -172,7 +180,9 @@
                     const translationKey = `${i18nKeyPrefix}.${relationshipName}`; _%>
                     <%_ if (relationshipType === 'many-to-one' || (relationshipType === 'one-to-one' && ownerSide === true && otherEntityName === 'user')) { _%>
                     <clr-stack-block>
-                        <clr-stack-label for="field_<%= relationshipName %>"><%= relationshipNameHumanized %></clr-stack-label>
+                        <clr-stack-label for="field_<%= relationshipName %>">
+                            <span jhiTranslate="<%= i18nKeyPrefix %>.<%= relationshipName %>"><%= relationshipNameHumanized %></span>
+                        </clr-stack-label>
                         <clr-stack-content>
                         <%_ if (dto === 'no') { _%>
                             {{<%= entityInstance %>.<%= relationshipName %> ? <%= entityInstance %>.<%= relationshipName %>.id : ''}}
@@ -195,7 +205,9 @@
                     </clr-stack-block>
                     <%_ } else if (relationshipType === 'one-to-one' && ownerSide === true) { _%>
                     <clr-stack-block>
-                        <clr-stack-label for="field_<%= relationshipName %>"><%= relationshipNameHumanized %></clr-stack-label>
+                        <clr-stack-label for="field_<%= relationshipName %>">
+                            <span jhiTranslate="<%= i18nKeyPrefix %>.<%= relationshipName %>"><%= relationshipNameHumanized %></span>
+                        </clr-stack-label>
                         <clr-stack-content>
                         <%_ if (dto === 'no') { _%>
                             {{<%= entityInstance %>.<%= relationshipName %>.id}}
@@ -218,7 +230,9 @@
                     </clr-stack-block>
                     <%_ } else if (relationshipType === 'many-to-many' && relationships[idx].ownerSide === true) { _%>
                     <clr-stack-block >
-                        <clr-stack-label for="field_<%= relationshipName %>"><%= relationshipNameHumanized %></clr-stack-label>
+                        <clr-stack-label for="field_<%= relationshipName %>">
+                            <span jhiTranslate="<%= i18nKeyPrefix %>.<%= relationshipName %>"><%= relationshipNameHumanized %></span>
+                        </clr-stack-label>
                         <clr-stack-content>
                             <span class="label" *ngFor="let item of (<%=entityInstance %>.<%=relationshipFieldNamePlural %> || [])">
                                 {{item.id}}
