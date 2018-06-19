@@ -15,9 +15,9 @@ export class <%= entityAngularName %>DeleteDialogComponent {
     @Input() list: Array<I<%= entityAngularName %>>;
     @Input() callback: Function;
     @Input() close: Function;
-    private progressIndex: number;
-    private progressValue: number;
-    private progressState: string;
+    progressIndex: number;
+    progressValue: number;
+    progressState: string;
     private _opened: any;
 
     constructor(

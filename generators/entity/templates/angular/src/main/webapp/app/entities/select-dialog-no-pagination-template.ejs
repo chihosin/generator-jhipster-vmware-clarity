@@ -3,6 +3,7 @@
     routeData: any;
     // added for Clarity
     loading: any;
+    itemsPerPage: number;
     @Input() callback: Function;
     @Input() selected: any;
     @Input() multiSelect: boolean;
@@ -23,6 +24,7 @@
         this.loading = true;
         this.selected = this.multiSelect ? this.selected :
             this.selected && this.selected.length > 0 ? this.selected[0] : null;
+        this.itemsPerPage = ITEMS_PER_PAGE;
     }
 
     loadAll() {
