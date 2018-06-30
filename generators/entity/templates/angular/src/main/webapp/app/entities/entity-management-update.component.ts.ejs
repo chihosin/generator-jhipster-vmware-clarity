@@ -218,7 +218,7 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
         callback: (selected: Array<I<%= relationships[idx].otherEntityAngularName %>>) => {
             this.<%= entityInstance %>.<%= relationships[idx].relationshipNamePlural %> = selected;
         },
-        selected: this.<%= entityInstance %>.<%= relationshipName %>,
+        selected: this.<%= entityInstance %>.<%= relationships[idx].relationshipNamePlural %>,
         multiSelect: true
     });
   }

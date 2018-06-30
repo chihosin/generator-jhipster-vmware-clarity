@@ -133,7 +133,7 @@ export class <%= entityAngularName %>SelectDialogComponent implements OnInit {
 
     <%_ } _%>
     private onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        this.alertService.error(errorMessage, null, null);
     }
 
 }

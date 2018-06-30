@@ -30,6 +30,7 @@ _%>
 import {<%= relationships[idx].otherEntityAngularName %>SelectDialogComponent} from 'app/entities/<%= relationships[idx].otherEntityFileName %>/<%= relationships[idx].otherEntityFileName %>-select-dialog.component';
 import {<%= relationships[idx].otherEntityAngularName %>Service} from 'app/entities/<%= relationships[idx].otherEntityFileName %>/<%= relationships[idx].otherEntityFileName %>.service';
 <%_ } _%>
+import { decodeFiltersQueryParam, encodeFiltersQueryParam, resolveFilter} from 'app/shared/util/filter-util';
 
 @Component({
     selector: '<%= jhiPrefixDashed %>-<%= entityFileName %>',
