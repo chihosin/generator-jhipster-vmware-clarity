@@ -1,7 +1,6 @@
     <%= entityInstancePlural %>: I<%= entityAngularName %>[];
     error: any;
     success: any;
-    eventSubscriber: Subscription;
     <%_ if (searchEngine === 'elasticsearch') { _%>
     currentSearch: string;
     <%_ } _%>
@@ -23,20 +22,28 @@
     @Input() callback: Function;
     @Input() selected: any;
     @Input() multiSelect: boolean;
-    @Input() close: Function;
     <%_ } _%>
     private _opened: any;
+    <%_ for (idx in relationships) {
+        const relationshipName = relationships[idx].relationshipName;
+        _%>
+    public <%= relationshipName %>SelectDialogComponent = <%= relationships[idx].otherEntityAngularName %>SelectDialogComponent;
+    <%_ } _%>
 
     constructor(
         private <%= entityInstance %>Service: <%= entityAngularName %>Service,
-        private parseLinks: JhiParseLinks,
-        private jhiAlertService: JhiAlertService,
+        <%_ for (idx in relationships) {
+        const relationshipName = relationships[idx].relationshipName;
+        _%>
+        public <%= relationshipName %>Service: <%= relationships[idx].otherEntityAngularName %>Service,
+        <%_ } _%>
+        private parseLinks: ParseLinks,
+        private alertService: AlertService,
         <%_ if (fieldsContainBlob) { _%>
         private dataUtils: JhiDataUtils,
         <%_ } _%>
         private principal: Principal,
-        private router: Router,
-        private eventManager: JhiEventManager
+        private popupService: PopupService
     ) {
         // added for Clarity
         this.sorters = {

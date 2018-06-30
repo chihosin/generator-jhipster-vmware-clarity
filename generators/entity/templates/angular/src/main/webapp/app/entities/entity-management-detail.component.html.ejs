@@ -98,6 +98,6 @@
 <button type="button" class="btn btn-outline" (click)="previousState()">
     <clr-icon shape="undo"></clr-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
 </button>
-<button type="button" class="btn btn-primary" [routerLink]="['/<%= microserviceName %>/<%= entityInstance %>', <%= entityInstance %>.id, 'edit']">
+<button type="button" class="btn btn-primary" [routerLink]="['/<%= entityInstance %>', <%= entityInstance %>.id, 'edit']">
     <clr-icon shape="pencil"></clr-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
 </button>

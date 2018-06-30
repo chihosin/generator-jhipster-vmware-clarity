@@ -13,17 +13,22 @@ import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 <%_ } _%>
 <%_ if (queries && queries.length > 0 || fieldsContainBlob) { _%>
-import { <% if (queries && queries.length > 0) { %>JhiAlertService, <% } %><% if (fieldsContainBlob) { %>JhiDataUtils<% } %> } from 'ng-jhipster';
+<% if (queries && queries.length > 0) { %>
+import { AlertService } from 'app/shared/alert/alert.service';
+<% } %>
+<% if (fieldsContainBlob) { %>
+import { DataUtils } from 'app/shared';
+<% } %>
 <%_ } _%>
-
 import { I<%= entityAngularName %> } from 'app/shared/model/<%= entityModelFileName %>.model';
 import { <%= entityAngularName %>Service } from './<%= entityFileName %>.service';
+import { PopupService } from 'app/layouts';
 
 <%_ for (idx in relationships) {
         const relationshipType = relationships[idx].relationshipType;
         if (relationshipType === 'many-to-one' || relationshipType === 'one-to-one' || relationshipType === 'many-to-many') {
       _%>
-import { <%= relationships[idx].otherEntityAngularName %>SelectDialogService } from '../<%= relationships[idx].otherEntityFileName %>/<%= relationships[idx].otherEntityFileName %>-select-dialog.service';
+import {<%= relationships[idx].otherEntityAngularName %>SelectDialogComponent} from 'app/entities/<%= relationships[idx].otherEntityFileName %>/<%= relationships[idx].otherEntityFileName %>-select-dialog.component';
 <%_ } _%>
 <%_ } _%>
 <%_
@@ -71,7 +76,7 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
       private dataUtils: JhiDataUtils,
       <%_ } _%>
       <%_ if (queries && queries.length > 0) { _%>
-      private jhiAlertService: JhiAlertService,
+      private alertService: AlertService,
       <%_ } _%>
       private <%= entityInstance %>Service: <%= entityAngularName %>Service,
       <%_ Object.keys(differentRelationships).forEach(key => {
@@ -86,15 +91,8 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
       <%_ if (fieldsContainImageBlob) { _%>
       private elementRef: ElementRef,
       <%_ } _%>
-      private route: ActivatedRoute,
-      <%_ for (idx in relationships) {
-        const relationshipType = relationships[idx].relationshipType;
-        const relationshipName = relationships[idx].relationshipName;
-        if (relationshipType === 'many-to-one' || relationshipType === 'one-to-one' || relationshipType === 'many-to-many') {
-      _%>
-      private <%= relationshipName %>SelectDialogService: <%= relationships[idx].otherEntityAngularName %>SelectDialogService,
-      <%_ } _%>
-      <%_ } _%>
+      private popupService: PopupService,
+      private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -158,7 +156,7 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
 
   <%_ if (queries && queries.length > 0) { _%>
   private onError(errorMessage: string) {
-      this.jhiAlertService.error(errorMessage, null, null);
+      this.alertService.error(errorMessage, null, null);
   }
 
   <%_ } _%>
@@ -205,16 +203,24 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
       if (relationshipType === 'many-to-one' || relationshipType === 'one-to-one') {
   _%>
   change<%= relationships[idx].otherEntityAngularName %>() {
-      this.<%= relationshipName %>SelectDialogService.open((selected: Array<I<%= relationships[idx].otherEntityAngularName %>>) => {
-          this.<%= entityInstance %>.<%= relationshipName %> = selected[0];
-      }, [this.<%= entityInstance %>.<%= relationshipName %>]);
+    this.popupService.load(<%= relationships[idx].otherEntityAngularName %>SelectDialogComponent, {
+        callback: (selected: Array<I<%= relationships[idx].otherEntityAngularName %>>) => {
+            this.<%= entityInstance %>.<%= relationshipName %> = selected[0];
+        },
+        selected: this.<%= entityInstance %>.<%= relationshipName %>,
+        multiSelect: false
+    });
   }
 
   <%_ } else if (relationshipType === 'many-to-many') { _%>
   change<%= relationships[idx].otherEntityAngularName %>() {
-      this.<%= relationshipName %>SelectDialogService.open((selected: Array<I<%= relationships[idx].otherEntityAngularName %>>) => {
-          this.<%= entityInstance %>.<%= relationships[idx].relationshipNamePlural %> = selected;
-      }, this.<%= entityInstance %>.<%= relationships[idx].relationshipNamePlural %>, true);
+    this.popupService.load(<%= relationships[idx].otherEntityAngularName %>SelectDialogComponent, {
+        callback: (selected: Array<I<%= relationships[idx].otherEntityAngularName %>>) => {
+            this.<%= entityInstance %>.<%= relationships[idx].relationshipNamePlural %> = selected;
+        },
+        selected: this.<%= entityInstance %>.<%= relationshipName %>,
+        multiSelect: true
+    });
   }
 
   <%_ } _%>

@@ -1,4 +1,4 @@
-<h1 jhiTranslate="<%= i18nKeyPrefix %>.home.title"><%= entityClassPluralHumanized %></h1>
+<h1><%= entityClassPluralHumanized %></h1>
 <<%= jhiPrefixDashed %>-alert-error></<%= jhiPrefixDashed %>-alert-error>
 <clr-datagrid
     <%_ if (pagination !== 'no') { _%>
@@ -9,29 +9,29 @@
 
     <clr-dg-action-bar>
         <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-secondary" [routerLink]="['/<%= microserviceName %>/<%= entityUrl %>/new']">
+            <button type="button" class="btn btn-sm btn-secondary" [routerLink]="['/<%= entityUrl %>/new']">
                 <clr-icon shape="plus"></clr-icon>
-                {{'entity.datagrid.action.create' | translate}}
+                create
             </button>
             <button type="button" class="btn btn-sm btn-secondary" (click)="this.loadAll()">
                 <clr-icon shape="refresh"></clr-icon>
-                {{'entity.datagrid.action.refresh' | translate}}
+                refresh
             </button>
             <button type="button" class="btn btn-sm btn-secondary" *ngIf="selected.length > 0" (click)="batchDelete()">
                 <clr-icon shape="close"></clr-icon>
-                {{'entity.datagrid.action.delete' | translate}}
+                delete
             </button>
             <button type="button" class="btn btn-sm btn-secondary" (click)="this.selected = []"
                     *ngIf="selected.length > 0">
                 <clr-icon shape="undo"></clr-icon>
-                {{'entity.datagrid.action.clear' | translate}}
+                clear
             </button>
         </div>
     </clr-dg-action-bar>
 
     <clr-dg-column [clrDgField]="'id'" <%_ if (pagination === 'pagination' || pagination === 'pager'){ _%> [clrDgSortOrder]="sorters.id"<%_ } _%>>
         <ng-container *clrDgHideableColumn="{hidden: true}">
-            {{'global.field.id' | translate }}
+            id
         </ng-container>
         <%_ if (searchEngine === 'elasticsearch') { _%>
         <clr-dg-filter [clrDgFilter]="idFilter">
@@ -49,7 +49,7 @@
     <clr-dg-column [clrDgField]="'<%= fields[idx].fieldName%>'" <%_ if (pagination === 'pagination' || pagination === 'pager'){ _%> [clrDgSortOrder]="sorters.<%= fields[idx].fieldName%>"<%_ } _%>>
 
         <ng-container *clrDgHideableColumn="{hidden: false}">
-            {{'<%=`${i18nKeyPrefix}.${fields[idx].fieldName}` %>' | translate}}
+            <%= fields[idx].fieldName%>
         </ng-container>
 
         <%_ if (searchEngine === 'elasticsearch' && (fields[idx].fieldType === 'String')) { _%>
@@ -117,14 +117,20 @@
         <%_ if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[clrDgSortOrder]="sorters.<%=relationships[idx].relationshipName%>"<%_ } _%>
         <%_ if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']"<%_ } _%>>
         <ng-container *clrDgHideableColumn="{hidden: false}">
-        {{'<%=`${i18nKeyPrefix}.${relationships[idx].relationshipName}` %>' | translate}}
+            ${relationships[idx].relationshipName}
         </ng-container>
         <%_ if (searchEngine === 'elasticsearch') { _%>
         <clr-dg-filter [clrDgFilter]="<%=relationships[idx].relationshipName%>Filter">
-            <<%= jhiPrefixDashed %>-<%= microserviceName%>-<%=relationships[idx].otherEntityStateName%>-filter #<%=relationships[idx].relationshipName%>Filter
-                                [clrDgField]="'<%=relationships[idx].relationshipName%>'"
-                                <%_ if (pagination !== 'no') { _%>[(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']"<%_ } _%>>
-            </<%= jhiPrefixDashed %>-<%= microserviceName%>-<%=relationships[idx].otherEntityStateName%>-filter>
+            <<%= jhiPrefixDashed %>-entity-filter
+                #<%=relationships[idx].relationshipName%>Filter
+                [clrDgField]="'<%=relationships[idx].relationshipName%>'"
+                <%_ if (pagination !== 'no') { _%>[(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']"<%_ } _%>
+                [title]="'<%=relationships[idx].relationshipName%>'"
+                [tagField]="'id'"
+                [component]="<%=relationships[idx].relationshipName%>SelectDialogComponent"
+                [service]="<%=relationships[idx].relationshipName%>Service"
+            >
+            </<%= jhiPrefixDashed %>-entity-filter>
         </clr-dg-filter>
         <%_ } _%>
     </clr-dg-column>
@@ -139,14 +145,14 @@
         <%_ } _%>
         [clrDgItem]="<%=entityInstance %>">
         <clr-dg-action-overflow>
-            <button class="action-item" [routerLink]="['/<%= microserviceName %>/<%= entityUrl %>', <%= entityInstance %>.id, 'view' ]">
-                {{'entity.action.view' | translate}}
+            <button class="action-item" [routerLink]="['/<%= entityUrl %>', <%= entityInstance %>.id, 'view' ]">
+                view
             </button>
-            <button class="action-item" [routerLink]="['/<%= microserviceName %>/<%= entityUrl %>', <%= entityInstance %>.id, 'edit']">
-                {{'entity.action.edit' | translate}}
+            <button class="action-item" [routerLink]="['/<%= entityUrl %>', <%= entityInstance %>.id, 'edit']">
+                edit
             </button>
             <button class="action-item" (click)="delete(<%= entityInstance %>)">
-                {{'entity.action.delete' | translate}}
+                delete
             </button>
         </clr-dg-action-overflow>
         <clr-dg-cell>
@@ -167,12 +173,12 @@
         <%_ } else if (['byte[]', 'ByteBuffer'].includes(fieldType) && fieldTypeBlobContent === 'any') { _%>
         <clr-dg-cell>
             <button class="btn btn-sm btn-link" *ngIf="<%= entityInstance %>.<%= fieldName %>" (click)="openFile(<%= entityInstance %>.<%= fieldName %>ContentType, <%= entityInstance %>.<%= fieldName %>)">
-                {{'entity.action.open' | translate}}
+                open
             </button>
             <span *ngIf="<%= entityInstance %>.<%= fieldName %>">{{<%= entityInstance %>.<%= fieldName %>ContentType}}, {{byteSize(<%= entityInstance %>.<%= fieldName %>)}}</span>
         </clr-dg-cell>
         <%_ } else if (fields[idx].fieldIsEnum) { _%>
-        <clr-dg-cell>{{'<%= angularAppName %>.<%= fieldType %>.' + <%= entityInstance %>.<%= fieldName %> | translate}}</clr-dg-cell>
+        <clr-dg-cell>{{<%= entityInstance %>.<%= fieldName %>}}</clr-dg-cell>
         <%_ } else if (['Instant', 'ZonedDateTime'].includes(fieldType)) { _%>
         <clr-dg-cell>{{<%=entityInstance %>.<%=fieldName%> | date:'medium'}}</clr-dg-cell>
         <%_ } else if (fieldType === 'LocalDate') { _%>
@@ -235,8 +241,8 @@
 
     <clr-dg-footer>
         <clr-dg-column-toggle>
-            <clr-dg-column-toggle-title>{{'entity.datagrid.fieldDisplay.title' | translate}}</clr-dg-column-toggle-title>
-            <clr-dg-column-toggle-button clrType="selectAll">{{'entity.datagrid.fieldDisplay.showAll' | translate}}</clr-dg-column-toggle-button>
+            <clr-dg-column-toggle-title>title</clr-dg-column-toggle-title>
+            <clr-dg-column-toggle-button clrType="selectAll">show all</clr-dg-column-toggle-button>
             <clr-dg-column-toggle-button clrType="ok">
                 <clr-icon shape="check"></clr-icon>
             </clr-dg-column-toggle-button>
@@ -244,7 +250,7 @@
         <%_ if (databaseType !== 'cassandra') { _%>
         <clr-dg-pagination #pagination [clrDgPageSize]="itemsPerPage" <%_ if (pagination === 'pagination' || pagination === 'pager') { _%> [clrDgTotalItems]="totalItems" [(clrDgPage)]="page" <%_ } _%>>
         {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-        {{'entity.datagrid.pagination.of' | translate}} {{pagination.totalItems}} <span jhiTranslate="<%= i18nKeyPrefix %>.detail.title"><%= entityClassPluralHumanized %></span>
+        of {{pagination.totalItems}} <span><%= entityClassPluralHumanized %></span>
         </clr-dg-pagination>
         <%_ } _%>
     </clr-dg-footer>

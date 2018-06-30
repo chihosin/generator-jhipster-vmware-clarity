@@ -1,5 +1,4 @@
     <%= entityInstancePlural %>: I<%= entityAngularName %>[];
-    eventSubscriber: Subscription;
     routeData: any;
     // added for Clarity
     loading: any;
@@ -7,18 +6,26 @@
     @Input() callback: Function;
     @Input() selected: any;
     @Input() multiSelect: boolean;
-    @Input() close: Function;
     private _opened: any;
+    <%_ for (idx in relationships) {
+        const relationshipName = relationships[idx].relationshipName;
+        _%>
+    public <%= relationshipName %>SelectDialogComponent = <%= relationships[idx].otherEntityAngularName %>SelectDialogComponent;
+    <%_ } _%>
 
     constructor(
         private <%= entityInstance %>Service: <%= entityAngularName %>Service,
-        private jhiAlertService: JhiAlertService,
-        <%_ if (fieldsContainBlob) { _%>
-        private dataUtils: JhiDataUtils,
+        <%_ for (idx in relationships) {
+        const relationshipName = relationships[idx].relationshipName;
+        _%>
+        public <%= relationshipName %>Service: <%= relationships[idx].otherEntityAngularName %>Service,
         <%_ } _%>
-        private eventManager: JhiEventManager,
+        private alertService: AlertService,
+        <%_ if (fieldsContainBlob) { _%>
+        private dataUtils: DataUtils,
+        <%_ } _%>
         private principal: Principal,
-        private router: Router
+        private popupService: PopupService
     ) {
         // added for Clarity
         this.loading = true;

@@ -1,6 +1,5 @@
     <%= entityInstancePlural %>: I<%= entityAngularName %>[];
     currentAccount: any;
-    eventSubscriber: Subscription;
     routeData: any;
     itemsPerPage: any;
     // added for Clarity
@@ -11,17 +10,25 @@
         if (fields[idx].fieldIsEnum) { _%>
     <%=fields[idx].fieldName%>: Array<<%=fields[idx].fieldType%>>;
     <%_ }}} _%>
+    <%_ for (idx in relationships) {
+        const relationshipName = relationships[idx].relationshipName;
+        _%>
+    public <%= relationshipName %>SelectDialogComponent = <%= relationships[idx].otherEntityAngularName %>SelectDialogComponent;
+    <%_ } _%>
 
     constructor(
-        private <%= entityInstance %>DeleteDialogService: <%= entityAngularName %>DeleteDialogService,
-        private <%= entityInstance %>SelectDialogService: <%= entityAngularName %>SelectDialogService,
         private <%= entityInstance %>Service: <%= entityAngularName %>Service,
-        private jhiAlertService: JhiAlertService,
-        <%_ if (fieldsContainBlob) { _%>
-        private dataUtils: JhiDataUtils,
+        <%_ for (idx in relationships) {
+        const relationshipName = relationships[idx].relationshipName;
+        _%>
+        public <%= relationshipName %>Service: <%= relationships[idx].otherEntityAngularName %>Service,
         <%_ } _%>
-        private eventManager: JhiEventManager,
+        private alertService: AlertService,
+        <%_ if (fieldsContainBlob) { _%>
+        private dataUtils: DataUtils,
+        <%_ } _%>
         private principal: Principal,
+        private popupService: PopupService,
         private router: Router
     ) {
         // added for Clarity

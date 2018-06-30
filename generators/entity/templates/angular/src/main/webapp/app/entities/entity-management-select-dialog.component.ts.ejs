@@ -1,19 +1,25 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { HttpErrorResponse,  HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs/Subscription';
-import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
+import { AlertService } from 'app/shared/alert/alert.service';
+import { DataUtils, ParseLinks, ITEMS_PER_PAGE } from 'app/shared';
 
 import { I<%= entityAngularName %> } from 'app/shared/model/<%= entityModelFileName %>.model';
 import { Principal } from 'app/core';
 
-import { ITEMS_PER_PAGE } from 'app/shared';
 import { Subject } from 'rxjs/Subject';
 import { ClrDatagridSortOrder, ClrDatagridStateInterface } from '@clr/angular';
 import { SEARCH_DEBOUNCE_TIME } from 'app/shared/constants/load.constants';
 import { <%= entityAngularName %>Service } from './<%= entityFileName %>.service';
 
 import { resolveFilter } from 'app/shared/util/filter-util';
-import { Router } from '@angular/router';
+import {PopupService} from 'app/layouts';
+<%_ for (idx in relationships) {
+        const relationshipType = relationships[idx].relationshipType;
+_%>
+import {<%= relationships[idx].otherEntityAngularName %>SelectDialogComponent} from 'app/entities/<%= relationships[idx].otherEntityFileName %>/<%= relationships[idx].otherEntityFileName %>-select-dialog.component';
+import {<%= relationships[idx].otherEntityAngularName %>Service} from 'app/entities/<%= relationships[idx].otherEntityFileName %>/<%= relationships[idx].otherEntityFileName %>.service';
+<%_ } _%>
 
 @Component({
     selector: '<%= jhiPrefixDashed %>-<%= entityFileName %>-select-dialog',
@@ -22,7 +28,7 @@ import { Router } from '@angular/router';
         './<%= entityFileName %>-select-dialog.component.scss'
     ]
 })
-export class <%= entityAngularName %>SelectDialogComponent implements OnInit, OnDestroy {
+export class <%= entityAngularName %>SelectDialogComponent implements OnInit {
     <%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
 <%- include('select-dialog-pagination-template', {toArrayString: toArrayString}); -%>
     <%_ } else if (pagination === 'no') { _%>
@@ -36,7 +42,7 @@ export class <%= entityAngularName %>SelectDialogComponent implements OnInit, On
     set opened(value) {
         this._opened = value;
         if (!value) {
-            this.close();
+            this.popupService.eject(this);
         }
     }
 
@@ -45,16 +51,7 @@ export class <%= entityAngularName %>SelectDialogComponent implements OnInit, On
         <%_ if (pagination === 'no') { _%>
         this.loadAll();
         <%_ } _%>
-        this.registerChangeIn<%= entityClassPlural %>();
         this.opened = true;
-    }
-
-    ngOnDestroy() {
-        // fixed router into error
-        if (this.eventSubscriber) {
-            this.eventManager.destroy(this.eventSubscriber);
-        }
-        // this.eventManager.destroy(this.eventSubscriber);
     }
 
     trackId(index: number, item: I<%= entityAngularName %>) {
@@ -73,10 +70,6 @@ export class <%= entityAngularName %>SelectDialogComponent implements OnInit, On
     if (pagination === 'infinite-scroll') {
         eventCallBack = 'this.reset()';
     } _%>
-
-    registerChangeIn<%= entityClassPlural %>() {
-        this.eventSubscriber = this.eventManager.subscribe('<%= entityInstance %>ListModification', response => <%= eventCallBack %>);
-    }
 
     remove(item:  I<%= entityAngularName %>) {
         for (let i = 0; i < this.selected.length; i++) {

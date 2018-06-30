@@ -1,14 +1,13 @@
 <clr-modal [(clrModalOpen)]="opened" [clrModalSize]="'sm'" *ngIf="item">
-    <h3 class="modal-title" jhiTranslate="entity.delete.title">Confirm delete operation</h3>
+    <h3 class="modal-title">Confirm delete operation</h3>
     <div class="modal-body">
-        <p jhiTranslate="<%= i18nKeyPrefix %>.delete.question"
-           translateValues="{id: '{{item.id}}'}">
+        <p>
             Are you sure you want to delete this <%= entityClassHumanized %>?
         </p>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline" (click)="opened=false;">{{'entity.action.cancel' | translate}}</button>
-        <button type="button" class="btn btn-primary" (click)="confirmDelete(item.id)">{{'entity.action.confirm' | translate}}</button>
+        <button type="button" class="btn btn-outline" (click)="opened=false;">cancel</button>
+        <button type="button" class="btn btn-primary" (click)="confirmDelete(item.id)">confirm</button>
     </div>
 </clr-modal>
 <clr-modal *ngIf="list"
@@ -16,26 +15,18 @@
            [clrModalSize]="'lg'"
            [clrModalStaticBackdrop]="progressState != 'READY'"
            [clrModalClosable]="progressState != 'IN_PROGRESS'">
-    <h3 class="modal-title" jhiTranslate="entity.delete.title">Confirm delete operation</h3>
+    <h3 class="modal-title">Confirm delete operation</h3>
     <div class="modal-body">
-        <p *ngIf="progressState == 'READY'"
-           jhiTranslate="<%= i18nKeyPrefix %>.batchDelete.question"
-           translateValues="{count: '{{list.length}}'}">
-            Are you sure you want to delete this <%= entityClassHumanized %>?
+        <p *ngIf="progressState == 'READY'">
+            Are you sure you want to delete this {{list.length}} <%= entityClassHumanized %>?
         </p>
-        <h4 *ngIf="progressState == 'SUCCESS'"
-            jhiTranslate="<%= i18nKeyPrefix %>.batchDelete.success"
-            translateValues="{count: '{{list.length}}'}">
-            Successfully deleted users
+        <h4 *ngIf="progressState == 'SUCCESS'">
+            Successfully deleted {{list.length}} users
         </h4>
-        <h4 *ngIf="progressState == 'ERROR'"
-            jhiTranslate="<%= i18nKeyPrefix %>.batchDelete.error"
-            translateValues="{index: '{{progressIndex+1}}', count: '{{list.length}}',id: '{{list[progressIndex].id}}'}">
-            Failed to delete users
+        <h4 *ngIf="progressState == 'ERROR'">
+            Failed to delete {{list[progressIndex].id}} users
         </h4>
-        <h4 *ngIf="progressState == 'IN_PROGRESS'"
-            jhiTranslate="<%= i18nKeyPrefix %>.batchDelete.progress"
-            translateValues="{index: '{{progressIndex+1}}', count: '{{list.length}}',id: '{{list[progressIndex].id}}'}">
+        <h4 *ngIf="progressState == 'IN_PROGRESS'">
             Removing...
         </h4>
         <div *ngIf="progressState != 'READY'"
@@ -49,15 +40,15 @@
     </div>
     <div class="modal-footer">
         <button *ngIf="progressState == 'READY'" type="button" class="btn btn-outline" (click)="opened=false;">
-        {{'entity.action.cancel' | translate}}
+            cancel
         </button>
         <button *ngIf="progressState == 'READY'" type="button" class="btn btn-primary" (click)="confirmBatchDelete()">
-            {{'entity.action.confirm' | translate}}
+            confirm
         </button>
         <button *ngIf="progressState == 'SUCCESS' || progressState == 'ERROR' " type="button"
                 class="btn btn-primary"
                 (click)="opened=false;">
-            {{'entity.action.confirm' | translate}}
+            exit
         </button>
     </div>
 </clr-modal>

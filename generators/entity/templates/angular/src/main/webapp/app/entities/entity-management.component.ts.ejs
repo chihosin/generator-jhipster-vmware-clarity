@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse, <% if (pagination !== 'no') { %> HttpHeaders, <% } %>HttpResponse } from '@angular/common/http';
 <%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,31 +6,36 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ActivatedRoute, Router } from '@angular/router';
 <%_ } _%>
 import { Subscription } from 'rxjs/Subscription';
-import { JhiEventManager, <% if (pagination !== 'no') { %>JhiParseLinks, <% } %>JhiAlertService<% if (fieldsContainBlob) { %>, JhiDataUtils<% } %> } from 'ng-jhipster';
+import { AlertService } from 'app/shared/alert/alert.service';
+import { <% if (fieldsContainBlob) { %>DataUtils, <% } %>ParseLinks, ITEMS_PER_PAGE } from 'app/shared';
 
 import {
     I<%= entityAngularName %>,
-    <%_ for (idx in fields) { 
+    <%_ for (idx in fields) {
         if (searchEngine === 'elasticsearch' && fields[idx].fieldIsEnum) { _%>
     <%=fields[idx].fieldType%>,
     <%_ }} _%>
 } from 'app/shared/model/<%= entityModelFileName %>.model';
 import { Principal } from 'app/core';
-import { ITEMS_PER_PAGE } from 'app/shared';
 import { Subject } from 'rxjs/Subject';
 import { ClrDatagridSortOrder, ClrDatagridStateInterface } from '@clr/angular';
 import { SEARCH_DEBOUNCE_TIME } from 'app/shared/constants/load.constants';
 import { <%= entityAngularName %>Service } from './<%= entityFileName %>.service';
-import { <%= entityAngularName %>DeleteDialogService } from './<%= entityFileName %>-delete-dialog.service';
-import { <%= entityAngularName %>SelectDialogService } from './<%= entityFileName %>-select-dialog.service';
+import {PopupService} from 'app/layouts';
 
-import { decodeFiltersQueryParam, encodeFiltersQueryParam, resolveFilter} from 'app/shared/util/filter-util';
+import {<%= entityAngularName %>DeleteDialogComponent} from './<%= entityFileName %>-delete-dialog.component';
+<%_ for (idx in relationships) {
+        const relationshipType = relationships[idx].relationshipType;
+_%>
+import {<%= relationships[idx].otherEntityAngularName %>SelectDialogComponent} from 'app/entities/<%= relationships[idx].otherEntityFileName %>/<%= relationships[idx].otherEntityFileName %>-select-dialog.component';
+import {<%= relationships[idx].otherEntityAngularName %>Service} from 'app/entities/<%= relationships[idx].otherEntityFileName %>/<%= relationships[idx].otherEntityFileName %>.service';
+<%_ } _%>
 
 @Component({
     selector: '<%= jhiPrefixDashed %>-<%= entityFileName %>',
     templateUrl: './<%= entityFileName %>.component.html'
 })
-export class <%= entityAngularName %>Component implements OnInit, OnDestroy {
+export class <%= entityAngularName %>Component implements OnInit {
     <%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
 <%- include('pagination-template', {toArrayString: toArrayString}); -%>
     <%_ } else if (pagination === 'no') { _%>
@@ -45,15 +50,6 @@ export class <%= entityAngularName %>Component implements OnInit, OnDestroy {
         this.principal.identity().then(account => {
             this.currentAccount = account;
         });
-        this.registerChangeIn<%= entityClassPlural %>();
-    }
-
-    ngOnDestroy() {
-        // fixed router into error
-        if (this.eventSubscriber) {
-            this.eventManager.destroy(this.eventSubscriber);
-        }
-        // this.eventManager.destroy(this.eventSubscriber);
     }
 
     trackId(index: number, item: I<%= entityAngularName %>) {
@@ -73,10 +69,6 @@ export class <%= entityAngularName %>Component implements OnInit, OnDestroy {
     if (pagination === 'infinite-scroll') {
         eventCallBack = 'this.reset()';
     } _%>
-
-    registerChangeIn<%= entityClassPlural %>() {
-        this.eventSubscriber = this.eventManager.subscribe('<%= entityInstance %>ListModification', response => <%= eventCallBack %>);
-    }
 
     <%_ if (databaseType !== 'cassandra' && pagination !== 'no') { _%>
     sort() {
@@ -110,21 +102,22 @@ export class <%= entityAngularName %>Component implements OnInit, OnDestroy {
 
     <%_ }} _%>
     delete(item: I<%= entityAngularName %>) {
-        this.<%= entityInstance %>DeleteDialogService.open(() => {
-            this.loadAll();
-        }, [item]);
+        this.popupService.load(<%= entityAngularName %>DeleteDialogComponent, {
+            item,
+            callback: () => this.loadAll()
+        });
     }
 
-    // added for Clarity
     batchDelete() {
         if (this.selected.length > 0) {
-            this.<%= entityInstance %>DeleteDialogService.open(() => {
-                this.loadAll();
-            }, this.selected);
+            this.popupService.load(<%= entityAngularName %>DeleteDialogComponent, {
+                list: this.selected,
+                callback: () => this.loadAll()
+            });
         }
     }
 
     private onError(errorMessage: string) {
-        this.jhiAlertService.error(errorMessage, null, null);
+        this.alertService.error(errorMessage, null, null);
     }
 }

@@ -20,8 +20,6 @@ import {
 } from './';
 
 import { <%= entityAngularName %>SelectDialogComponent } from './<%= entityFileName %>-select-dialog.component';
-import { <%= entityAngularName %>DeleteDialogService } from './<%= entityFileName %>-delete-dialog.service';
-import { <%= entityAngularName %>SelectDialogService } from './<%= entityFileName %>-select-dialog.service';
 
 const ENTITY_STATES = [
     ...<%= entityInstance %>Route
@@ -52,8 +50,6 @@ const ENTITY_STATES = [
     providers: [
         <%= entityAngularName %>Service,
         <%= entityAngularName %>Resolve,
-        <%= entityAngularName %>DeleteDialogService,
-        <%= entityAngularName %>SelectDialogService,
         <%_ if (pagination === 'pagination' || pagination === 'pager') { _%>
         <%= entityAngularName %>ResolvePagingParams
         <%_ } _%>

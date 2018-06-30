@@ -1,10 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { JhiEventManager } from 'ng-jhipster';
-
 import { I<%= entityAngularName %> } from 'app/shared/model/<%= entityModelFileName %>.model';
 import { <%= entityAngularName %>Service } from './<%= entityFileName %>.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { PROGRESS_STATE } from 'app/shared/constants/load.constants';
+import { PopupService } from '../../layouts';
 
 @Component({
     selector: '<%= jhiPrefixDashed %>-<%= entityFileName %>-delete-dialog',
@@ -14,7 +12,6 @@ export class <%= entityAngularName %>DeleteDialogComponent {
     @Input() item: I<%= entityAngularName %>;
     @Input() list: Array<I<%= entityAngularName %>>;
     @Input() callback: Function;
-    @Input() close: Function;
     progressIndex: number;
     progressValue: number;
     progressState: string;
@@ -22,9 +19,7 @@ export class <%= entityAngularName %>DeleteDialogComponent {
 
     constructor(
         private <%= entityInstance %>Service: <%= entityAngularName %>Service,
-        private eventManager: JhiEventManager,
-        private route: ActivatedRoute,
-        private router: Router
+        private popupService: PopupService
     ) {
         this.progressIndex = 0;
         this.progressValue = 0;
@@ -34,10 +29,6 @@ export class <%= entityAngularName %>DeleteDialogComponent {
 
     confirmDelete(id: <% if (pkType === 'String') { %>string<% } else { %>number<% } %>) {
         this.<%= entityInstance %>Service.delete(id).subscribe(response => {
-            this.eventManager.broadcast({
-                name: '<%= entityInstance %>ListModification',
-                content: 'Deleted an <%= entityInstance %>'
-            });
             this.callback();
             this.opened = false;
         });
@@ -50,7 +41,7 @@ export class <%= entityAngularName %>DeleteDialogComponent {
     set opened(value: any) {
         this._opened = value;
         if (!value) {
-            this.close();
+            this.popupService.eject(this);
         }
     }
 
@@ -64,19 +55,12 @@ export class <%= entityAngularName %>DeleteDialogComponent {
                         loop();
                     } else {
                         this.progressState = PROGRESS_STATE.SUCCESS;
-                        this.eventManager.broadcast({
-                            name: '<%= entityInstance %>ListModification',
-                            content: 'Deleted an <%= entityInstance %>'
-                        });
                         this.callback();
+                        this.opened = false;
                     }
                 },
                 error => {
                     this.progressState = PROGRESS_STATE.ERROR;
-                    this.eventManager.broadcast({
-                        name: '<%= entityInstance %>ListModification',
-                        content: 'Deleted an <%= entityInstance %>'
-                    });
                 }
             );
         };

@@ -1,19 +1,19 @@
 <clr-modal [(clrModalOpen)]="opened" [clrModalStaticBackdrop]="true" [clrModalSize]="'xl'">
-    <h3 class="modal-title">{{'<%= angularAppName %>.<%= entityTranslationKey %>.selectDialog.title' | translate}}</h3>
+    <h3 class="modal-title"><%=entityInstance %></h3>
     <div class="modal-body">
-        <jhi-alert-error></jhi-alert-error>
+        <<%= jhiPrefixDashed %>-alert-error></<%= jhiPrefixDashed %>-alert-error>
 
         <div class="card card-block" *ngIf="multiSelect">
-            <span class="label-group-title">{{'entity.selectDialog.selected' | translate}}:</span>
+            <span class="label-group-title">selected:</span>
             <span *ngIf="selected.length < 1">
-                {{'entity.filter.none' | translate}}
+                none
             </span>
             <span class="label" *ngFor="let item of selected" (click)="remove(item)">
                 {{item.id}}
                 <clr-icon shape="window-close"></clr-icon>
-            </span> 
+            </span>
             <button *ngIf="selected.length > 0" class="btn btn-sm btn-link btn-warning remove-all" (click)="selected = []">
-                {{'entity.selectDialog.clear' | translate}}
+                clear
             </button>
         </div>
 
@@ -33,7 +33,7 @@
         >
             <clr-dg-column [clrDgField]="'id'"<%_ if (pagination === 'pagination' || pagination === 'pager'){ _%>[clrDgSortOrder]="sorters.id"<%_ } _%>>
                 <ng-container *clrDgHideableColumn="{hidden: true}">
-                    {{'global.field.id' | translate }}
+                    id
                 </ng-container>
                 <clr-dg-filter [clrDgFilter]="idFilter">
                     <<%= jhiPrefixDashed %>-number-filter #idFilter
@@ -48,7 +48,7 @@
             <clr-dg-column [clrDgField]="'<%= fields[idx].fieldName%>'" <%_ if (pagination === 'pagination' || pagination === 'pager'){ _%> [clrDgSortOrder]="sorters.<%= fields[idx].fieldName%>"<%_ } _%>>
 
                             <ng-container *clrDgHideableColumn="{hidden: false}">
-                            {{'<%=`${i18nKeyPrefix}.${fields[idx].fieldName}` %>' | translate}}
+                                <%=fields[idx].fieldName %>
                             </ng-container>
 
                             <%_ if (fields[idx].fieldType === 'String') { _%>
@@ -99,16 +99,25 @@
             <%_ if (relationships[idx].relationshipType === 'many-to-one' || (relationships[idx].relationshipType === 'one-to-one' && relationships[idx].ownerSide === true) || (relationships[idx].relationshipType === 'many-to-many' && relationships[idx].ownerSide === true && pagination === 'no')) { _%>
             <%_ const fieldName = dto === 'no' ? "." + relationships[idx].otherEntityField : relationships[idx].otherEntityFieldCapitalized; _%>
             <clr-dg-column [clrDgField]="'<%=relationships[idx].relationshipName%>'"
-                <%_ if (searchEngine === 'elasticsearch' && pagination !== 'no') { _%>
-                [clrDgSortOrder]="sorters.<%=relationships[idx].relationshipName%>"
-                <%_ } _%>
-                <%_ if (searchEngine === 'elasticsearch' && pagination !== 'no') { _%>
-                [(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']"
-                <%_ } _%>
-            >
+                           <%_ if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[clrDgSortOrder]="sorters.<%=relationships[idx].relationshipName%>"<%_ } _%>
+                           <%_ if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']"<%_ } _%>>
                 <ng-container *clrDgHideableColumn="{hidden: false}">
-                {{'<%=`${i18nKeyPrefix}.${relationships[idx].relationshipName}` %>' | translate}}
+                    ${relationships[idx].relationshipName}
                 </ng-container>
+                <%_ if (searchEngine === 'elasticsearch') { _%>
+                <clr-dg-filter [clrDgFilter]="<%=relationships[idx].relationshipName%>Filter">
+                    <<%= jhiPrefixDashed %>-entity-filter
+                    #<%=relationships[idx].relationshipName%>Filter
+                    [clrDgField]="'<%=relationships[idx].relationshipName%>'"
+                    <%_ if (pagination !== 'no') { _%>[(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']"<%_ } _%>
+                    [title]="'<%=relationships[idx].relationshipName%>'"
+                    [tagField]="'id'"
+                    [component]="<%=relationships[idx].relationshipName%>SelectDialogComponent"
+                    [service]="<%=relationships[idx].relationshipName%>Service"
+                    >
+                </<%= jhiPrefixDashed %>-entity-filter>
+                </clr-dg-filter>
+                <%_ } _%>
             </clr-dg-column>
             <%_ } _%>
             <%_ } _%>
@@ -138,12 +147,12 @@
                 <%_ } else if (['byte[]', 'ByteBuffer'].includes(fieldType) && fieldTypeBlobContent === 'any') { _%>
                 <clr-dg-cell>
                     <button class="btn btn-sm btn-link" *ngIf="<%= entityInstance %>.<%= fieldName %>" (click)="openFile(<%= entityInstance %>.<%= fieldName %>ContentType, <%= entityInstance %>.<%= fieldName %>)">
-                        {{'entity.action.open' | translate}}
+                        open
                     </button>
                     <span *ngIf="<%= entityInstance %>.<%= fieldName %>">{{<%= entityInstance %>.<%= fieldName %>ContentType}}, {{byteSize(<%= entityInstance %>.<%= fieldName %>)}}</span>
                 </clr-dg-cell>
                 <%_ } else if (fields[idx].fieldIsEnum) { _%>
-                <clr-dg-cell>{{'<%= angularAppName %>.<%= fieldType %>.' + <%= entityInstance %>.<%= fieldName %> | translate}}</clr-dg-cell>
+                <clr-dg-cell>{{'<%= angularAppName %>.<%= fieldType %>.' + <%= entityInstance %>.<%= fieldName %>}}</clr-dg-cell>
                 <%_ } else if (['Instant', 'ZonedDateTime'].includes(fieldType)) { _%>
                 <clr-dg-cell>{{<%=entityInstance %>.<%=fieldName%> | date:'medium'}}</clr-dg-cell>
                 <%_ } else if (fieldType === 'LocalDate') { _%>
@@ -206,8 +215,8 @@
 
             <clr-dg-footer>
                 <clr-dg-column-toggle>
-                    <clr-dg-column-toggle-title>{{'entity.datagrid.fieldDisplay.title' | translate}}</clr-dg-column-toggle-title>
-                    <clr-dg-column-toggle-button clrType="selectAll">{{'entity.datagrid.fieldDisplay.showAll' | translate}}</clr-dg-column-toggle-button>
+                    <clr-dg-column-toggle-title>selected columns</clr-dg-column-toggle-title>
+                    <clr-dg-column-toggle-button clrType="selectAll">all</clr-dg-column-toggle-button>
                     <clr-dg-column-toggle-button clrType="ok">
                         <clr-icon shape="check"></clr-icon>
                     </clr-dg-column-toggle-button>
@@ -215,7 +224,7 @@
                 <%_ if (databaseType !== 'cassandra') { _%>
                 <clr-dg-pagination #pagination [clrDgPageSize]="itemsPerPage" <%_ if (pagination === 'pagination' || pagination === 'pager') { _%> [clrDgTotalItems]="totalItems" [(clrDgPage)]="page" <%_ } _%>>
                     {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-                    {{'entity.datagrid.pagination.of' | translate}} {{pagination.totalItems}} <span jhiTranslate="<%= i18nKeyPrefix %>.detail.title"><%= entityClassPluralHumanized %></span>
+                    of {{pagination.totalItems}} <span><%= entityClassPluralHumanized %></span>
                 </clr-dg-pagination>
                 <%_ } _%>
             </clr-dg-footer>
@@ -224,8 +233,8 @@
 
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="opened = false;">{{'entity.selectDialog.cancel' | translate}}</button>
-        <button type="button" class="btn btn-primary" (click)="confirm()">{{'entity.selectDialog.confirm' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="opened = false;">cancel</button>
+        <button type="button" class="btn btn-primary" (click)="confirm()">confirm</button>
     </div>
 
 </clr-modal>

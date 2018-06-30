@@ -18,7 +18,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                            generator.entityFileName
+                        generator.entityFileName
                         }.component.html`
                 },
                 {
@@ -27,7 +27,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                            generator.entityFileName
+                        generator.entityFileName
                         }.component.ts`
                 },
                 {
@@ -36,7 +36,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                            generator.entityFileName
+                        generator.entityFileName
                         }.route.ts`
                 },
                 {
@@ -46,7 +46,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                            generator.entityFileName
+                        generator.entityFileName
                         }-delete-dialog.component.ts`
                 },
                 {
@@ -56,18 +56,17 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                            generator.entityFileName
+                        generator.entityFileName
                         }-delete-dialog.component.html`
                 },
                 {
-                    file:
-                        'entities/entity-management-delete-dialog.service.ts',
+                    file: 'entities/entity-management-detail.component.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                            generator.entityFileName
-                        }-delete-dialog.service.ts`
+                        generator.entityFileName
+                        }-detail.component.ts`
                 },
                 {
                     file: 'entities/entity-management-detail.component.html',
@@ -75,7 +74,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                            generator.entityFileName
+                        generator.entityFileName
                         }-detail.component.html`
                 },
                 {
@@ -84,7 +83,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                            generator.entityFileName
+                        generator.entityFileName
                         }-update.component.ts`
                 },
                 {
@@ -93,7 +92,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                            generator.entityFileName
+                        generator.entityFileName
                         }-update.component.html`
                 },
                 {
@@ -102,32 +101,8 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                            generator.entityFileName
+                        generator.entityFileName
                         }.module.ts`
-                },
-                {
-                    file: 'entities/entity-management-filter.component.html',
-                    method: 'processHtml',
-                    template: true,
-                    renameTo: generator =>
-                        `shared/datagrid/filter/${generator.microserviceName}-${generator.entityFileName}-filter/` +
-                        `${generator.microserviceName}-${generator.entityFileName}-filter.component.html`
-                },
-                {
-                    file: 'entities/entity-management-filter.component.ts',
-                    method: 'processJs',
-                    template: true,
-                    renameTo: generator =>
-                        `shared/datagrid/filter/${generator.microserviceName}-${generator.entityFileName}-filter/` +
-                        `${generator.microserviceName}-${generator.entityFileName}-filter.component.ts`
-                },
-                {
-                    file: 'entities/entity-management-filter.component.scss',
-                    method: 'processHtml',
-                    template: true,
-                    renameTo: generator =>
-                        `shared/datagrid/filter/${generator.microserviceName}-${generator.entityFileName}-filter/` +
-                        `${generator.microserviceName}-${generator.entityFileName}-filter.component.scss`
                 },
                 {
                     file:
@@ -136,7 +111,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                            generator.entityFileName
+                        generator.entityFileName
                         }-select-dialog.component.html`
                 },
                 {
@@ -146,7 +121,7 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                            generator.entityFileName
+                        generator.entityFileName
                         }-select-dialog.component.ts`
                 },
                 {
@@ -156,18 +131,19 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                            generator.entityFileName
+                        generator.entityFileName
                         }-select-dialog.component.scss`
                 },
                 {
-                    file: 'entities/entity-management-select-dialog.service.ts',
+                    file:
+                        'entities/entity.service.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                            generator.entityFileName
-                        }-select-dialog.service.ts`
-                }
+                        generator.entityFileName
+                        }.service.ts`
+                },
             ]
         }
     ]
@@ -218,6 +194,7 @@ module.exports = class extends BaseGenerator {
             writeFiles() {
                 utils.copyObjectProps(this, this.entityConfig.options);
                 utils.copyObjectProps(this, this.entityConfig);
+
                 this.writeFilesToDisk(
                     angularFiles,
                     this,
@@ -225,15 +202,16 @@ module.exports = class extends BaseGenerator {
                     CLIENT_NG2_TEMPLATES_DIR
                 );
 
-                if (this.enableTranslation) {
-                    const languages =
-                        this.languages || this.getAllInstalledLanguages();
-                    languages.forEach((language) => {
-                        this.copyI18n(language);
-                    });
-                }
+                // if (this.enableTranslation) {
+                //     const languages =
+                //         this.languages || this.getAllInstalledLanguages();
+                //     languages.forEach((language) => {
+                //         this.copyI18n(language);
+                //     });
+                // }
 
                 // added, shared-common.module import select filter dialog
+                /*
                 function convert(str) {
                     return str.replace(/^\\-/, '').replace(/\\-(\w)(\w+)/g, (a, b, c) => b.toUpperCase() + c.toLowerCase());
                 }
@@ -260,6 +238,7 @@ module.exports = class extends BaseGenerator {
                     this.log('error: shared-common.module.ts lack of markers. (jhipster-needle-add-entity-filter-import or jhipster-needle-add-entity-filter)');
                     throw e;
                 }
+                */
             }
         };
     }

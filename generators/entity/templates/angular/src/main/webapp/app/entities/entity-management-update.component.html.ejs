@@ -1,13 +1,9 @@
-<h1 id="<%= jhiPrefixDashed %>-<%= entityFileName %>-heading" jhiTranslate="<%= i18nKeyPrefix %>.home.createOrEditLabel">Create or edit a <%= entityClassHumanized %></h1>
+<h1 id="<%= jhiPrefixDashed %>-<%= entityFileName %>-heading">Create or edit a <%= entityClassHumanized %></h1>
 <<%= jhiPrefixDashed %>-alert-error></<%= jhiPrefixDashed %>-alert-error>
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
     <clr-stack-view>
-        <clr-stack-header><span jhiTranslate="<%= i18nKeyPrefix %>.detail.title"><%= entityClassHumanized %></span> {{<%= entityInstance %>.id}}</clr-stack-header>
-
-
         <clr-stack-block [clrSbExpanded]="true">
-            <clr-stack-label>{{'global.field.id' | translate }}</clr-stack-label>
-            <clr-stack-content>{{<%= entityInstance %>.id}}</clr-stack-content>
+            <clr-stack-label>base info</clr-stack-label>
 
             <%_ for (idx in fields) {
                     const fieldName = fields[idx].fieldName;
@@ -32,7 +28,7 @@
                     _%>
                     <clr-stack-block>
                         <clr-stack-label for="field_<%= fieldName %>">
-                            <span jhiTranslate="<%= i18nKeyPrefix %>.<%= fieldName %>"><%= fieldNameHumanized %></span>
+                            <span><%= fieldNameHumanized %></span>
                         </clr-stack-label>
                         <clr-stack-content>
                         <%_ if (fields[idx].fieldIsEnum) { _%>
@@ -52,7 +48,7 @@
                             <%_ } _%>
                             <div *ngIf="<%= entityInstance %>.<%= fieldName %>" class="form-text text-danger clearfix">
                                 <%_ if (fieldTypeBlobContent === 'any') { _%>
-                                <a class="pull-left" (click)="openFile(<%= entityInstance %>.<%= fieldName %>ContentType, <%= entityInstance %>.<%= fieldName %>)" jhiTranslate="entity.action.open">open</a><br>
+                                <a class="pull-left" (click)="openFile(<%= entityInstance %>.<%= fieldName %>ContentType, <%= entityInstance %>.<%= fieldName %>)">open</a><br>
                                 <span class="pull-left">{{<%= entityInstance %>.<%= fieldName %>ContentType}}, {{byteSize(<%= entityInstance %>.<%= fieldName %>)}}</span>
                                 <%_ } else { _%>
                                 <span class="pull-left">{{<%= entityInstance %>.<%= fieldName %>ContentType}}, {{byteSize(<%= entityInstance %>.<%= fieldName %>)}}</span>
@@ -66,7 +62,7 @@
                                         <span class="fa fa-times"></span>
                                     </button>
                             </div>
-                            <input type="file" id="file_<%= fieldName %>" (change)="setFileData($event, <%= entityInstance %>, '<%= fieldName %>', <% if (fieldTypeBlobContent === 'image') { %>true)" accept="image/*" jhiTranslate="entity.action.addimage"<% } else { %>false)" jhiTranslate="entity.action.addblob"<% } %>/>
+                            <input type="file" id="file_<%= fieldName %>" (change)="setFileData($event, <%= entityInstance %>, '<%= fieldName %>', <% if (fieldTypeBlobContent === 'image') { %>true)" accept="image/*"<% } else { %>false)" <% } %>/>
                         </div>
                         <%_ } _%>
                         <%_ if (fieldType === 'LocalDate') { _%>
@@ -86,7 +82,7 @@
                                [(ngModel)]="<%= entityInstance %>.<%= fieldName %>"/>
                             <label for="field_<%= fieldName %>"></label>
                         </div>
-                        <%_ } else { _%> 
+                        <%_ } else { _%>
                         <input type="<%= fieldInputType %>" class="form-control" name="<%= fieldName %>" id="field_<%= fieldName %>"
                                [(ngModel)]="<%= entityInstance %>.<%= fieldName %>" <%- include ng_validators %>/>
                         <%_ } _%>
@@ -100,61 +96,61 @@
                         <div [hidden]="!(editForm.controls.<%= fieldName %>?.dirty && editForm.controls.<%= fieldName %>?.invalid)">
                             <%_ if (fields[idx].fieldValidateRules.includes('required')) { _%>
                             <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.required" jhiTranslate="entity.validation.required">
+                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.required">
                                 This field is required.
                             </small>
                             <%_ } _%>
                             <%_ if (fields[idx].fieldValidateRules.includes('minlength')) { _%>
                             <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: <%= fields[idx].fieldValidateRulesMinlength %> }">
+                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.minlength">
                                 This field is required to be at least <%= fields[idx].fieldValidateRulesMinlength %> characters.
                             </small>
                             <%_ } _%>
                             <%_ if (fields[idx].fieldValidateRules.includes('maxlength')) { _%>
                             <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: <%= fields[idx].fieldValidateRulesMaxlength %> }">
+                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.maxlength">
                                 This field cannot be longer than <%= fields[idx].fieldValidateRulesMaxlength %> characters.
                             </small>
                             <%_ } _%>
                             <%_ if (fields[idx].fieldValidateRules.includes('min')) { _%>
                             <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.min" jhiTranslate="entity.validation.min" translateValues="{ min: <%= fields[idx].fieldValidateRulesMin %> }">
+                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.min">
                                 This field should be at least <%= fields[idx].fieldValidateRulesMin %>.
                             </small>
                             <%_ } _%>
                             <%_ if (fields[idx].fieldValidateRules.includes('max')) { _%>
                             <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.max" jhiTranslate="entity.validation.max" translateValues="{ max: <%= fields[idx].fieldValidateRulesMax %> }">
+                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.max">
                                 This field cannot be more than <%= fields[idx].fieldValidateRulesMax %>.
                             </small>
                             <%_ } _%>
                             <%_ if (fields[idx].fieldValidateRules.includes('minbytes')) { _%>
                             <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.minbytes" jhiTranslate="entity.validation.minbytes" translateValues="{ min: <%= fields[idx].fieldValidateRulesMinbytes %> }">
+                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.minbytes">
                                 This field should be at least <%= fields[idx].fieldValidateRulesMinbytes %>.
                             </small>
                             <%_ } _%>
                             <%_ if (fields[idx].fieldValidateRules.includes('maxbytes')) { _%>
                             <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.maxbytes" jhiTranslate="entity.validation.maxbytes" translateValues="{ max: <%= fields[idx].fieldValidateRulesMaxbytes %> }">
+                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.maxbytes">
                                 This field cannot be more than <%= fields[idx].fieldValidateRulesMaxbytes %>.
                             </small>
                             <%_ } _%>
                             <%_ if (fields[idx].fieldValidateRules.includes('pattern')) { _%>
                             <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.pattern" jhiTranslate="entity.validation.pattern" translateValues="{ pattern: '<%= fieldNameHumanized %>' }">
+                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.pattern">
                                 This field should follow pattern for "<%= fieldNameHumanized %>".
                             </small>
                             <%_ } _%>
                             <%_ if (['Integer', 'Long', 'Float', 'Double', 'BigDecimal'].includes(fieldType)) { _%>
                             <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.number" jhiTranslate="entity.validation.number">
+                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.number">
                                 This field should be a number.
                             </small>
                             <%_ } _%>
                             <%_ if (['Instant', 'ZonedDateTime'].includes(fieldType)) { _%>
                             <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                                   [hidden]="!editForm.controls.<%= fieldName %>?.errors?.ZonedDateTimelocal">
                                 This field should be a date and time.
                             </small>
                             <%_ } _%>
@@ -181,7 +177,7 @@
                     <%_ if (relationshipType === 'many-to-one' || (relationshipType === 'one-to-one' && ownerSide === true && otherEntityName === 'user')) { _%>
                     <clr-stack-block>
                         <clr-stack-label for="field_<%= relationshipName %>">
-                            <span jhiTranslate="<%= i18nKeyPrefix %>.<%= relationshipName %>"><%= relationshipNameHumanized %></span>
+                            <span><%= relationshipNameHumanized %></span>
                         </clr-stack-label>
                         <clr-stack-content>
                         <%_ if (dto === 'no') { _%>
@@ -206,7 +202,7 @@
                     <%_ } else if (relationshipType === 'one-to-one' && ownerSide === true) { _%>
                     <clr-stack-block>
                         <clr-stack-label for="field_<%= relationshipName %>">
-                            <span jhiTranslate="<%= i18nKeyPrefix %>.<%= relationshipName %>"><%= relationshipNameHumanized %></span>
+                            <span><%= relationshipNameHumanized %></span>
                         </clr-stack-label>
                         <clr-stack-content>
                         <%_ if (dto === 'no') { _%>
@@ -231,7 +227,7 @@
                     <%_ } else if (relationshipType === 'many-to-many' && relationships[idx].ownerSide === true) { _%>
                     <clr-stack-block >
                         <clr-stack-label for="field_<%= relationshipName %>">
-                            <span jhiTranslate="<%= i18nKeyPrefix %>.<%= relationshipName %>"><%= relationshipNameHumanized %></span>
+                            <span><%= relationshipNameHumanized %></span>
                         </clr-stack-label>
                         <clr-stack-content>
                             <span class="label" *ngFor="let item of (<%=entityInstance %>.<%=relationshipFieldNamePlural %> || [])">
@@ -247,7 +243,7 @@
                     <clr-stack-block [hidden]="!(editForm.controls.<%= relationshipName %>?.dirty && editForm.controls.<%= relationshipName %>?.invalid)">
                         <%_ if (relationshipRequired) { _%>
                         <small class="form-text text-danger"
-                               [hidden]="!editForm.controls.<%= relationshipName %>?.errors?.required" jhiTranslate="entity.validation.required">
+                               [hidden]="!editForm.controls.<%= relationshipName %>?.errors?.required">
                             This field is required.
                         </small>
                         <%_ } _%>
@@ -259,10 +255,10 @@
     <br/>
 
     <button type="button" id="cancel-save" class="btn btn-outline" (click)="previousState()">
-        <clr-icon shape="times"></clr-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        <clr-icon shape="times"></clr-icon>&nbsp;<span>Cancel</span>
     </button>
     <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving"
             class="btn btn-primary">
-        <clr-icon shape="check"></clr-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        <clr-icon shape="check"></clr-icon>&nbsp;<span>Save</span>
     </button>
 </form>
