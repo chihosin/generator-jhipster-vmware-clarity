@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 <%_ } _%>
 import { Subscription } from 'rxjs/Subscription';
 import { AlertService } from 'app/shared/alert/alert.service';
-import { <% if (fieldsContainBlob) { %>DataUtils, <% } %>ParseLinks, ITEMS_PER_PAGE } from 'app/shared';
+import { <% if (fieldsContainBlob) { %>DataUtils, <% } %>ITEMS_PER_PAGE } from 'app/shared';
 
 import {
     I<%= entityAngularName %>,
@@ -94,7 +94,6 @@ export class <%= entityAngularName %>Component implements OnInit {
     }
     <%_ } else if (pagination === 'infinite-scroll') { _%>
     private paginate<%= entityClassPlural %>(data: I<%= entityAngularName %>[], headers: HttpHeaders) {
-        this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
         for (let i = 0; i < data.length; i++) {
             this.<%= entityInstancePlural %>.push(data[i]);

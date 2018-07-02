@@ -6,7 +6,6 @@
     <%_ } _%>
     <%_ if (databaseType !== 'cassandra') { _%>
     routeData: any;
-    links: any;
     totalItems: any;
     queryCount: any;
     itemsPerPage: any;
@@ -37,7 +36,6 @@
         _%>
         public <%= relationshipName %>Service: <%= relationships[idx].otherEntityAngularName %>Service,
         <%_ } _%>
-        private parseLinks: ParseLinks,
         private alertService: AlertService,
         <%_ if (fieldsContainBlob) { _%>
         private dataUtils: DataUtils,

@@ -18,8 +18,8 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
-                        }.component.html`
+                            generator.entityFileName
+                            }.component.html`,
                 },
                 {
                     file: 'entities/entity-management.component.ts',
@@ -27,8 +27,8 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
-                        }.component.ts`
+                            generator.entityFileName
+                            }.component.ts`,
                 },
                 {
                     file: 'entities/entity-management.route.ts',
@@ -36,8 +36,8 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
-                        }.route.ts`
+                            generator.entityFileName
+                            }.route.ts`,
                 },
                 {
                     file:
@@ -46,8 +46,8 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
-                        }-delete-dialog.component.ts`
+                            generator.entityFileName
+                            }-delete-dialog.component.ts`,
                 },
                 {
                     file:
@@ -56,8 +56,8 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
-                        }-delete-dialog.component.html`
+                            generator.entityFileName
+                            }-delete-dialog.component.html`,
                 },
                 {
                     file: 'entities/entity-management-detail.component.ts',
@@ -65,8 +65,8 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
-                        }-detail.component.ts`
+                            generator.entityFileName
+                            }-detail.component.ts`,
                 },
                 {
                     file: 'entities/entity-management-detail.component.html',
@@ -74,8 +74,8 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
-                        }-detail.component.html`
+                            generator.entityFileName
+                            }-detail.component.html`,
                 },
                 {
                     file: 'entities/entity-management-update.component.ts',
@@ -83,8 +83,8 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
-                        }-update.component.ts`
+                            generator.entityFileName
+                            }-update.component.ts`,
                 },
                 {
                     file: 'entities/entity-management-update.component.html',
@@ -92,8 +92,8 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
-                        }-update.component.html`
+                            generator.entityFileName
+                            }-update.component.html`,
                 },
                 {
                     file: 'entities/entity-management.module.ts',
@@ -101,8 +101,8 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
-                        }.module.ts`
+                            generator.entityFileName
+                            }.module.ts`,
                 },
                 {
                     file:
@@ -111,8 +111,8 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
-                        }-select-dialog.component.html`
+                            generator.entityFileName
+                            }-select-dialog.component.html`,
                 },
                 {
                     file:
@@ -121,8 +121,8 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
-                        }-select-dialog.component.ts`
+                            generator.entityFileName
+                            }-select-dialog.component.ts`,
                 },
                 {
                     file:
@@ -131,22 +131,21 @@ const angularFiles = {
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
-                        }-select-dialog.component.scss`
+                            generator.entityFileName
+                            }-select-dialog.component.scss`,
                 },
                 {
-                    file:
-                        'entities/entity.service.ts',
+                    file: 'entities/entity.service.ts',
                     method: 'processJs',
                     template: true,
                     renameTo: generator =>
                         `entities/${generator.entityFolderName}/${
-                        generator.entityFileName
-                        }.service.ts`
+                            generator.entityFileName
+                            }.service.ts`,
                 },
-            ]
-        }
-    ]
+            ],
+        },
+    ],
 };
 
 module.exports = class extends BaseGenerator {
@@ -156,36 +155,80 @@ module.exports = class extends BaseGenerator {
                 this.entityConfig = this.options.entityConfig;
                 this.jhipsterAppConfig = this.getJhipsterAppConfig();
                 if (!this.jhipsterAppConfig) {
-                    this.error('Can\'t read .yo-rc.json');
+                    this.error("Can't read .yo-rc.json");
                 }
             },
             displayLogo() {
                 this.log('');
-                this.log(`${chalk.blue('██████╗ ')}${chalk.red('██')}${chalk.blue('╗ ██████╗ ██████╗ ██╗   ██╗ ██████╗ ')}`);
-                this.log(`${chalk.blue('██╔══██╗██║██╔════╝ ██╔══██╗██║   ██║██╔════╝ ')}`);
-                this.log(`${chalk.blue('██████╔╝██║██║  ███╗██████╔╝██║   ██║██║  ███╗')}`);
-                this.log(`${chalk.blue('██╔══██╗██║██║   ██║██╔══██╗██║   ██║██║   ██║')}`);
-                this.log(`${chalk.blue('██████╔╝██║╚██████╔╝██████╔╝╚██████╔╝╚██████╔╝')}`);
-                this.log(`${chalk.blue('╚═════╝ ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝  ╚═════╝ ')}`);
-                this.log(chalk.white(`Running ${chalk.bold.blue('JHipster VMware Clarity')} Generator! ${chalk.yellow(`v${packagejs.version}\n`)}`));
+                this.log(
+                    `${chalk.blue('██████╗ ')}${chalk.red('██')}${chalk.blue(
+                        '╗ ██████╗ ██████╗ ██╗   ██╗ ██████╗ '
+                    )}`
+                );
+                this.log(
+                    `${chalk.blue(
+                        '██╔══██╗██║██╔════╝ ██╔══██╗██║   ██║██╔════╝ '
+                    )}`
+                );
+                this.log(
+                    `${chalk.blue(
+                        '██████╔╝██║██║  ███╗██████╔╝██║   ██║██║  ███╗'
+                    )}`
+                );
+                this.log(
+                    `${chalk.blue(
+                        '██╔══██╗██║██║   ██║██╔══██╗██║   ██║██║   ██║'
+                    )}`
+                );
+                this.log(
+                    `${chalk.blue(
+                        '██████╔╝██║╚██████╔╝██████╔╝╚██████╔╝╚██████╔╝'
+                    )}`
+                );
+                this.log(
+                    `${chalk.blue(
+                        '╚═════╝ ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝  ╚═════╝ '
+                    )}`
+                );
+                this.log(
+                    chalk.white(
+                        `Running ${chalk.bold.blue(
+                            'JHipster VMware Clarity'
+                        )} Generator! ${chalk.yellow(
+                            `v${packagejs.version}\n`
+                        )}`
+                    )
+                );
             },
             checkclientFramework() {
                 if (this.jhipsterAppConfig.skipClient) {
-                    this.env.error(`${chalk.red.bold('ERROR!')} This module works only for client...`);
+                    this.env.error(
+                        `${chalk.red.bold(
+                            'ERROR!'
+                        )} This module works only for client...`
+                    );
                 }
                 if (
                     this.jhipsterAppConfig.clientFramework !== 'angular5' &&
                     this.jhipsterAppConfig.clientFramework !== 'angularX'
                 ) {
-                    this.env.error(`${chalk.red.bold('ERROR!')} This module works only for Angular5...`);
+                    this.env.error(
+                        `${chalk.red.bold(
+                            'ERROR!'
+                        )} This module works only for Angular5...`
+                    );
                 }
             },
             validate() {
                 // this shouldn't be run directly
                 if (!this.entityConfig) {
-                    this.env.error(`${chalk.red.bold('ERROR!')} This sub generator should be used only from JHipster and cannot be run directly...\n`);
+                    this.env.error(
+                        `${chalk.red.bold(
+                            'ERROR!'
+                        )} This sub generator should be used only from JHipster and cannot be run directly...\n`
+                    );
                 }
-            }
+            },
         };
     }
 
@@ -194,56 +237,21 @@ module.exports = class extends BaseGenerator {
             writeFiles() {
                 utils.copyObjectProps(this, this.entityConfig.options);
                 utils.copyObjectProps(this, this.entityConfig);
-
                 this.writeFilesToDisk(
                     angularFiles,
                     this,
                     false,
                     CLIENT_NG2_TEMPLATES_DIR
                 );
-
-                // if (this.enableTranslation) {
-                //     const languages =
-                //         this.languages || this.getAllInstalledLanguages();
-                //     languages.forEach((language) => {
-                //         this.copyI18n(language);
-                //     });
-                // }
-
-                // added, shared-common.module import select filter dialog
-                /*
-                function convert(str) {
-                    return str.replace(/^\\-/, '').replace(/\\-(\w)(\w+)/g, (a, b, c) => b.toUpperCase() + c.toLowerCase());
-                }
-                try {
-                    const microserviceName = convert(this.entityConfig.microserviceName);
-                    const filePath = 'src/main/webapp/app/shared/shared-common.module.ts';
-                    const filterComponentName = this.stripMargin(`${microserviceName.substr(0, 1).toUpperCase()}${microserviceName.substr(1)}${this.entityConfig.entityAngularName}FilterComponent`);
-                    const filterComponentImport = `import { ${filterComponentName} } from 'app/shared/datagrid/filter/${this.entityConfig.microserviceName}-${this.entityConfig.entityServiceFileName}-filter/${this.entityConfig.microserviceName}-${this.entityConfig.entityServiceFileName}-filter.component';`;
-                    utils.rewriteFile({
-                        file: filePath,
-                        needle: 'jhipster-needle-add-entity-filter-import',
-                        splicable: [
-                            filterComponentImport
-                        ]
-                    }, this);
-                    utils.rewriteFile({
-                        file: filePath,
-                        needle: 'jhipster-needle-add-entity-filter',
-                        splicable: [
-                            `${filterComponentName},`
-                        ]
-                    }, this);
-                } catch (e) {
-                    this.log('error: shared-common.module.ts lack of markers. (jhipster-needle-add-entity-filter-import or jhipster-needle-add-entity-filter)');
-                    throw e;
-                }
-                */
-            }
+            },
         };
     }
 
     end() {
-        this.log(`\n${chalk.bold.green('Entity has been modify for VMware Clarity.')}`);
+        this.log(
+            `\n${chalk.bold.green(
+                'Entity has been modify for VMware Clarity.'
+            )}`
+        );
     }
 };
