@@ -125,7 +125,11 @@
                 #<%=relationships[idx].relationshipName%>Filter
                 [title]="'<%=relationships[idx].relationshipName%>'"
                 [tagField]="'id'"
+                <%_ if (dto === 'no') { _%>
                 [clrDgField]="'<%=relationships[idx].relationshipName%>'"
+                <%_ } else { _%>
+                [clrDgField]="'<%=relationships[idx].relationshipName%>Id'"
+                <%_ } _%>
                 <%_ if (pagination !== 'no') { _%>
                 [(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']"
                 <%_ } _%>

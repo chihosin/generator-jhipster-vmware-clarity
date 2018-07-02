@@ -28,32 +28,18 @@ import { PopupService } from 'app/layouts';
         const relationshipType = relationships[idx].relationshipType;
         if (relationshipType === 'many-to-one' || relationshipType === 'one-to-one' || relationshipType === 'many-to-many') {
       _%>
-import {<%= relationships[idx].otherEntityAngularName %>SelectDialogComponent} from 'app/entities/<%= relationships[idx].otherEntityFileName %>/<%= relationships[idx].otherEntityFileName %>-select-dialog.component';
+import { <%= relationships[idx].otherEntityAngularName %>SelectDialogComponent } from 'app/entities/<%= relationships[idx].otherEntityFileName %>/<%= relationships[idx].otherEntityFileName %>-select-dialog.component';
 <%_ } _%>
 <%_ } _%>
-<%_
-let hasRelationshipQuery = false;
-Object.keys(differentRelationships).forEach(key => {
-    const hasAnyRelationshipQuery = differentRelationships[key].some(rel =>
-        (rel.relationshipType === 'one-to-one' && rel.ownerSide === true && rel.otherEntityName !== 'user')
-            || rel.relationshipType !== 'one-to-many'
-    );
-    if (hasAnyRelationshipQuery) {
-        hasRelationshipQuery = true;
-    }
+<%_ Object.keys(differentRelationships).forEach(key => {
     if (differentRelationships[key].some(rel => rel.relationshipType !== 'one-to-many')) {
         const uniqueRel = differentRelationships[key][0];
-        if (uniqueRel.otherEntityAngularName !== entityAngularName) {
-            if (uniqueRel.otherEntityAngularName === 'User') {
-_%>
-import { I<%= uniqueRel.otherEntityAngularName %>, <%= uniqueRel.otherEntityAngularName%>Service } from 'app/core';
-<%_         } else { _%>
+        if (uniqueRel.otherEntityAngularName !== entityAngularName) { _%>
 import { I<%= uniqueRel.otherEntityAngularName %> } from 'app/shared/model/<%= uniqueRel.otherEntityModelName %>.model';
 import { <%= uniqueRel.otherEntityAngularName%>Service } from 'app/entities/<%= uniqueRel.otherEntityPath %>';
-<%_         }
+      <%_
         }
     }
-
 }); _%>
 @Component({
     selector: '<%= jhiPrefixDashed %>-<%= entityFileName %>-update',
@@ -71,6 +57,14 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
   <%= fieldName %>: string;
     <%_ } _%>
   <%_ } _%>
+  <%_ for (idx in relationships) {
+      const relationshipType = relationships[idx].relationshipType;
+      const relationshipName = relationships[idx].relationshipName;
+      if ((relationshipType === 'many-to-one' || relationshipType === 'one-to-one') && dto !=='no') {
+  _%>
+  <%= relationshipName%>: I<%= relationships[idx].otherEntityAngularName %>;
+  <%_ }} %>
+
   constructor(
     <%_ if (fieldsContainBlob) { _%>
       private dataUtils: JhiDataUtils,
@@ -80,13 +74,13 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
       <%_ } _%>
       private <%= entityInstance %>Service: <%= entityAngularName %>Service,
       <%_ Object.keys(differentRelationships).forEach(key => {
-          if (differentRelationships[key].some(rel => rel.relationshipType !== 'one-to-many')) {
-              const uniqueRel = differentRelationships[key][0];
-              if (uniqueRel.otherEntityAngularName !== entityAngularName) { _%>
+        if (differentRelationships[key].some(rel => rel.relationshipType !== 'one-to-many')) {
+            const uniqueRel = differentRelationships[key][0];
+            if (uniqueRel.otherEntityAngularName !== entityAngularName) { _%>
       private <%= uniqueRel.otherEntityName %>Service: <%= uniqueRel.otherEntityAngularName %>Service,
       <%_
-              }
-          }
+            }
+        }
       }); _%>
       <%_ if (fieldsContainImageBlob) { _%>
       private elementRef: ElementRef,
@@ -99,6 +93,18 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
       this.isSaving = false;
       this.route.data.subscribe(({<%= entityInstance %>}) => {
           this.<%= entityInstance %> = <%= entityInstance %>.body ? <%= entityInstance %>.body : <%= entityInstance %>;
+        <%_ for (idx in relationships) {
+          const relationshipType = relationships[idx].relationshipType;
+          const relationshipName = relationships[idx].relationshipName;
+        if ((relationshipType === 'many-to-one' || relationshipType === 'one-to-one') && dto !=='no') {
+         _%>
+          this.<%= relationshipName %>Service.find(this.<%= entityInstance %>.<%= relationshipName %>Id).subscribe(
+            (res: HttpResponse<I<%= relationships[idx].otherEntityAngularName %>>) => {
+                this.<%= relationshipName %> = res.body;
+            },
+            (res: HttpErrorResponse) => this.onError(res.message)
+            );
+        <%_ }} %>
       });
   }
   <%_ if (fieldsContainBlob) { _%>
@@ -205,9 +211,10 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
   change<%= relationships[idx].otherEntityAngularName %>() {
     this.popupService.load(<%= relationships[idx].otherEntityAngularName %>SelectDialogComponent, {
         callback: (selected: Array<I<%= relationships[idx].otherEntityAngularName %>>) => {
-            this.<%= entityInstance %>.<%= relationshipName %> = selected[0];
+            this.<%= relationshipName %> = selected[0];
+            this.<%= entityInstance %>.<%= relationshipName %>Id = selected[0].id;
         },
-        selected: this.<%= entityInstance %>.<%= relationshipName %>,
+        selected: this.<%= relationshipName %>,
         multiSelect: false
     });
   }

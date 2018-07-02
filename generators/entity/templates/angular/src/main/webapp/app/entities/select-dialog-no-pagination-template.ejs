@@ -5,7 +5,7 @@
     itemsPerPage: number;
     @Input() callback: Function;
     @Input() selected: any;
-    @Input() multiSelect: boolean;
+    private _multiSelect: boolean;
     private _opened: any;
     <%_ for (idx in relationships) {
         const relationshipName = relationships[idx].relationshipName;
@@ -29,9 +29,8 @@
     ) {
         // added for Clarity
         this.loading = true;
-        this.selected = this.multiSelect ? this.selected :
-            this.selected && this.selected.length > 0 ? this.selected[0] : null;
         this.itemsPerPage = ITEMS_PER_PAGE;
+        this.multiSelect = false;
     }
 
     loadAll() {

@@ -46,6 +46,18 @@ export class <%= entityAngularName %>SelectDialogComponent implements OnInit {
         }
     }
 
+    get multiSelect() {
+        return this._multiSelect;
+    }
+
+    @Input()
+    set multiSelect(val: boolean) {
+        if (val === true && this.selected == null) {
+            this.selected = [];
+        }
+        this._multiSelect = val;
+    }
+
     ngOnInit() {
         // modify for Clarity
         <%_ if (pagination === 'no') { _%>
