@@ -117,16 +117,18 @@
         <%_ if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[clrDgSortOrder]="sorters.<%=relationships[idx].relationshipName%>"<%_ } _%>
         <%_ if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']"<%_ } _%>>
         <ng-container *clrDgHideableColumn="{hidden: false}">
-            ${relationships[idx].relationshipName}
+            <%= relationships[idx].relationshipName %>
         </ng-container>
         <%_ if (searchEngine === 'elasticsearch') { _%>
         <clr-dg-filter [clrDgFilter]="<%=relationships[idx].relationshipName%>Filter">
             <<%= jhiPrefixDashed %>-entity-filter
                 #<%=relationships[idx].relationshipName%>Filter
-                [clrDgField]="'<%=relationships[idx].relationshipName%>'"
-                <%_ if (pagination !== 'no') { _%>[(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']"<%_ } _%>
                 [title]="'<%=relationships[idx].relationshipName%>'"
                 [tagField]="'id'"
+                [clrDgField]="'<%=relationships[idx].relationshipName%>'"
+                <%_ if (pagination !== 'no') { _%>
+                [(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']"
+                <%_ } _%>
                 [component]="<%=relationships[idx].relationshipName%>SelectDialogComponent"
                 [service]="<%=relationships[idx].relationshipName%>Service"
             >

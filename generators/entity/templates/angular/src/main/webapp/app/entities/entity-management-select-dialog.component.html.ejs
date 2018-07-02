@@ -102,7 +102,7 @@
                            <%_ if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[clrDgSortOrder]="sorters.<%=relationships[idx].relationshipName%>"<%_ } _%>
                            <%_ if (searchEngine === 'elasticsearch' && pagination !== 'no') { %>[(clrFilterValue)]="filters['<%=relationships[idx].relationshipName%>.<%=relationships[idx].otherEntityField%>']"<%_ } _%>>
                 <ng-container *clrDgHideableColumn="{hidden: false}">
-                    ${relationships[idx].relationshipName}
+                    <%= relationships[idx].relationshipName %>
                 </ng-container>
                 <%_ if (searchEngine === 'elasticsearch') { _%>
                 <clr-dg-filter [clrDgFilter]="<%=relationships[idx].relationshipName%>Filter">

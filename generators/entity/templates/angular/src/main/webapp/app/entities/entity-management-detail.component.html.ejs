@@ -1,11 +1,7 @@
 <h1 jhiTranslate="<%= i18nKeyPrefix %>.home.title"><%= entityClassPluralHumanized %></h1>
 <clr-stack-view>
-    <clr-stack-header><span jhiTranslate="<%= i18nKeyPrefix %>.detail.title"><%= entityClassHumanized %></span> {{<%= entityInstance %>.id}}</clr-stack-header>
-
     <clr-stack-block [clrSbExpanded]="true">
-        <clr-stack-label>{{'global.field.id' | translate }}</clr-stack-label>
-        <clr-stack-content>{{<%= entityInstance %>.id}}</clr-stack-content>
-
+        <clr-stack-label>基本信息</clr-stack-label>
          <%_ for (idx in fields) {
             const fieldName = fields[idx].fieldName;
             const fieldType = fields[idx].fieldType;
