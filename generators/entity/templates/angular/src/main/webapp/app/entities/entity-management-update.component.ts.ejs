@@ -63,7 +63,7 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
       if ((relationshipType === 'many-to-one' || relationshipType === 'one-to-one') && dto !=='no') {
   _%>
   <%= relationshipName%>: I<%= relationships[idx].otherEntityAngularName %>;
-  <%_ }} %>
+  <%_ }} _%>
 
   constructor(
     <%_ if (fieldsContainBlob) { _%>

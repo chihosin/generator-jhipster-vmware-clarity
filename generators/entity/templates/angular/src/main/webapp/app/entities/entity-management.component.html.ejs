@@ -9,7 +9,7 @@
 
     <clr-dg-action-bar>
         <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-secondary" [routerLink]="['/<%= entityUrl %>/new']">
+            <button type="button" class="btn btn-sm btn-secondary" [routerLink]="['new']">
                 <clr-icon shape="plus"></clr-icon>
                 create
             </button>
@@ -151,10 +151,11 @@
         <%_ } _%>
         [clrDgItem]="<%=entityInstance %>">
         <clr-dg-action-overflow>
-            <button class="action-item" [routerLink]="['/<%= entityUrl %>', <%= entityInstance %>.id, 'view' ]">
+            <%# entityUrl #%>
+            <button class="action-item" [routerLink]="['../<%= entityFileName %>', <%= entityInstance %>.id, 'view' ]">
                 view
             </button>
-            <button class="action-item" [routerLink]="['/<%= entityUrl %>', <%= entityInstance %>.id, 'edit']">
+            <button class="action-item" [routerLink]="['../<%= entityFileName %>', <%= entityInstance %>.id, 'edit']">
                 edit
             </button>
             <button class="action-item" (click)="delete(<%= entityInstance %>)">
@@ -186,9 +187,11 @@
         <%_ } else if (fields[idx].fieldIsEnum) { _%>
         <clr-dg-cell>{{<%= entityInstance %>.<%= fieldName %>}}</clr-dg-cell>
         <%_ } else if (['Instant', 'ZonedDateTime'].includes(fieldType)) { _%>
-        <clr-dg-cell>{{<%=entityInstance %>.<%=fieldName%> | date:'medium'}}</clr-dg-cell>
+        <%#  | date:'medium' #%>
+        <clr-dg-cell>{{<%=entityInstance %>.<%=fieldName%>}}</clr-dg-cell>
         <%_ } else if (fieldType === 'LocalDate') { _%>
-        <clr-dg-cell>{{<%=entityInstance %>.<%=fieldName%> | date:'mediumDate'}}</clr-dg-cell>
+        <%#  | date:'mediumDate' #%>
+        <clr-dg-cell>{{<%=entityInstance %>.<%=fieldName%>}}</clr-dg-cell>
         <%_ } else if (fieldType === 'Boolean') { _%>
         <clr-dg-cell>
             <clr-icon *ngIf="<%=entityInstance %>.<%=fieldName%>" shape="check" class="is-success"></clr-icon>

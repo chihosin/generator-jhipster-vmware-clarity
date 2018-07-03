@@ -3,8 +3,23 @@ import { ActivatedRoute } from '@angular/router';
 <%_ if (fieldsContainBlob) { _%>
 import {DataUtils} from 'app/shared';
 <%_ } _%>
-
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { AlertService } from 'app/shared/alert/alert.service';
 import { I<%= entityAngularName %> } from 'app/shared/model/<%= entityModelFileName %>.model';
+<%_ 
+if (dto !== 'no') {
+    Object.keys(differentRelationships).forEach(key => {
+        if (differentRelationships[key].some(rel => rel.relationshipType !== 'one-to-many')) {
+            const uniqueRel = differentRelationships[key][0];
+            if (uniqueRel.otherEntityAngularName !== entityAngularName) { _%>
+import { I<%= uniqueRel.otherEntityAngularName %> } from 'app/shared/model/<%= uniqueRel.otherEntityModelName %>.model';
+import { <%= uniqueRel.otherEntityAngularName%>Service } from 'app/entities/<%= uniqueRel.otherEntityPath %>';
+<%_
+            }
+        }
+    }); 
+}
+_%>
 
 @Component({
     selector: '<%= jhiPrefixDashed %>-<%= entityFileName %>-detail',
@@ -13,18 +28,77 @@ import { I<%= entityAngularName %> } from 'app/shared/model/<%= entityModelFileN
 export class <%= entityAngularName %>DetailComponent implements OnInit {
 
     <%= entityInstance %>: I<%= entityAngularName %>;
+    <%_ 
+    if (dto !== 'no') {
+        for (idx in relationships) {
+            const relationshipType = relationships[idx].relationshipType;
+            const relationshipName = relationships[idx].relationshipName;
+            if ((relationshipType === 'many-to-one' || relationshipType === 'one-to-one') && dto !=='no') {
+    _%>
+    <%= relationshipName%>: I<%= relationships[idx].otherEntityAngularName %>;
+    <%_ 
+            }
+        }
+    } 
+    _%>
 
     constructor(
         <%_ if (fieldsContainBlob) { _%>
         private dataUtils: DataUtils,
         <%_ } _%>
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+        <%_ 
+        if (dto !== 'no') {
+            Object.keys(differentRelationships).forEach(key => {
+                if (differentRelationships[key].some(rel => rel.relationshipType !== 'one-to-many')) {
+                    const uniqueRel = differentRelationships[key][0];
+                    if (uniqueRel.otherEntityAngularName !== entityAngularName) {
+        _%>
+        private <%= uniqueRel.otherEntityName %>Service: <%= uniqueRel.otherEntityAngularName %>Service,
+        <%_
+                    }
+                }
+            });
+        }
+        _%>
+        private alertService: AlertService,
     ) {
+        <%_ 
+        if (dto !== 'no') {
+            for (idx in relationships) {
+                const relationshipType = relationships[idx].relationshipType;
+                const relationshipName = relationships[idx].relationshipName;
+                if ((relationshipType === 'many-to-one' || relationshipType === 'one-to-one') && dto !=='no') {
+        _%>
+        this.<%= relationshipName%> = {};
+        <%_ 
+                }
+            }
+        } 
+        _%>
     }
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({<%= entityInstance %>}) => {
-            this.<%= entityInstance %> = <%= entityInstance %>;
+            this.<%= entityInstance %> = <%= entityInstance %> ? <%= entityInstance %>.body : {};
+            <%_ 
+            if (dto !== 'no') {
+                for (idx in relationships) {
+                    const relationshipType = relationships[idx].relationshipType;
+                    const relationshipName = relationships[idx].relationshipName;
+                    if ((relationshipType === 'many-to-one' || relationshipType === 'one-to-one') && dto !=='no') {
+            _%>
+            this.<%= relationshipName %>Service.find(this.<%= entityInstance %>.<%= relationshipName %>Id).subscribe(
+            (res: HttpResponse<I<%= relationships[idx].otherEntityAngularName %>>) => {
+                this.<%= relationshipName %> = res.body;
+            },
+            (res: HttpErrorResponse) => this.onError(res.message)
+            );
+            <%_ 
+                    }
+                }
+            } 
+            _%>
         });
     }
 
@@ -39,6 +113,10 @@ export class <%= entityAngularName %>DetailComponent implements OnInit {
     <%_ } _%>
     previousState() {
         window.history.back();
+    }
+
+    private onError(errorMessage: string) {
+        this.alertService.error(errorMessage, null, null);
     }
 
 }

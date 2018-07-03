@@ -154,9 +154,11 @@
                 <%_ } else if (fields[idx].fieldIsEnum) { _%>
                 <clr-dg-cell>{{'<%= angularAppName %>.<%= fieldType %>.' + <%= entityInstance %>.<%= fieldName %>}}</clr-dg-cell>
                 <%_ } else if (['Instant', 'ZonedDateTime'].includes(fieldType)) { _%>
-                <clr-dg-cell>{{<%=entityInstance %>.<%=fieldName%> | date:'medium'}}</clr-dg-cell>
+                <%#  | date:'medium' #%>
+                <clr-dg-cell>{{<%=entityInstance %>.<%=fieldName%>}}</clr-dg-cell>
                 <%_ } else if (fieldType === 'LocalDate') { _%>
-                <clr-dg-cell>{{<%=entityInstance %>.<%=fieldName%> | date:'mediumDate'}}</clr-dg-cell>
+                <%#  | date:'mediumDate' #%>
+                <clr-dg-cell>{{<%=entityInstance %>.<%=fieldName%>}}</clr-dg-cell>
                 <%_ } else if (fieldType === 'Boolean') { _%>
                 <clr-dg-cell>
                     <clr-icon *ngIf="<%=entityInstance %>.<%=fieldName%>" shape="check" class="is-success"></clr-icon>

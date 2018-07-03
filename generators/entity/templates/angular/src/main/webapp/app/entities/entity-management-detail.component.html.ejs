@@ -94,6 +94,6 @@
 <button type="button" class="btn btn-outline" (click)="previousState()">
     <clr-icon shape="undo"></clr-icon>&nbsp;<span> Back</span>
 </button>
-<button type="button" class="btn btn-primary" [routerLink]="['/<%= entityInstance %>', <%= entityInstance %>.id, 'edit']">
+<button type="button" class="btn btn-primary" [routerLink]="['../../../<%= entityFileName %>', <%= entityInstance %>.id, 'edit']">
     <clr-icon shape="pencil"></clr-icon>&nbsp;<span> Edit</span>
 </button>
