@@ -88,7 +88,7 @@ export class <%= entityAngularName %>DetailComponent implements OnInit {
                     const relationshipName = relationships[idx].relationshipName;
                     if ((relationshipType === 'many-to-one' || relationshipType === 'one-to-one') && dto !=='no') {
             _%>
-            this.<%= relationshipName %>Service.find(this.<%= entityInstance %>.<%= relationshipName %>Id).subscribe(
+            this.<%= relationships[idx].otherEntityName %>Service.find(this.<%= entityInstance %>.<%= relationshipName %>Id).subscribe(
             (res: HttpResponse<I<%= relationships[idx].otherEntityAngularName %>>) => {
                 this.<%= relationshipName %> = res.body;
             },

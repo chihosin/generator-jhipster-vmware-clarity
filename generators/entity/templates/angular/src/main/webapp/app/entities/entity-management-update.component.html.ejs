@@ -1,4 +1,7 @@
-<h1 id="<%= jhiPrefixDashed %>-<%= entityFileName %>-heading">Create or edit a <%= entityClassHumanized %></h1>
+<h1 id="<%= jhiPrefixDashed %>-<%= entityFileName %>-heading">
+    Create or edit a <%= entityClassHumanized %>
+    {{this.<%= entityInstance %>.id ? 'Edit' : 'Create'}}
+</h1>
 <<%= jhiPrefixDashed %>-alert-error></<%= jhiPrefixDashed %>-alert-error>
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
     <clr-stack-view>
@@ -182,12 +185,12 @@
                         <clr-stack-content>
                         <%_ if (dto === 'no') { _%>
                             {{<%= entityInstance %>.<%= relationshipName %> ? <%= entityInstance %>.<%= relationshipName %>.id : ''}}
-                            <button type="button" class="btn btn-sm btn-link" (click)="change<%= relationships[idx].otherEntityAngularName %>()">
+                            <button type="button" class="btn btn-sm btn-link" (click)="change<%= relationships[idx].relationshipName %>()">
                                 select
                             </button>
                         <%_ } else { _%>
                             {{<%= relationshipName %> ? <%= relationshipName %>.id : ''}}
-                            <button type="button" class="btn btn-sm btn-link" (click)="change<%= relationships[idx].otherEntityAngularName %>()">
+                            <button type="button" class="btn btn-sm btn-link" (click)="change<%= relationships[idx].relationshipName %>()">
                                 select
                             </button>
                         <%_ } _%>
@@ -201,12 +204,12 @@
                         <clr-stack-content>
                         <%_ if (dto === 'no') { _%>
                             {{<%= entityInstance %>.<%= relationshipName %>.id}}
-                            <button type="button" class="btn btn-sm btn-link" (click)="change<%= relationships[idx].otherEntityAngularName %>()">
+                            <button type="button" class="btn btn-sm btn-link" (click)="change<%= relationships[idx].relationshipName %>()">
                                 select
                             </button>
                         <%_ } else { _%>
                             {{<%= relationshipName %> ? <%= relationshipName %>.id : ''}}
-                            <button type="button" class="btn btn-sm btn-link" (click)="change<%= relationships[idx].otherEntityAngularName %>()">
+                            <button type="button" class="btn btn-sm btn-link" (click)="change<%= relationships[idx].relationshipName %>()">
                                 select
                             </button>
                         <%_ } _%>
@@ -221,7 +224,7 @@
                             <span class="label" *ngFor="let item of (<%=entityInstance %>.<%=relationshipFieldNamePlural %> || [])">
                                 {{item.id}}
                             </span>
-                            <button type="button" class="btn btn-sm btn-link" (click)="change<%= relationships[idx].otherEntityAngularName %>()">
+                            <button type="button" class="btn btn-sm btn-link" (click)="change<%= relationships[idx].relationshipName %>()">
                                 select
                             </button>
                         </clr-stack-content>

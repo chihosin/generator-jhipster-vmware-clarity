@@ -67,7 +67,7 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
 
   constructor(
     <%_ if (fieldsContainBlob) { _%>
-      private dataUtils: JhiDataUtils,
+      private dataUtils: DataUtils,
       <%_ } _%>
       <%_ if (queries && queries.length > 0) { _%>
       private alertService: AlertService,
@@ -98,12 +98,14 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
           const relationshipName = relationships[idx].relationshipName;
         if ((relationshipType === 'many-to-one' || relationshipType === 'one-to-one') && dto !=='no') {
          _%>
-          this.<%= relationshipName %>Service.find(this.<%= entityInstance %>.<%= relationshipName %>Id).subscribe(
-            (res: HttpResponse<I<%= relationships[idx].otherEntityAngularName %>>) => {
+          if (this.<%= entityInstance %>.<%= relationshipName %>Id) {
+            this.<%= relationships[idx].otherEntityName %>Service.find(this.<%= entityInstance %>.<%= relationshipName %>Id).subscribe(
+              (res: HttpResponse<I<%= relationships[idx].otherEntityAngularName %>>) => {
                 this.<%= relationshipName %> = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
+              },
+              (res: HttpErrorResponse) => this.onError(res.message)
             );
+          }
         <%_ }} %>
       });
   }
@@ -208,7 +210,7 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
       const relationshipName = relationships[idx].relationshipName;
       if (relationshipType === 'many-to-one' || relationshipType === 'one-to-one') {
   _%>
-  change<%= relationships[idx].otherEntityAngularName %>() {
+  change<%= relationships[idx].relationshipName %>() {
     this.popupService.load(<%= relationships[idx].otherEntityAngularName %>SelectDialogComponent, {
         callback: (selected: Array<I<%= relationships[idx].otherEntityAngularName %>>) => {
             this.<%= relationshipName %> = selected[0];
@@ -220,7 +222,7 @@ export class <%= entityAngularName %>UpdateComponent implements OnInit {
   }
 
   <%_ } else if (relationshipType === 'many-to-many') { _%>
-  change<%= relationships[idx].otherEntityAngularName %>() {
+  change<%= relationships[idx].relationshipName %>() {
     this.popupService.load(<%= relationships[idx].otherEntityAngularName %>SelectDialogComponent, {
         callback: (selected: Array<I<%= relationships[idx].otherEntityAngularName %>>) => {
             this.<%= entityInstance %>.<%= relationships[idx].relationshipNamePlural %> = selected;
