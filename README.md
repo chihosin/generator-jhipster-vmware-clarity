@@ -1,4 +1,4 @@
-# generator-jhipster-vmware-clarity
+# generator-jhipster-vmware-clarity (Deprecated)
 
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 
